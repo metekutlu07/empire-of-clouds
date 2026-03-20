@@ -133,15 +133,13 @@ export default class PostProcessing {
       uniform float u_dpr;
 
       float hash21(vec2 p){
-        p = fract(p * vec2(127.1, 311.7));
-        p += dot(p, p + 74.27);
-        return fract(p.x * p.y);
+        return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123);
       }
 
       void main(){
         vec4 col = texture2D(u_tex, v_uv);
-        vec2 cell = floor(gl_FragCoord.xy / (u_dpr * 1.5));
-        float n = hash21(cell + floor(u_time * 60.0));
+        float frame = mod(floor(u_time * 60.0), 997.0);
+        float n = hash21(gl_FragCoord.xy + vec2(frame * 131.7, frame * 79.3));
         float g = (n - 0.5) * 2.0;
         col.rgb = clamp(col.rgb + g * u_noiseStrength, 0.0, 1.0);
         gl_FragColor = col;
@@ -169,15 +167,13 @@ export default class PostProcessing {
       out vec4 outColor;
 
       float hash21(vec2 p){
-        p = fract(p * vec2(127.1, 311.7));
-        p += dot(p, p + 74.27);
-        return fract(p.x * p.y);
+        return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123);
       }
 
       void main(){
         vec4 col = texture(u_tex, v_uv);
-        vec2 cell = floor(gl_FragCoord.xy / (u_dpr * 1.5));
-        float n = hash21(cell + floor(u_time * 60.0));
+        float frame = mod(floor(u_time * 60.0), 997.0);
+        float n = hash21(gl_FragCoord.xy + vec2(frame * 131.7, frame * 79.3));
         float g = (n - 0.5) * 2.0;
         col.rgb = clamp(col.rgb + g * u_noiseStrength, 0.0, 1.0);
         outColor = col;
