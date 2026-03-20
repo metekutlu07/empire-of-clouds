@@ -60,12 +60,13 @@ document.addEventListener("DOMContentLoaded", () => {
     let hostW = 1, hostH = 1;
     let post;
     try {
-        // OLED mobile screens make noise appear much harsher than LCD —
-        // true black makes any brightness deviation immediately visible.
-        // Use pointer:coarse (touchscreen) to detect mobile vs retina desktop.
-        const isMobile = window.matchMedia("(pointer: coarse)").matches;
+        // Mobile: width < 640px → highp shader + sin(dot) hash + lower strength
+        //   (OLED true-black makes noise visually stronger; separate shader
+        //   avoids mediump banding that mobile GPUs enforce but desktop GPUs hide).
+        // Desktop: exact original shader, untouched.
+        const isMobile = window.innerWidth < 640;
         const noiseStrength = isMobile ? 0.04 : 0.15;
-        post = new PostProcessing(glCanvas, { enabled: true, strength: noiseStrength });
+        post = new PostProcessing(glCanvas, { enabled: true, strength: noiseStrength, mobile: isMobile });
     } catch (e) {
         console.error(e);
         const box = document.createElement("div");
