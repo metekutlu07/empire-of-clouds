@@ -60,7 +60,11 @@ document.addEventListener("DOMContentLoaded", () => {
     let hostW = 1, hostH = 1;
     let post;
     try {
-        post = new PostProcessing(glCanvas, { enabled: true, strength: 0.15 });
+        // OLED mobile screens (high DPR) make noise visually stronger than LCD —
+        // true black means any brightness deviation is immediately visible.
+        // Reduce strength proportionally so the effect feels equally subtle.
+        const noiseStrength = (window.devicePixelRatio || 1) >= 2 ? 0.07 : 0.15;
+        post = new PostProcessing(glCanvas, { enabled: true, strength: noiseStrength });
     } catch (e) {
         console.error(e);
         const box = document.createElement("div");
@@ -2163,7 +2167,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function resize() {
         hostW = Math.max(1, (host && host.clientWidth) ? host.clientWidth : window.innerWidth);
         hostH = Math.max(1, window.innerHeight);
-        dpr = Math.max(1, Math.min(3, window.devicePixelRatio || 1));
+        dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
         // Keep WebGL output and 2D source at identical device resolution
         if (post) post.setSize(hostW, hostH, dpr);
         canvas.width = Math.floor(hostW * dpr);
