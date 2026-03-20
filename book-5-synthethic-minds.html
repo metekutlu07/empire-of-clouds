@@ -1,0 +1,746 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#000000">
+  <meta name="author" content="Mete Kutlu">
+  <meta name="copyright" content="© 2026 Mete Kutlu. All rights reserved.">
+  <meta name="description"
+    content="Synthetic Minds — Data Becomes Space, Thought Becomes Cloud. Book V of Empire of Clouds by Mete Kutlu, exploring AI-generated dancheong patterns, 3D scans of Korean Buddhist temples, and the Dream Pixels archive as new forms of computational cosmology.">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Synthetic Minds — Data Becomes Space, Thought Becomes Cloud">
+  <meta property="og:description"
+    content="Book V of Empire of Clouds by Mete Kutlu. AI trained on Korean temple paintings, 3D-scanned Buddhist architecture, and the Dream Pixels archive — reimagining sacred ornament as a virtual cosmogram for the age of artificial intelligence.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://empireofclouds.com/book-5-synthetic-minds.html">
+  <meta property="og:image" content="https://empireofclouds.com/images/book05/scroll/jingwansa.webp">
+  <meta property="og:image:alt"
+    content="3D scan of the bell pavilion of Jingwansa Temple, Seoul — richly ornamented dancheong bracket structure, Goryeo dynasty, scan by Mete Kutlu, 2023">
+  <meta property="og:site_name" content="Empire of Clouds">
+  <meta property="og:locale" content="en_US">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Synthetic Minds — Data Becomes Space, Thought Becomes Cloud">
+  <meta name="twitter:description"
+    content="Book V of Empire of Clouds by Mete Kutlu. AI trained on Korean temple paintings and the Dream Pixels archive as computational cosmology.">
+  <meta name="twitter:image" content="https://empireofclouds.com/images/book05/scroll/jingwansa.webp">
+  <meta name="twitter:image:alt"
+    content="3D scan of the bell pavilion of Jingwansa Temple, Seoul — dancheong bracket structure, scan by Mete Kutlu, 2023">
+
+  <link rel="canonical" href="https://empireofclouds.com/book-5-synthetic-minds.html">
+  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Book",
+    "name": "Synthetic Minds — Data Becomes Space, Thought Becomes Cloud",
+    "alternateName": "Book V — Synthetic Minds",
+    "author": {
+      "@type": "Person",
+      "name": "Mete Kutlu",
+      "url": "https://empireofclouds.com/author.html",
+      "sameAs": ["https://metekutlu.com"]
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Empire of Clouds"
+    },
+    "image": "https://empireofclouds.com/images/book05/scroll/jingwansa.webp",
+    "url": "https://empireofclouds.com/book-5-synthetic-minds.html",
+    "description": "Book V of Empire of Clouds. AI trained on Korean Buddhist temple paintings reimagines sacred dancheong ornament as a virtual cosmogram, while the Dream Pixels archive dissolves six years of research into a turbulent latent space — tracing a spiral from silica tiles to silicon chips.",
+    "inLanguage": "en",
+    "datePublished": "2026",
+    "isPartOf": {
+      "@type": "BookSeries",
+      "name": "Empire of Clouds",
+      "url": "https://empireofclouds.com/books.html"
+    }
+  }
+  </script>
+
+  <title>Synthetic Minds · Empire of Clouds</title>
+
+  <!-- =============== Fonts =============== -->
+  <link href="https://fonts.googleapis.com" rel="preconnect" />
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Unbounded:wght@500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <!-- importmap MUST come before any type="module" scripts -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
+
+  <!-- Model Viewer (Web Component) -->
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+
+  <!-- Three.js scene in its own module file — fully isolated scope -->
+  <script type="module" src="js/book-5-model-3d.js"></script>
+
+  <!-- =============== Styles =============== -->
+  <link rel="stylesheet" href="css/books-stylesheet.css">
+
+</head>
+
+<body>
+
+  <!-- ================= Top Navigation Bar ================= -->
+  <header class="topnav" id="topnav" aria-label="Primary">
+    <div class="navInner">
+      <a class="brand" href="index.html?skip=1" aria-label="Empire of Clouds home">
+        Empire of Clouds
+      </a>
+      <nav class="navLinks" aria-label="Site">
+        <a href="about.html">About</a>
+        <a href="author.html">Author</a>
+        <a class="is-active" href="books.html">Books</a>
+        <a href="partners.html">Partners</a>
+        <a href="https://www.dreampixels.cloud" target="_blank" rel="noopener">Dream Pixels</a>
+        <a href="waitlist.html">Waitlist</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- 3D Intro: scroll to open the book -->
+  <div class="scrollStage" id="stage" aria-label="3D book intro">
+    <div class="stickyCenter">
+      <div class="enterRig">
+        <div class="hoverRig">
+          <model-viewer id="book" src="3d/book-5.glb" interaction-prompt="none" disable-zoom disable-pan disable-rotate
+            shadow-intensity="0" exposure="0.85" environment-image="legacy" autoplay="false" ar="false"
+            camera-orbit="0deg 82deg 0.85m" min-camera-orbit="0deg 82deg 0.85m" max-camera-orbit="0deg 82deg 0.85m"
+            camera-target="0m -0.04m 0m" field-of-view="30deg" orientation="0deg 0deg 0deg">
+          </model-viewer>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hint">Scroll to open the book</div>
+
+  <section id="bookIntro">
+    <div class="wrap">
+
+      <div class="heroContent">
+        <div class="kicker reveal">Book V</div>
+        <div class="hero-title reveal">Synthetic Minds</div>
+        <div class="hero-subtitle reveal">Data Becomes Space, Thought Becomes Cloud</div>
+        <div class="hero-meta reveal">Empire of Clouds · Codes, Colors and Cosmos</div>
+      </div>
+
+      <div class="prose reveal" style="max-width: 70ch; margin-top: 60px;">
+        <h3 class="prose-heading">Nebulous Minds</h3>
+
+        <p>Based on a 3D scanning mission of Buddhist temples in South Korea, two experiments explore the translation of
+          metaphysical light into electronic energy. By training AI on dancheong, the vibrant mandalas of temple
+          architecture,
+          sacred ornament is reimagined as a virtual cosmogram. AI sculpts these images by overlaying cloud patterns.
+          Research and
+          originality are redefined today less as calculation than as navigation within the mind of AI, visualized as
+          point
+          clouds. The cloud becomes the shape of thought. Through the example of AlphaFold, where clouds, crystals, and
+          helices
+          intersect, the book shows how AI encourages a nonlinear understanding of knowledge and creativity.</p>
+
+      </div>
+
+      <figure class="image-compare reveal" aria-label="Image comparison slider">
+        <div class="compareStage compareStage--h">
+          <img class="compareImgBase" src="images/book05/scroll/jingwansa.webp" loading="lazy" decoding="async"
+            alt="Photorealistic texture of the 3D scan — bell pavilion (punggyeongru) of Jingwansa Temple, Mount Bukhansan, Seoul, South Korea. Dancheong painted bracket clusters in the dapo style, Goryeo dynasty, founded 1010. Scan by Mete Kutlu, 2023">
+          <div class="compareImgOverlay" aria-hidden="true">
+            <img src="images/book05/scroll/jingwansa-holo.webp" loading="lazy" decoding="async"
+              alt="Depth visualization of the 3D scan — bell pavilion (punggyeongru) of Jingwansa Temple, Mount Bukhansan, Seoul, showing surface geometry and structural depth of the dancheong bracket system. Scan by Mete Kutlu, 2023">
+          </div>
+          <div class="compareHandle" role="slider" aria-label="Drag to compare images" aria-valuenow="50"
+            aria-valuemin="0" aria-valuemax="100" tabindex="0">
+            <div class="compareBar"></div>
+            <div class="compareKnob">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M8 5l-5 7 5 7M16 5l5 7-5 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </div>
+          </div>
+          <span class="compareLabel compareLabel--before">Depth</span>
+          <span class="compareLabel compareLabel--after">Texture</span>
+        </div>
+        <figcaption>
+          <strong>Bell Pavilion of Jingwansa Temple: 3D scan and structural visualization.</strong> Founded in 1010
+          during the
+          Goryeo dynasty, Jingwansa Temple is located on Mount Bukhansan in Seoul. This image shows a high-resolution 3D
+          scan of
+          its richly ornamented bell pavilion (<em>punggyeongru</em>), constructed in the <em>dapo</em> style, with
+          multi-bracket
+          clusters supporting the extended eaves. The left side reveals the intricate <em>dancheong</em> patterns and
+          interlocking
+          bracket structures in photorealistic detail, while the right side presents a holographic visualization
+          highlighting
+          geometry and surface detail. The model is generated from about 500 photos taken with an iPhone 11 using
+          Apple’s Object
+          Capture API. The image is rendered in Cinema 4D with Octane. Scan and image by Mete Kutlu, 2023.
+        </figcaption>
+      </figure>
+
+      <!-- Full-width image -->
+      <figure class="image-wide reveal">
+        <img src="images/book05/scroll/sanshin-app.webp"
+          alt="Augmented reality app screenshots showing a scanned Korean temple bracket fragment — first rendered in monochrome green and orange, then a lotus figure floating in mid-air activates a color transformation revealing the original painted surfaces. Designed by Mete Kutlu and Theuns Botha, 2023"
+          loading="lazy" decoding="async">
+        <figcaption>
+          <strong>Augmented reality experience with scanned temple fragment.</strong> Screenshots from the AR
+          application. The
+          scanned architectural fragment first appears in monochrome, rendered either in green or orange. A lotus figure
+          emerges
+          between the user and the structure, floating in mid-air as an interactive element. When touched by the user’s
+          hand, the
+          lotus activates a color transformation, revealing the original painted surfaces of the temple. App designed
+          and
+          developed by Mete Kutlu and Theuns Botha, 2023.
+        </figcaption>
+      </figure>
+
+      <!-- Full-width image -->
+      <figure class="image-tall reveal">
+        <img src="images/book05/scroll/latent-01.webp"
+          alt="AI-generated dancheong image produced by a StyleGAN2 model trained on 1,000 photographs of Korean temple paintings — synthetic composition showing dissolved lotus motifs, lattice patterns, and wave forms as fluid concentric bubbles. Mete Kutlu, 2023"
+          loading="lazy" decoding="async">
+        <figcaption>
+          <p><strong>When AI paints <em>dancheong</em>, Mete Kutlu, 2023.</strong> The image emerges from a StyleGAN2
+            model
+            trained on a dataset of 1,000
+            photographs of Korean temple paintings collected during photogrammetric scans across the Korean peninsula.
+            To ensure
+            effective training, the dataset was composed of relatively frontal views of beam decorations, maintaining
+            consistent
+            scale and orientation. Lotus motifs, geometric ornaments, and radiating wave patterns formed the visual
+            vocabulary of
+            the training set. After 9,000 training steps, the network began producing stable images. In these synthetic
+            compositions, wooden structures and lattice patterns reappear, while lotus motifs and wave forms dissolve
+            into fluid concentric and growing bubbles.</p>
+        </figcaption>
+      </figure>
+
+      <!-- Full-width image -->
+      <figure class="image-wide reveal">
+        <img src="images/book05/scroll/ai-deeps.webp"
+          alt="Landscapes from an algorithmic paradise: 3D latent walk visualization mapping neural network image brightness to terrain — darker regions sink into valleys, lighter regions rise into peaks. Screenshot from a latent walk video by Mete Kutlu, 2023"
+          loading="lazy" decoding="async">
+        <figcaption>
+          <strong>Landscapes from an algorithmic paradise: latent walks in 3D, Mete Kutlu, 2023.</strong> The 3D forms
+          are generated by mapping the
+          brightness of pixels from images produced by a neural network: darker regions sink into valleys, while lighter
+          regions
+          rise into peaks. The image is a screenshot from a video visualizing a latent walk, the continuous transition
+          between machine-generated predictions within a model’s latent space.
+        </figcaption>
+      </figure>
+
+      <div class="prose reveal" style="max-width: 70ch; margin-top: 60px;">
+
+        <h3 class="prose-heading">Dream Pixels</h3>
+
+        <p>The research concludes with Dream Pixels, an archive for the age of AI. Its interface uses particle
+          simulation to
+          dissolve six years of research into a turbulent timeline of pixels. Structured as a latent space, the
+          interface immerses
+          the user inside the mind of an artificial intelligence while evoking a cosmic journey. Research becomes not an
+          explanation but an exploration, offering a direct experience of knowledge as spatial, nonlinear, and dynamic.
+          The
+          interface functions both as a method of thought and as a poetics of computational perception.</p>
+
+      </div>
+
+      <!-- Full-width image -->
+      <figure class="image-full reveal">
+        <img src="images/book05/scroll/dream-pixels-2.webp"
+          alt="Dream Pixels online archive interface — immersive digital environment translating six years of research into a particle-simulated cloud of pixels, designed as a latent space for the age of AI. Designed by Mete Kutlu and Emilien Francois, 2023"
+          loading="lazy" decoding="async">
+        <figcaption>
+          <p><strong>Dream Pixels: a research on the cloud.</strong> An online archive for the age of AI, where the
+            cloud becomes
+            not only a place of storage but also an interface and shape of thought. The project explores the cloud as a
+            new
+            cognitive map for post-intelligence, translating research into an immersive digital environment. Designed
+            and
+            developed by Mete Kutlu and Émilien François, 2023, <a href="https://www.dreampixels.cloud" target="_blank"
+              rel="noopener">www.dreampixels.cloud</a>.</p>
+        </figcaption>
+      </figure>
+
+      <!-- Full-width image -->
+      <figure class="image-full reveal">
+        <img src="images/book05/scroll/dream-pixels.webp"
+          alt="Dream Pixels galactic visualization — colored point cloud where each point represents a pixel extracted from an AI experiment, forming a constellation of data as an immersive map of knowledge. Designed by Mete Kutlu and Emilien Francois, 2023"
+          loading="lazy" decoding="async">
+        <figcaption>
+          <p><strong>A galactic journey within the neural net.</strong> Dream Pixels invites the viewer into the mind of
+            artificial intelligence, known as the latent space. Each colored point represents a pixel extracted from an
+            experiment, forming a constellation of data and an immersive map of knowledge. In this environment,
+            pixels become portals to discoveries. Designed and developed by Mete Kutlu and Émilien François, 2023,
+            <a href="https://www.dreampixels.cloud" target="_blank" rel="noopener">www.dreampixels.cloud</a>.
+          </p>
+        </figcaption>
+      </figure>
+
+
+      <div class="prose reveal" style="max-width: 70ch; margin-top: 60px;">
+
+
+        <h3 class="prose-heading">A Cloud Atlas</h3>
+        <p>To map this journey, I assemble a Cloud Atlas that connects two worlds: the artisanal and the digital. By
+          placing
+          seventeen cloud figures from both the Silk Road and the age of AI, the atlas traces a cosmopolitan history of
+          civilization. In each period, clouds appear through four domains: images, algorithms, cosmology, and
+          architecture. The
+          artisanal tradition culminates in the symbolic form of the curly cloud, while the digital age leads toward the
+          hypothesis of atmospheric thought. The cosmological imagination of premodern cultures thus anticipated key
+          structures of
+          contemporary computation. The atlas constructs an alternative genealogy of the cloud, revealing how the
+          conceptual
+          architecture underlying our most advanced machines already resonates in the arts and literature of Herat,
+          Samarkand, and
+          Constantinople.</p>
+
+      </div>
+      <!-- Full-width image -->
+      <figure class="image-tall reveal">
+        <img src="images/book05/scroll/solar-system.webp"
+          alt="Spiral arm diagram of the Milky Way galaxy — each arm colored differently, divided into the region between the Sun and the Galactic Center (lower) and the Sun and the Anticenter (upper). Diagram by Vallee, Jacques P., 2017"
+          loading="lazy" decoding="async">
+        <figcaption>
+          <p><strong>The whirling diagram of the Milky Way.</strong> Each spiral arm of the galaxy is represented in a
+            different
+            color. The diagram is divided into two sections: the lower part shows the region between the Sun and the
+            Galactic
+            Center, while the upper part maps the area between the Sun and the Anticenter, the outer edge of the
+            galactic disk.
+            Diagram: Vallée, Jacques P., “A guided map to the spiral arms in the galactic disk of the Milky Way,” 2017.
+          </p>
+        </figcaption>
+      </figure>
+
+      <div class="prose reveal" style="max-width: 70ch; margin-top: 60px;">
+
+        <h3 class="prose-heading">Spiral of the Cloud</h3>
+        <p>Civilization once unfolded in resonance with the rhythms of the heavens. In the premodern world, cosmology
+          was not one
+          field among many but the mother of all knowledge. Today this cosmic connection returns through a planetary
+          network of
+          computation. This intelligence is not abstract. It is mineral.</p>
+        <p>Tracing the path from the silica tiles of the Silk Road to the silicon wafers of modern microchips
+          reveals artificial
+          intelligence as an extension of the Earth’s crust. Modern sapiens has become a lithic and atmospheric
+          intelligence. The
+          human story has always been entangled with the cosmic architecture of time. Meteorites forged the first
+          molecular bonds
+          of life. Jupiter and Saturn shaped the climate cycles that enabled the Neolithic revolution. Even extinction
+          and
+          renewal
+          follow the tidal movements of the galaxy. When intelligence is placed within this cosmic horizon, a single
+          evolutionary
+          line appears: from the pulses of deep space to the pulses of the microprocessor. This is the spiral of the
+          cloud.</p>
+
+        <h3 class="prose-heading">AI, Our Final Myth</h3>
+
+        <p>The long history of externalizing dreams into myth reaches its culmination in the age of artificial
+          intelligence. Ideas
+          once confined to legend have become the software of daily life. The soothsayer once spoke with jinns to hear
+          voices from
+          the future. Today that jinn resides inside the machine. We have forged the lamp and placed the spirit within
+          it. The
+          program is our new jinn.</p>
+        <p>This transformation marks the return of the <em>acheiropoieta</em>, the sacred images “not made by human
+          hands.” Once
+          believed to
+          emerge from divine light, they now appear through electronic light. AI becomes our final myth, a contemporary
+          surface
+          onto which we project our ancient desire for omniscience and our modern fear of obsolescence. It represents
+          the latest
+          stage in a long history of translating existential anxieties into technological systems. As the ancient myth
+          of
+          predetermined fate becomes a technological condition, new strategies of resistance are required. Inspired by
+          Roman,
+          Byzantine, and Sufi traditions, the book imagines forms of survival in an age of total calculation. The path
+          may lie in
+          reclaiming the unknown: cultivating the strange, the cryptic, and the irrational. Like medieval alchemists who
+          concealed
+          knowledge in deliberate obscurity, freedom may lie in obfuscation. To survive the age of the algorithm, we
+          must return
+          to the garden of uncertainty, where nonsense and the primitive remain beyond the reach of calculation.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Three.js 3D model section -->
+  <section id="model3d-a" aria-label="3D transition model">
+    <div class="model3dStage" id="model3dStage-a">
+      <div class="model3dSticky" id="model3dSticky-a">
+        <div class="model3dViewport">
+          <canvas id="model3dCanvas-a"></canvas>
+          <div class="model3dOverlay" id="model3dOverlay-a"></div>
+          <div class="model3dHint" id="model3dHint-a">Scroll to reveal</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="wrapNarrow">
+      <div class="model3dCaption reveal">
+        <p><strong>A sculpted wooden dragon figure at Jeondeungsa Temple in Incheon.</strong> The decoration represents
+          the
+          Dragon-Ship of Wisdom, a Buddhist metaphor in which the dragon, master of clouds and waters, carries beings
+          across the
+          ocean of illusion toward enlightenment. First founded in 381 and reestablished in 1282, the temple was rebuilt
+          in 1621
+          after being destroyed by fire. This scan (No. K.123) was generated from 137 photographs taken with an iPhone
+          11 on 29
+          January 2022 using Apple’s Object Capture API. Rendered with Cinema 4D and Octane. Scan and image by Mete
+          Kutlu.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Audio player with animated glyph canvas -->
+  <section class="audioSample glyphAudio" aria-label="Audio excerpt">
+    <div class="wrap">
+      <div class="glyphStage" id="glyphStage">
+        <canvas class="glyphCanvas" id="glyphCanvas" aria-hidden="true"></canvas>
+
+        <div class="audioCardWrap">
+          <div class="audioCard" role="group" aria-label="Audio player">
+            <div class="audioTitle">Listen to a chapter excerpt</div>
+            <div class="audioSub">
+              <span class="chapter-label">A short reading from Chapter 26</span>
+              <span class="chapter-title">A Cloud Atlas</span>
+            </div>
+
+            <div class="audioRow">
+              <button class="playBtn" id="glyphPlayBtn" type="button" aria-label="Play">
+                <svg class="playIcon" id="glyphPlayIcon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M9 7.5v9l8-4.5-8-4.5z" fill="currentColor" />
+                </svg>
+              </button>
+
+              <div class="barWrap">
+                <input class="progress" id="glyphProgress" type="range" min="0" max="1000" value="0"
+                  aria-label="Progress" />
+              </div>
+
+              <div class="time" id="glyphTime">0:00 / 0:00</div>
+            </div>
+
+            <audio id="glyphAudio" preload="metadata" src="audio/audiobooks/book-5-chapter-26.mp3"></audio>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Poem -->
+  <div class="poem reveal">
+    Between the grid and the spiral, <br>
+    between crystal and vapour,<br>
+    between matter and light,<br>
+    between Florence and Herat:<br><br>
+
+    The grid is linear, the spiral cyclical;<br>
+    one brings order, the other turbulence.<br>
+    One belongs to the philosopher,<br>
+    the other to the mystic.<br>
+    The grid lies upon the Earth;<br>
+    the spiral turns in the Milky Way.<br><br>
+
+    Circles within circles,<br>
+    spirals within spirals,<br>
+    motion within motion.<br>
+
+    From one scale to another.<br>
+    For each planet, each star, and each galaxy.<br>
+    For each quark, each lepton and each boson.<br>
+    <br>
+    Shabestari had said,<br>
+    /a hundred blazing suns within each atom/.<br>
+    Universe within universe,<br>
+    Stars within stars,<br>
+    Entire galaxies within a single human.<br>
+    <br>
+    The future within the past,<br>
+    and the past within the future.<br>
+    From silica tiles to silicon chips,<br>
+    Civilization recorded in a quartz crystal.<br><br>
+
+    Paradox and perplexity,<br>
+    the operating system of the cosmos.<br>
+    The universe,<br>
+    a quantum computer within a black hole.<br>
+    Running the simulation of itself<br>
+    on its own event horizon.<br><br>
+
+    From nebular clouds to burning stars,<br>
+    from atmosphere to life,<br>
+    from neurons to thinking rocks.<br><br>
+
+    Whether in the blue skies, or<br>
+    the divine heavens we once imagined,<br>
+    Or the virtual atmosphere<br>
+    We constructed with the semiconductor.<br>
+    Here we enter once again the cloud.<br><br>
+
+    <span class="poem-credit">
+      Mete Kutlu, <em>Empire of Clouds</em>, Book V, page 1228, Paris, 2025.
+    </span>
+  </div>
+
+  <!-- Full-width image -->
+  <figure class="image-tall reveal">
+    <img src="images/book05/scroll/protein-folds.webp"
+      alt="Structures of natural and designed alpha-helical barrels — protein architectures of tightly packed helices, colored by spatial arrangement. Image from Woolfson, D. N., Journal of Biological Chemistry, 2023"
+      loading="lazy" decoding="async">
+    <figcaption>
+      <p><strong>Structures of natural and designed α-helical barrels.</strong> Different protein architectures composed
+        of
+        tightly packed helices. Coloring indicates the spatial arrangement of the helices. Image: Woolfson, D. N.,
+        “Understanding a protein fold: The physics, chemistry, and biology of α-helical coiled coils,” <em>Journal of
+          Biological Chemistry</em>, 2023.</p>
+    </figcaption>
+  </figure>
+
+  <!-- Contents -->
+  <section id="contents">
+    <div class="wrapNarrow">
+      <h2 class="sectionTitle reveal">Contents</h2>
+      <div class="contents reveal">
+        <div class="toc-header">BOOK V</div>
+        <div class="toc-book-title">Synthetic Minds</div>
+        <div class="toc-book-subtitle">Data Becomes Space, Thought Becomes Cloud</div>
+        <div class="toc-book-meta">
+          Digital Media: Machine Learning and Immersive Web Design<br>
+          Artisanal Media: All Studied Silk Road Paintings and Architecture
+        </div>
+
+        <div class="contentsBlock">
+          <div class="toc-num">24</div>
+          <div class="toc-text">
+            <div class="toc-title">Nebulous Mind of Artificial Intelligence</div>
+            <div class="toc-subtitle">
+              From Buddhist Cosmograms to Machine Creativity
+              <span class="toc-detail">Hanyang University (South Korea)</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="contentsBlock">
+          <div class="toc-num">25</div>
+          <div class="toc-text">
+            <div class="toc-title">Dream Pixels Archive</div>
+            <div class="toc-subtitle">Cosmic Journeys within Neural Clouds</div>
+          </div>
+        </div>
+
+        <div class="contentsDivider">General Conclusion</div>
+
+        <div class="contentsBlock">
+          <div class="toc-num">26</div>
+          <div class="toc-text">
+            <div class="toc-title">A Cloud Atlas</div>
+            <div class="toc-subtitle">
+              From Curly Clouds to Atmospheric Thought
+              <span class="toc-detail">Paradigm Recap</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="contentsBlock">
+          <div class="toc-num">27</div>
+          <div class="toc-text">
+            <div class="toc-title">Spiral of the Cloud</div>
+            <div class="toc-subtitle">
+              Re-entangling Cosmos and Civilization
+              <span class="toc-detail">Speculative Conclusion</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="contentsBlock">
+          <div class="toc-num">28</div>
+          <div class="toc-text">
+            <div class="toc-title">AI, Our Final Myth</div>
+          </div>
+        </div>
+
+        <div class="contentsDivider">Epilogue</div>
+        <div class="contentsDivider">Bibliography</div>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="plates">
+    <div class="wrap">
+      <div class="platesIntro centerIntro">
+        <h2 class="sectionTitle reveal">A Look inside the Book</h2>
+        <div class="prose reveal" style="max-width: 72ch;">
+          Selected spreads from the printed prototype. Click to enlarge.
+        </div>
+      </div>
+    </div>
+
+    <div class="mosaic">
+
+      <div class="mosaicCol">
+        <!-- 7 images -->
+        <figure class="plate plateAuto reveal"><img src="images/book05/mosaic-webp/book05-00001.webp"
+            alt="Synthetic Minds Book V — page spread 1" loading="lazy" decoding="async" width="756" height="1008"
+            data-full="images/book05/full-webp/book05-00001.webp"></figure>
+        <figure class="plate plateAuto reveal"><img src="images/book05/mosaic-webp/book05-00002.webp"
+            alt="Synthetic Minds Book V — page spread 2" loading="lazy" decoding="async" width="756" height="1008"
+            data-full="images/book05/full-webp/book05-00002.webp"></figure>
+        <figure class="plate plateAuto reveal"><img src="images/book05/mosaic-webp/book05-00003.webp"
+            alt="Synthetic Minds Book V — page spread 3" loading="lazy" decoding="async" width="756" height="1008"
+            data-full="images/book05/full-webp/book05-00003.webp"></figure>
+        <figure class="plate plateAuto reveal"><img src="images/book05/mosaic-webp/book05-00004.webp"
+            alt="Synthetic Minds Book V — page spread 4" loading="lazy" decoding="async" width="756" height="1008"
+            data-full="images/book05/full-webp/book05-00004.webp"></figure>
+        <figure class="plate plateAuto reveal"><img src="images/book05/mosaic-webp/book05-00005.webp"
+            alt="Synthetic Minds Book V — page spread 5" loading="lazy" decoding="async" width="756" height="1008"
+            data-full="images/book05/full-webp/book05-00005.webp"></figure>
+        <figure class="plate plateAuto reveal"><img src="images/book05/mosaic-webp/book05-00006.webp"
+            alt="Synthetic Minds Book V — page spread 6" loading="lazy" decoding="async" width="756" height="1008"
+            data-full="images/book05/full-webp/book05-00006.webp"></figure>
+        <figure class="plate plateAuto reveal"><img src="images/book05/mosaic-webp/book05-00007.webp"
+            alt="Synthetic Minds Book V — page spread 7" loading="lazy" decoding="async" width="756" height="1008"
+            data-full="images/book05/full-webp/book05-00007.webp"></figure>
+      </div>
+
+      <div class="mosaicCol">
+        <!-- 8 images -->
+        <figure class="plate plateAuto reveal"><img src="images/book05/mosaic-webp/book05-00008.webp"
+            alt="Synthetic Minds Book V — page spread 8" loading="lazy" decoding="async" width="756" height="1008"
+            data-full="images/book05/full-webp/book05-00008.webp"></figure>
+        <figure class="plate plateAuto reveal"><img src="images/book05/mosaic-webp/book05-00009.webp"
+            alt="Synthetic Minds Book V — page spread 9" loading="lazy" decoding="async" width="756" height="1008"
+            data-full="images/book05/full-webp/book05-00009.webp"></figure>
+        <figure class="plate plateAuto reveal"><img src="images/book05/mosaic-webp/book05-00010.webp"
+            alt="Synthetic Minds Book V — page spread 10" loading="lazy" decoding="async" width="756" height="1008"
+            data-full="images/book05/full-webp/book05-00010.webp"></figure>
+        <figure class="plate plateAuto reveal"><img src="images/book05/mosaic-webp/book05-00011.webp"
+            alt="Synthetic Minds Book V — page spread 11" loading="lazy" decoding="async" width="756" height="1008"
+            data-full="images/book05/full-webp/book05-00011.webp"></figure>
+        <figure class="plate plateAuto reveal"><img src="images/book05/mosaic-webp/book05-00012.webp"
+            alt="Synthetic Minds Book V — page spread 12" loading="lazy" decoding="async" width="756" height="1008"
+            data-full="images/book05/full-webp/book05-00012.webp"></figure>
+        <figure class="plate plateAuto reveal"><img src="images/book05/mosaic-webp/book05-00013.webp"
+            alt="Synthetic Minds Book V — page spread 13" loading="lazy" decoding="async" width="756" height="1008"
+            data-full="images/book05/full-webp/book05-00013.webp"></figure>
+        <figure class="plate plateAuto reveal"><img src="images/book05/mosaic-webp/book05-00014.webp"
+            alt="Synthetic Minds Book V — page spread 14" loading="lazy" decoding="async" width="756" height="1008"
+            data-full="images/book05/full-webp/book05-00014.webp"></figure>
+        <figure class="plate plateAuto reveal"><img src="images/book05/mosaic-webp/book05-00015.webp"
+            alt="Synthetic Minds Book V — page spread 15" loading="lazy" decoding="async" width="756" height="1008"
+            data-full="images/book05/full-webp/book05-00015.webp"></figure>
+      </div>
+
+      <div class="mosaicCol">
+        <!-- 8 images -->
+        <figure class="plate plateAuto reveal"><img src="images/book05/mosaic-webp/book05-00016.webp"
+            alt="Synthetic Minds Book V — page spread 16" loading="lazy" decoding="async" width="756" height="1008"
+            data-full="images/book05/full-webp/book05-00016.webp"></figure>
+        <figure class="plate plateAuto reveal"><img src="images/book05/mosaic-webp/book05-00017.webp"
+            alt="Synthetic Minds Book V — page spread 17" loading="lazy" decoding="async" width="756" height="1008"
+            data-full="images/book05/full-webp/book05-00017.webp"></figure>
+        <figure class="plate plateAuto reveal"><img src="images/book05/mosaic-webp/book05-00018.webp"
+            alt="Synthetic Minds Book V — page spread 18" loading="lazy" decoding="async" width="756" height="1008"
+            data-full="images/book05/full-webp/book05-00018.webp"></figure>
+        <figure class="plate plateAuto reveal"><img src="images/book05/mosaic-webp/book05-00019.webp"
+            alt="Synthetic Minds Book V — page spread 19" loading="lazy" decoding="async" width="756" height="1008"
+            data-full="images/book05/full-webp/book05-00019.webp"></figure>
+        <figure class="plate plateAuto reveal"><img src="images/book05/mosaic-webp/book05-00020.webp"
+            alt="Synthetic Minds Book V — page spread 20" loading="lazy" decoding="async" width="756" height="1008"
+            data-full="images/book05/full-webp/book05-00020.webp"></figure>
+        <figure class="plate plateAuto reveal"><img src="images/book05/mosaic-webp/book05-00021.webp"
+            alt="Synthetic Minds Book V — page spread 21" loading="lazy" decoding="async" width="756" height="1008"
+            data-full="images/book05/full-webp/book05-00021.webp"></figure>
+        <figure class="plate plateAuto reveal"><img src="images/book05/mosaic-webp/book05-00022.webp"
+            alt="Synthetic Minds Book V — page spread 22" loading="lazy" decoding="async" width="756" height="1008"
+            data-full="images/book05/full-webp/book05-00022.webp"></figure>
+        <figure class="plate plateAuto reveal"><img src="images/book05/mosaic-webp/book05-00023.webp"
+            alt="Synthetic Minds Book V — page spread 23" loading="lazy" decoding="async" width="756" height="1008"
+            data-full="images/book05/full-webp/book05-00023.webp"></figure>
+      </div>
+
+      <div class="mosaicCol">
+        <!-- 6 images -->
+        <figure class="plate plateAuto reveal"><img src="images/book05/mosaic-webp/book05-00024.webp"
+            alt="Synthetic Minds Book V — page spread 24" loading="lazy" decoding="async" width="756" height="1008"
+            data-full="images/book05/full-webp/book05-00024.webp"></figure>
+        <figure class="plate plateAuto reveal"><img src="images/book05/mosaic-webp/book05-00025.webp"
+            alt="Synthetic Minds Book V — page spread 25" loading="lazy" decoding="async" width="756" height="1008"
+            data-full="images/book05/full-webp/book05-00025.webp"></figure>
+        <figure class="plate plateAuto reveal"><img src="images/book05/mosaic-webp/book05-00026.webp"
+            alt="Synthetic Minds Book V — page spread 26" loading="lazy" decoding="async" width="756" height="1008"
+            data-full="images/book05/full-webp/book05-00026.webp"></figure>
+        <figure class="plate plateAuto reveal"><img src="images/book05/mosaic-webp/book05-00027.webp"
+            alt="Synthetic Minds Book V — page spread 27" loading="lazy" decoding="async" width="756" height="1008"
+            data-full="images/book05/full-webp/book05-00027.webp"></figure>
+        <figure class="plate plateAuto reveal"><img src="images/book05/mosaic-webp/book05-00028.webp"
+            alt="Synthetic Minds Book V — page spread 28" loading="lazy" decoding="async" width="756" height="1008"
+            data-full="images/book05/full-webp/book05-00028.webp"></figure>
+        <figure class="plate plateAuto reveal"><img src="images/book05/mosaic-webp/book05-00029.webp"
+            alt="Synthetic Minds Book V — page spread 29" loading="lazy" decoding="async" width="756" height="1008"
+            data-full="images/book05/full-webp/book05-00029.webp"></figure>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="lightbox" id="lightbox">
+    <button class="lightboxClose" aria-label="Close image">
+      <span></span>
+      <span></span>
+    </button>
+    <img src="" alt="">
+  </div>
+
+  <footer id="navNext">
+    <div class="wrapNarrow colophon">
+
+      <div class="footerNav">
+        <a href="books.html" class="footerBtn">← Back to Books</a>
+        <a href="waitlist.html" class="footerBtn">Next: Waitlist →</a>
+      </div>
+
+      <div class="footerDivider"></div>
+
+      <div class="colophonMeta">
+        © <span id="year"></span> Mete Kutlu — Empire of Clouds
+      </div>
+
+    </div>
+  </footer>
+  <!-- ================= SCRIPTS ================= -->
+  <!-- Page exit veil — fades content to black before navigation -->
+  <div id="pageVeil"></div>
+
+  <script src="js/books-behaviour.js" defer></script>
+</body>
+
+</html>

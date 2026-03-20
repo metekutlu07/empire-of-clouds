@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <!-- ── Meta ─────────────────────────────────────────────────────────── -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Author · Mete Kutlu</title>
+
+  <meta name="author" content="Mete Kutlu">
+  <meta name="copyright" content="© 2026 Mete Kutlu. All rights reserved.">
+  <meta name="description"
+    content="Empire of Clouds — Codes, Colors and Cosmos. A research-based artistic and architectural project exploring cloud cosmology, planetary computation and visual cultures along the Silk Road.">
+
+  <!-- ── Open Graph ───────────────────────────────────────────────────── -->
+  <meta property="og:title" content="Empire of Clouds — Codes, Colors and Cosmos">
+  <meta property="og:description"
+    content="A research project by Mete Kutlu exploring cosmology, computation and the aesthetics of the cloud.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://empireofclouds.com">
+  <meta property="og:image" content="https://empireofclouds.com/images/og-preview.jpg">
+  <meta property="og:site_name" content="Empire of Clouds">
+  <meta property="og:locale" content="en_US">
+  <link rel="canonical" href="https://empireofclouds.com/">
+
+  <!-- ── Favicon ──────────────────────────────────────────────────────── -->
+  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+
+  <!-- ── Structured data ──────────────────────────────────────────────── -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Mete Kutlu",
+    "url": "https://empireofclouds.com",
+    "jobTitle": "Artist, Creative Technologist, Researcher and Architect",
+    "sameAs": ["https://metekutlu.com"]
+  }
+  </script>
+
+  <!-- ── Fonts (one combined request) ─────────────────────────────────── -->
+  <link href="https://fonts.googleapis.com" rel="preconnect" />
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Unbounded:wght@500;600;700;800&family=Asimovian&family=Gugi&family=Share+Tech+Mono&family=Electrolize&family=Oxanium:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700;800&family=Geo&family=Exo:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+
+  <!-- ── Stylesheet ───────────────────────────────────────────────────── -->
+  <link rel="stylesheet" href="css/author.css">
+
+  <!-- ── On mobile: reveal nav immediately, don't wait for glyph animation ── -->
+  <script>
+    if (window.innerWidth <= 640) {
+      document.addEventListener('DOMContentLoaded', function () {
+        // Small delay so CSS transitions are attached first
+        requestAnimationFrame(function () {
+          requestAnimationFrame(function () {
+            document.body.classList.add('intro-ui-visible');
+          });
+        });
+      });
+    }
+  </script>
+
+  <!-- ── Three.js import map ──────────────────────────────────────────── -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three":          "https://unpkg.com/three@0.160.0/build/three.module.js",
+      "three/addons/":  "https://unpkg.com/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
+
+</head>
+
+<body>
+
+  <!-- ── Top navigation ───────────────────────────────────────────────── -->
+  <header class="topnav" id="topnav" aria-label="Primary">
+    <div class="navInner">
+      <a class="brand" href="index.html?skip=1" aria-label="Empire of Clouds home">Empire of Clouds</a>
+      <nav class="navLinks" aria-label="Site">
+        <a href="about.html">About</a>
+        <a href="author.html">Author</a>
+        <a href="books.html">Books</a>
+        <a href="partners.html">Partners</a>
+        <a href="https://www.dreampixels.cloud" target="_blank" rel="noopener">Dream Pixels</a>
+        <a href="waitlist.html">Waitlist</a>
+      </nav>
+      <button class="menuToggle" id="menuToggle" aria-label="Open navigation" aria-expanded="false"
+        aria-controls="navPanel">Menu</button>
+    </div>
+  </header>
+
+  <!-- ── Mobile nav panel ── -->
+  <nav class="navPanel" id="navPanel" aria-label="Mobile navigation" aria-hidden="true">
+    <button class="navPanelClose" id="navPanelClose" aria-label="Close navigation">Close</button>
+    <div class="navPanelLinks">
+      <a href="about.html">About</a>
+      <a href="author.html" class="is-active">Author</a>
+      <a href="books.html">Books</a>
+      <a href="partners.html">Partners</a>
+      <a href="https://www.dreampixels.cloud" target="_blank" rel="noopener">Dream Pixels</a>
+      <a href="waitlist.html">Waitlist</a>
+    </div>
+  </nav>
+
+  <!-- ── Split layout ────────────────────────────────────────────────── -->
+  <section class="hero heroGlyph">
+    <div class="splitLayout">
+
+      <!-- LEFT: glyph matrix -->
+      <div class="splitLeft">
+        <div class="glyphHero" id="glyphHero" aria-label="Glyph matrix hero">
+          <canvas id="gl"></canvas>
+          <canvas id="c"></canvas>
+          <div class="titleBlock" id="titleBlock"></div>
+
+          <div class="stage" id="unifiedControls">
+            <div id="audioControl" role="button" tabindex="0" aria-label="Toggle sound">
+              <span id="audioStatus">Sound Off</span>
+              <audio id="bgm" loop src="audio/stable-audio.mp3"></audio>
+            </div>
+            <div class="controlDivider"></div>
+            <div id="glyphFamilyIndicator" aria-label="Current glyph family">
+              <span id="familyIcon">✦</span>
+              <span id="familyName">Star Family</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- RIGHT: bio text -->
+      <div class="splitRight">
+        <div class="bioScrollWrap" id="bioScrollWrap">
+          <div class="bioBox">
+            <h2 class="authorName">Mete Kutlu</h2>
+            <p class="contactIntro">Mete Kutlu is a creative technologist, new media artist, and researcher based in
+              Paris. Trained as an architect at ENSA Paris-Malaquais, he graduated in 2016 and subsequently worked
+              across Japan, China, and South Korea with architects including Kazuyo Sejima, Kengo Kuma, and Wang Shu.
+              Since 2019, he has been teaching Cities in Mirror, an experimental and artistic approach to mapping urban
+              space, at ENSA Paris-Belleville, where he is also an associate researcher at the IPRAUS laboratory.</p>
+            <p class="contactIntro">His work operates at the intersection of premodern metaphysics and contemporary
+              computation. Focusing on the medieval Silk Road, he identifies an algorithmic tradition of art and a
+              computational cosmology that resonates with today's cloud-based infrastructures. Through a series of
+              research residencies across this historical corridor, he develops a method grounded in the confrontation
+              between historical artistic traditions and contemporary digital media, including photogrammetry,
+              augmented reality, and machine learning.</p>
+            <p class="contactIntro">He was awarded the Daniel Arasse Prize by the Académie française and the École
+              française de Rome. He has conducted research at the Villa Medici in Rome, the Monastery of San Giorgio
+              Maggiore in Venice, and the French Palace in Istanbul. His investigations into patterned and
+              cosmological visual systems have led to archival work at the Vatican Apostolic Archive, the Topkapı
+              Palace, and the Biblioteca Nazionale Marciana. In parallel, he develops large-scale digital projects
+              that translate historical cosmologies into immersive computational environments. His work includes
+              augmented reality applications, volumetric reconstructions, and generative simulations presented in
+              Carthage, Paris, and Seoul. In 2022, he received the Innovative Digital Services grant for Spolia
+              Botanique, an immersive botanical project developed in partnership with the Château de
+              Chaumont-sur-Loire.</p>
+            <p class="contactIntro">His work unfolds between ancient myth and science-fictional narratives. It
+              advances a non-anthropocentric vision of culture, a cosmic perspective on technology, and a
+              non-Eurocentric history of civilization. The world is understood as a computational system of symbols,
+              a cosmopolitan and inclusive ecology of intelligence. His experimental methods of design and research
+              are grounded in transversal, non-linear, and divergent thinking. Drawing on hacker culture, he adopts
+              a mode of inquiry based on the subversion of established conventions and institutional frameworks.
+              Rather than following preplanned structures, he develops bottom-up processes in which randomness and
+              accident become central forces of creativity. Forms and ideas emerge through iterative and generative
+              processes. Against the sobriety of modernist abstraction, his work proposes a poetic vision of
+              civilization in which metaphor and analogy replace rational description. Vibrant colors and patterns
+              become the medium of these alternative narratives, revealing imaginary worlds embedded within both
+              historical and technological systems.</p>
+          </div>
+        </div>
+      </div><!-- /.splitRight -->
+
+    </div><!-- /.splitLayout -->
+
+  </section>
+
+  <!-- ── Scripts ─────────────────────────────────── -->
+  <script type="module" src="/js/author.js"></script>
+
+</body>
+
+</html>

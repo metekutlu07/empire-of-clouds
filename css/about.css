@@ -1,0 +1,1317 @@
+/* =============================================================
+   ABOUT PAGE — consolidated stylesheet
+   Merges: about.css + top-nav-bar-about.css + footer.css
+   ============================================================= */
+
+/* ── CSS VARIABLES ──────────────────────────────────────────── */
+
+:root {
+    --navH: 56px;
+    --bg: #000;
+    --fg: #fff;
+    --muted: rgba(255, 255, 255, .72);
+    --faint: rgba(255, 255, 255, .10);
+    --fainter: rgba(255, 255, 255, .08);
+    --max: 1400px;
+}
+
+/* ── RESET / BASE ───────────────────────────────────────────── */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: calc(var(--navH) + 18px);
+    scrollbar-gutter: stable;
+}
+
+@supports not (scrollbar-gutter: stable) {
+    html {
+        overflow-y: scroll;
+    }
+}
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "Space Grotesk", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    overflow-x: hidden;
+    cursor: default;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+a * {
+    cursor: pointer;
+}
+
+/* ── TOP NAVIGATION ─────────────────────────────────────────── */
+
+@property --angle {
+    syntax: "<angle>";
+    inherits: false;
+    initial-value: 0deg;
+}
+
+.topnav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--navH);
+    display: flex;
+    align-items: center;
+    z-index: 999;
+    background: rgba(0, 0, 0, 0.62);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, .12);
+    opacity: 0;
+    transform: translateY(-10px);
+    pointer-events: none;
+    transition: opacity 700ms ease, transform 700ms ease;
+}
+
+.topnav.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.navInner {
+    width: 100%;
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 0 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+}
+
+.brand {
+    font-family: "Unbounded", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    font-size: 22px;
+    white-space: nowrap;
+    transform: translateY(1px);
+}
+
+.navLinks {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.navLinks a {
+    font-family: "IBM Plex Mono", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    font-size: 13px;
+    color: rgba(255, 255, 255, .78);
+    padding: 9px 7px 9px 9px;
+    border: 1px solid transparent;
+    transform: translateY(1px);
+}
+
+.navLinks a:hover {
+    color: rgba(255, 255, 255, .95);
+    border-color: rgba(255, 255, 255, .18);
+}
+
+.navLinks a.is-active {
+    color: rgba(255, 255, 255, .95);
+    border-color: rgba(255, 255, 255, .22);
+}
+
+
+
+/* ── WAITLIST CTA: animated border ─────────────────────────── */
+
+.navLinks a[href="waitlist.html"] {
+    color: rgba(255, 255, 255, 0.95);
+    position: relative;
+    padding: 9px 14px;
+    border: 1px solid transparent;
+    background:
+        linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)) padding-box,
+        conic-gradient(from var(--angle), #ff2d9b, #00ff88, #ff2d9b) border-box;
+    animation: rotateBorder 3s linear infinite;
+}
+
+.navLinks a[href="waitlist.html"]:hover {
+    color: #fff;
+    background:
+        linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)) padding-box,
+        conic-gradient(from var(--angle), #ff2d9b, #00ff88, #ff2d9b) border-box;
+    box-shadow:
+        0 0 10px rgba(255, 45, 155, 0.35),
+        0 0 22px rgba(0, 255, 136, 0.2);
+}
+
+@keyframes rotateBorder {
+    to {
+        --angle: 360deg;
+    }
+}
+
+/* ── NAV INTRO / EXIT SEQUENCE ──────────────────────────────── */
+
+body:not(.intro-ui-visible) .topnav {
+    opacity: 0 !important;
+    transform: translateY(-100%) !important;
+    pointer-events: none !important;
+    transition: none !important;
+}
+
+body.intro-ui-visible .topnav {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+    pointer-events: auto !important;
+    transition: opacity 400ms ease, transform 400ms ease !important;
+}
+
+body.is-exiting .topnav,
+body.intro-ui-visible.is-exiting .topnav {
+    opacity: 0 !important;
+    transform: translateY(-100%) !important;
+    transition: opacity 400ms ease, transform 400ms ease !important;
+}
+
+/* ── LAYOUT HELPERS ─────────────────────────────────────────── */
+
+.wrap {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 0 28px;
+}
+
+.wrapNarrow {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 28px;
+}
+
+/* ── SECTIONS ───────────────────────────────────────────────── */
+
+section {
+    display: block;
+    unicode-bidi: isolate;
+    padding: 50px 0;
+    border-top: none;
+}
+
+/* ── REVEAL ANIMATION ───────────────────────────────────────── */
+
+.reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 900ms ease, transform 900ms ease;
+    will-change: auto;
+}
+
+.reveal.is-visible,
+.reveal-heavy.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.reveal-heavy {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 1100ms ease, transform 1100ms ease;
+}
+
+/* ── SECTION TITLE ──────────────────────────────────────────── */
+
+.sectionTitle {
+    font-family: "Unbounded", sans-serif;
+    font-weight: 600;
+    font-size: 26px;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    color: #fff;
+    text-align: center;
+    margin: 0 0 clamp(28px, 4vw, 52px);
+}
+
+/* ── PROSE ──────────────────────────────────────────────────── */
+
+.prose {
+    max-width: 980px;
+    font-size: 19px;
+    line-height: 1.55;
+    color: rgba(255, 255, 255, .80);
+    font-family: "Space Grotesk";
+}
+
+.prose p+p {
+    margin-top: 1.2em;
+}
+
+/* ── SINGLE-COLUMN LAYOUT ───────────────────────────────────── */
+
+.singleCol {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.singleCol .prose {
+    max-width: 72ch;
+    width: 100%;
+    text-align: left;
+    margin-bottom: clamp(32px, 4vw, 56px);
+}
+
+/* ── SECTION FIGURES ────────────────────────────────────────── */
+
+.sectionFigure {
+    width: 100%;
+    max-width: 860px;
+    margin: 0 auto;
+}
+
+.sectionFigure img {
+    width: 100%;
+    height: auto;
+    display: block;
+    opacity: .92;
+    box-shadow: 0 18px 44px rgba(0, 0, 0, .55);
+}
+
+.sectionFigure figcaption {
+    margin-top: 12px;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    color: rgba(255, 255, 255, .38);
+    text-align: left;
+    line-height: 1.6;
+}
+
+.figcaptionLeft {
+    display: block;
+    margin-top: 12px;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, .38);
+    text-align: left;
+    max-width: 560px;
+}
+
+/* ── SCROLL HINT ────────────────────────────────────────────── */
+
+.scrollHint {
+    position: fixed;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+    opacity: 1;
+    transition: opacity 600ms ease;
+    pointer-events: none;
+    animation: scrollBounce 1.8s ease-in-out infinite;
+}
+
+.scrollHint.is-hidden {
+    opacity: 0;
+}
+
+@keyframes scrollBounce {
+
+    0%,
+    100% {
+        transform: translateX(-50%) translateY(0);
+    }
+
+    50% {
+        transform: translateX(-50%) translateY(6px);
+    }
+}
+
+/* ── SECTION: CLOUDS DIAGRAM ────────────────────────────────── */
+
+#cloudsDiagram {
+    padding-top: calc(var(--navH) + 20px);
+    padding-bottom: 0;
+}
+
+#cloudsDiagram .sectionFigure {
+    max-width: 100%;
+    width: 100%;
+}
+
+#cloudsDiagram .sectionFigure img {
+    width: auto;
+    max-width: 100%;
+    max-height: calc(100vh - var(--navH) - 20px);
+    height: auto;
+    object-fit: contain;
+    margin: 0 auto;
+    display: block;
+    box-shadow: none;
+}
+
+/* ── SECTION: ABOUT ─────────────────────────────────────────── */
+
+#about {
+    padding-top: 40px;
+}
+
+#about .sectionFigure {
+    max-width: 38%;
+}
+
+/* ── SECTION: STATS ─────────────────────────────────────────── */
+
+#statsFlow {
+    width: 100%;
+}
+
+.statsFlow {
+    display: flex;
+    flex-direction: column;
+    gap: 64px;
+    max-width: 72ch;
+    width: 100%;
+    text-align: center;
+}
+
+.statsBlock {
+    max-width: 980px;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.sline {
+    font-size: 20px;
+    line-height: 1.28;
+    letter-spacing: -0.01em;
+    color: rgba(255, 255, 255, .82);
+}
+
+.sline+.sline {
+    margin-top: 14px;
+}
+
+/* ── SECTION: CONCEPT DIAGRAM ───────────────────────────────── */
+
+#conceptDiagram {
+    content-visibility: auto;
+    contain-intrinsic-size: 0 900px;
+}
+
+#conceptDiagram .sectionFigure {
+    max-width: 100%;
+    width: 100%;
+}
+
+#conceptDiagram .sectionFigure img {
+    width: auto;
+    max-width: 100%;
+    height: 88vh;
+    max-height: 88vh;
+    object-fit: contain;
+    margin: 0 auto;
+    display: block;
+    box-shadow: none;
+}
+
+/* ── SECTION: ROADMAP ───────────────────────────────────────── */
+
+#roadmap {
+    content-visibility: auto;
+    contain-intrinsic-size: 0 900px;
+}
+
+#roadmap .sectionFigure {
+    max-width: 100%;
+    width: 100%;
+}
+
+#roadmap .sectionFigure img {
+    max-height: 88vh;
+    height: auto;
+    object-fit: contain;
+    margin: 0 auto;
+    display: block;
+    box-shadow: none;
+}
+
+#roadmap .prose {
+    text-align: center;
+}
+
+#fieldworkMap .prose {
+    text-align: left;
+}
+
+/* ── SECTION: FIELDWORK MAP ─────────────────────────────────── */
+
+#fieldworkMap .sectionFigure {
+    width: 90vw;
+    max-width: none;
+    position: relative;
+    left: 50%;
+    margin-left: -45vw;
+}
+
+#fieldworkMap .sectionFigure img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: unset;
+    box-shadow: none;
+}
+
+#fieldworkMap .sectionFigure .figcaptionLeft {
+    max-width: 780px;
+    margin: 18px 0 0 0;
+    padding: 0;
+}
+
+/* ── CONTENTS PAGE: VARIABLES ───────────────────────────────── */
+
+.contentsPage {
+    --tocVignetteCol: clamp(260px, 20vw, 340px);
+    --tocGap: 72px;
+    --tocLineOverhang: 160px;
+    --contentsTopPad: 90px;
+    --contentsTitleSize: clamp(44px, 5.6vw, 72px);
+    --contentsTitleMb: 58px;
+    --contentsLeadMb: 66px;
+    --contentsButtonsMt: 18px;
+    --contentsButtonsMb: 34px;
+}
+
+/* ── CONTENTS PAGE: HERO ────────────────────────────────────── */
+
+.contentsPage .contentsHero {
+    padding: 0 28px 34px;
+    text-align: center;
+}
+
+.contentsPage .contentsH1 {
+    font-family: "Unbounded", sans-serif !important;
+    font-weight: 600 !important;
+    font-size: 26px !important;
+    letter-spacing: -0.02em !important;
+    line-height: 1.1 !important;
+    color: #fff !important;
+    text-align: center !important;
+    margin: 0 0 clamp(28px, 4vw, 52px) !important;
+    text-transform: none !important;
+}
+
+.contentsPage .contentsLead {
+    margin: 0 auto var(--contentsLeadMb) !important;
+    text-align: center !important;
+    font-size: 22px;
+}
+
+/* Book jump buttons row */
+.contentsPage .contentsJump {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 22px;
+    flex-wrap: wrap;
+    margin-top: var(--contentsButtonsMt) !important;
+    margin-bottom: var(--contentsButtonsMb) !important;
+}
+
+.contentsPage .contentsJump a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 22px;
+    border: 1px solid rgba(255, 255, 255, .18);
+    text-transform: uppercase;
+    letter-spacing: .22em;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 14px;
+    color: rgba(255, 255, 255, .92);
+    background: rgba(255, 255, 255, .02);
+    cursor: pointer;
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.contentsPage .contentsJump a:hover {
+    border-color: rgba(255, 255, 255, .35);
+    background: rgba(255, 255, 255, .04);
+}
+
+.contentsPage .contentsJump a:focus-visible {
+    outline: 2px solid rgba(255, 255, 255, .55);
+    outline-offset: 3px;
+}
+
+/* ── CONTENTS PAGE: PANEL + BOOK ROW LAYOUT ────────────────── */
+
+.contentsPanel {
+    padding: 0;
+    border: none;
+}
+
+.contentsPage .contentsPanel .wrapNarrow {
+    max-width: var(--max);
+    padding: 0 28px;
+}
+
+.contentsPage .bookRow {
+    display: grid !important;
+    grid-template-columns: calc(50% - 50px) calc(50% + 50px) !important;
+    gap: 0 !important;
+    align-items: center !important;
+    width: 100%;
+}
+
+.contentsPage .bookVignette {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+    padding-right: clamp(28px, 4vw, 64px);
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.contentsPage .bookVignette img {
+    width: clamp(220px, 28vw, 420px) !important;
+    max-width: 100% !important;
+    height: auto !important;
+    filter: grayscale(1) contrast(1.05);
+    opacity: 0.92;
+    box-shadow: none;
+}
+
+.contentsPage .bookVignetteCaption {
+    margin-top: 10px;
+    width: clamp(220px, 28vw, 420px);
+    text-align: center;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 12px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, .68);
+}
+
+.contentsPage .contents {
+    align-self: center;
+    padding-top: 0;
+    padding-left: clamp(28px, 4vw, 64px);
+    border-left: none;
+    border-top: none;
+    position: relative;
+    z-index: 2;
+}
+
+.contentsPage .contents::before {
+    display: none !important;
+}
+
+.contentsPage .contentsBlock::after {
+    display: none !important;
+}
+
+/* ── CONTENTS PAGE: TYPOGRAPHY ──────────────────────────────── */
+
+.contentsHeader {
+    margin: 22px 0 8px;
+    font-family: "IBM Plex Mono", monospace;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    font-size: 16px;
+    color: rgba(255, 255, 255, .75);
+}
+
+.contentsBookTitle {
+    margin: 30px 0 6px;
+    font-family: "IBM Plex Mono", monospace;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    font-size: 20px;
+    color: rgba(255, 255, 255, .86);
+}
+
+.contentsBookSub {
+    margin: 0 0 10px;
+    font-size: 20px;
+    letter-spacing: -0.01em;
+    color: rgba(255, 255, 255, .78);
+}
+
+.contentsBookMeta {
+    margin: 0 0 18px;
+    font-size: 16px;
+    line-height: 1.55;
+    color: rgba(255, 255, 255, .62);
+    white-space: nowrap;
+}
+
+/* ── CONTENTS PAGE: BLOCKS ──────────────────────────────────── */
+
+.contentsPage .contentsBlock {
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    column-gap: 26px;
+    align-items: baseline;
+    position: relative;
+    padding-top: 12px !important;
+    padding-bottom: 12px !important;
+    border-bottom: none;
+}
+
+.contentsPage .contentsBlock>div:last-child {
+    min-width: 0;
+}
+
+.cNum {
+    font-family: "IBM Plex Mono", monospace;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    font-size: 16px;
+    color: rgba(255, 255, 255, .70);
+    padding-top: 6px;
+}
+
+.cNumMuted {
+    color: rgba(255, 255, 255, .28) !important;
+}
+
+.cTitle {
+    font-size: 20px;
+    letter-spacing: -0.01em;
+    color: rgba(255, 255, 255, .92);
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    overflow-wrap: normal;
+    word-break: normal;
+}
+
+.cSub {
+    margin-top: 6px;
+    font-size: 18px;
+    font-weight: 400;
+    color: #fff;
+    font-family: "IBM Plex Mono", monospace;
+}
+
+.cDetail {
+    display: block;
+    margin-top: 6px;
+    font-size: 17px;
+    line-height: 1.45;
+    color: rgba(255, 255, 255, .62);
+    font-style: italic;
+    letter-spacing: 0;
+    text-transform: none;
+}
+
+@media (min-width: 900px) {
+    .contentsPage .cSub {
+        white-space: nowrap;
+    }
+}
+
+/* ── CONTENTS PAGE: BOOK LINKS ──────────────────────────────── */
+
+.contentsPage .contentsBookLink {
+    display: inline-block;
+    text-decoration: none;
+    color: inherit;
+}
+
+.contentsBookLinkDivider {
+    cursor: default;
+    pointer-events: none;
+}
+
+.contentsPage .contentsBookLink .contentsBookTitle,
+.contentsPage .contentsBookLink .contentsBookSub {
+    color: #fff;
+    -webkit-text-fill-color: #fff;
+    background: linear-gradient(90deg, #e62bff, #ffe100, #c8b6ff, #00ffcc);
+    background-size: 300% 50%;
+    background-position: 0% 50%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    will-change: background-position;
+    backface-visibility: hidden;
+    transform: translateZ(0);
+}
+
+.contentsPage .contentsBookLink:hover .contentsBookTitle,
+.contentsPage .contentsBookLink:hover .contentsBookSub {
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    animation: bookGradientMove 4.2s linear infinite;
+}
+
+@keyframes bookGradientMove {
+    from {
+        background-position: 0% 50%;
+    }
+
+    to {
+        background-position: 300% 50%;
+    }
+}
+
+/* ── POINTER / DECORATION RULES ─────────────────────────────── */
+
+.wrap,
+.wrapNarrow,
+.contents,
+.bookRow {
+    position: relative;
+    z-index: 2;
+}
+
+/* ── FOOTER ─────────────────────────────────────────────────── */
+
+footer {
+    font-family: "Space Grotesk";
+    padding: 90px 0 10px;
+    text-align: center;
+}
+
+.colophon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.colophonTitle,
+.colophonSubtitle,
+.colophonAuthor,
+.colophonPoem,
+.colophonMeta,
+.colophonCopyright {
+    color: #ffffff;
+}
+
+.colophonTitle {
+    font-family: "Space Grotesk";
+    font-size: 32px;
+    letter-spacing: 0.08em;
+    margin-bottom: 8px;
+}
+
+.colophonSubtitle {
+    font-family: "Space Grotesk";
+    font-size: 28px;
+    margin-bottom: 50px;
+    letter-spacing: 0.12em;
+}
+
+.colophonAuthor {
+    font-size: 28px;
+    margin-bottom: 100px;
+    letter-spacing: 0.12em;
+}
+
+.colophonPoem {
+    font-size: 20px;
+    line-height: 2.0;
+    max-width: 520px;
+    margin-bottom: 120px;
+}
+
+.colophonMeta {
+    font-size: 14px;
+    line-height: 1.9;
+    padding-bottom: 100px;
+}
+
+.colophonCopyright {
+    font-size: 13px;
+    opacity: 0.5;
+}
+
+/* =============================================================
+   MOBILE NAV — full-screen fade, plain text
+   ============================================================= */
+
+/* ── MENU TOGGLE BUTTON ─────────────────────────────────────── */
+
+.menuToggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, .28);
+    color: rgba(255, 255, 255, .82);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    /* letter-spacing adds .18em of space *after* the last character too,
+       shifting the text visually right of centre. Compensate with matching
+       padding-left so the optical centre aligns with the box centre. */
+    padding: 7px 0 7px .3em;
+    width: 60px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: border-color 200ms ease, color 200ms ease;
+    flex-shrink: 0;
+}
+
+.menuToggle:hover {
+    border-color: rgba(255, 255, 255, .55);
+    color: #fff;
+}
+
+/* ── FULL-SCREEN PANEL ──────────────────────────────────────── */
+
+.navPanel {
+    position: fixed;
+    inset: 0;
+    z-index: 1002;
+    background: rgba(3, 3, 3, .97);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    opacity: 0;
+    transition: opacity 500ms ease;
+    pointer-events: none;
+}
+
+.navPanel.is-open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* ── CLOSE BUTTON ───────────────────────────────────────────── */
+
+.navPanelClose {
+    position: absolute;
+    top: calc(var(--navH) / 2);
+    right: 28px;
+    transform: translateY(-50%);
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, .28);
+    color: rgba(255, 255, 255, .72);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    padding: 7px 0 7px .3em;
+    width: 60px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: border-color 180ms ease, color 180ms ease;
+}
+
+.navPanelClose:hover {
+    border-color: rgba(255, 255, 255, .55);
+    color: #fff;
+}
+
+/* ── LINKS — grid fills screen, text centered ───────────────── */
+
+.navPanelLinks {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    padding: var(--navH) 0;
+    box-sizing: border-box;
+}
+
+.navPanelLinks a {
+    display: inline-block;
+    text-decoration: none;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: clamp(14px, 3.8vw, 20px);
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, .65);
+    -webkit-tap-highlight-color: transparent;
+    transition: color 160ms ease;
+    padding: 6px 20px;
+    cursor: pointer;
+}
+
+.navPanelLinks a:hover,
+.navPanelLinks a.is-active {
+    color: #fff;
+}
+
+/* ── LINKS VISIBLE WITH PANEL ───────────────────────────────── */
+
+.navPanelLinks a {
+    opacity: 1;
+}
+
+/* =============================================================
+   RESPONSIVE — layout adjustments
+   ============================================================= */
+
+/* ── TABLET  ≤ 900px ────────────────────────────────────────── */
+
+@media (max-width: 900px) {
+
+    /* Nav: hide links, show MENU button */
+    .navLinks {
+        display: none;
+    }
+
+    .menuToggle {
+        display: flex;
+        margin-left: auto;
+    }
+
+    .navPanelClose {
+        right: 20px;
+    }
+
+    .navInner {
+        padding: 0 20px;
+    }
+
+    /* Reduce wrap padding */
+    .wrap,
+    .wrapNarrow {
+        padding: 0 20px;
+    }
+
+    /* Contents: stack vignette above text */
+    .contentsPage .bookRow {
+        grid-template-columns: 1fr !important;
+        gap: 12px 0 !important;
+    }
+
+    .contentsPage .bookVignette {
+        align-items: center !important;
+        justify-content: center !important;
+        padding-right: 0 !important;
+        padding-bottom: 0;
+    }
+
+    .contentsPage .bookVignette img {
+        width: clamp(260px, 78vw, 420px) !important;
+    }
+
+    .contentsPage .bookVignetteCaption {
+        width: clamp(180px, 52vw, 320px);
+    }
+
+    .contentsPage .contents {
+        padding-left: 0;
+    }
+
+    /* Allow text to wrap — no more nowrap overflows */
+    .contentsBookMeta {
+        white-space: normal;
+    }
+
+    .cTitle {
+        white-space: normal;
+        overflow: visible;
+        text-overflow: unset;
+    }
+
+    /* About galaxy image */
+    #about .sectionFigure {
+        max-width: 60%;
+    }
+
+    /* Concept diagram & roadmap: cap height on mobile */
+    #conceptDiagram .sectionFigure img,
+    #roadmap .sectionFigure img {
+        height: auto !important;
+        max-height: 60vw !important;
+    }
+
+    #roadmap,
+    #conceptDiagram {
+        content-visibility: visible;
+        contain-intrinsic-size: none;
+    }
+
+    /* Fieldwork map: full bleed but not so extreme */
+    #fieldworkMap .sectionFigure {
+        width: 100%;
+        left: auto;
+        margin-left: 0;
+    }
+
+    /* Contents panel wrapNarrow should use full width */
+    .contentsPage .contentsPanel .wrapNarrow {
+        padding: 0 20px;
+    }
+
+    /* Contents jump buttons: tighten */
+    .contentsPage .contentsJump {
+        gap: 12px;
+    }
+
+    .contentsPage .contentsJump a {
+        padding: 13px 16px;
+        font-size: 12px;
+    }
+}
+
+/* ── MOBILE  ≤ 640px ────────────────────────────────────────── */
+
+@media (max-width: 640px) {
+
+    :root {
+        --navH: 56px;
+    }
+
+    :root {
+        --contentsTopPad: 0px;
+    }
+
+    .sectionTitle {
+        font-size: 21px;
+        margin-top: 24px;
+    }
+
+    .contentsHero .sectionTitle {
+        margin-top: 80px;
+    }
+
+    .contentsPage .contentsHero {
+        padding-bottom: 0;
+    }
+
+    :root {
+        --contentsButtonsMt: 48px;
+
+        .contentsPage .contentsJump {
+            display: none !important;
+        }
+
+        --contentsButtonsMb: 0px;
+    }
+
+    .contentsPanel {
+        padding-top: 0 !important;
+    }
+
+    .prose {
+        font-size: 17px;
+    }
+
+    .sectionFigure figcaption,
+    .figcaptionLeft {
+        font-size: 13px;
+    }
+
+    .navInner {
+        padding: 0 20px;
+    }
+
+    .navPanelClose {
+        right: 20px;
+    }
+
+
+
+    /* Brand — midway size for mobile */
+    .brand {
+        font-size: px;
+    }
+
+    /* Tighter section padding */
+    section {
+        padding: 28px 0;
+    }
+
+    #roadmap {
+        padding-bottom: 0;
+    }
+
+    .wrap,
+    .wrapNarrow {
+        padding: 0 20px;
+    }
+
+
+
+    /* Stats */
+    .sline {
+        font-size: 17px;
+    }
+
+    /* Center vignette images on mobile */
+    .contentsPage .bookVignette,
+    figure.bookVignette {
+        align-items: center !important;
+        justify-content: center !important;
+        padding-right: 0 !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        padding-top: 48px !important;
+        padding-bottom: 0 !important;
+    }
+
+    .contentsPage .bookVignette img,
+    figure.bookVignette img {
+        margin-left: auto !important;
+        margin-right: auto !important;
+        display: block !important;
+    }
+
+    .contentsPage .bookVignetteCaption,
+    .bookVignetteCaption {
+        text-align: center !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        margin-bottom: 0 !important;
+    }
+
+    /* About galaxy: full width on phone */
+    #about .sectionFigure {
+        max-width: 86%;
+    }
+
+    /* Figcaptions smaller */
+
+
+    /* Contents blocks: tighter grid */
+    .contentsPage .contentsBlock {
+        grid-template-columns: 44px 1fr;
+        column-gap: 16px;
+    }
+
+    .cNum {
+        font-size: 13px;
+    }
+
+    .cTitle {
+        font-size: 17px;
+    }
+
+    .cSub {
+        font-size: 15px;
+    }
+
+    .cDetail {
+        font-size: 14px;
+    }
+
+    .contentsBookTitle {
+        font-size: 16px;
+    }
+
+    .contentsBookSub {
+        font-size: 16px;
+    }
+
+    .contentsBookMeta {
+        font-size: 14px;
+    }
+
+    .contentsHeader {
+        font-size: 13px;
+    }
+
+    /* Contents jump: wrap to 2-column grid on small phones */
+    .contentsPage .contentsJump {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
+    .contentsPage .contentsJump a {
+        padding: 10px 8px;
+        font-size: 11px;
+        font-weight: 500;
+        letter-spacing: .14em;
+        text-align: center;
+    }
+
+    /* Footer colophon */
+    .colophonTitle {
+        font-size: 22px;
+    }
+
+    .colophonSubtitle {
+        font-size: 19px;
+        margin-bottom: 36px;
+    }
+
+    .colophonAuthor {
+        font-size: 19px;
+        margin-bottom: 60px;
+    }
+
+    .colophonPoem {
+        font-size: 17px;
+        margin-bottom: 72px;
+    }
+
+    /* Waitlist panel link full width on very small phones */
+}
+
+/* ── SMALL PHONE  ≤ 390px ───────────────────────────────────── */
+
+@media (max-width: 390px) {
+
+    .brand {
+        font-size: 19px;
+    }
+
+    .contentsPage .contentsJump {
+        grid-template-columns: 1fr;
+    }
+
+    .cTitle {
+        font-size: 15px;
+    }
+
+    .cSub {
+        font-size: 13px;
+    }
+}
+
+/* =============================================================
+   THREE-STEP TYPE SCALE
+   min = below 640px, base = 640–1400px, max = above 1400px
+   ============================================================= */
+
+@media (min-width: 1400px) {
+    .sectionTitle {
+        font-size: 36px !important;
+    }
+
+    .contentsPage .contentsH1 {
+        font-size: 36px !important;
+    }
+
+    .prose {
+        font-size: 21px !important;
+    }
+
+    .sectionFigure figcaption,
+    .figcaptionLeft {
+        font-size: 15px !important;
+    }
+}

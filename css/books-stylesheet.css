@@ -1,0 +1,2020 @@
+/* ============================================================
+   book-2.css — Cosmic Cryptography
+   Consolidated from: foundation.css, top-nav-bar.css,
+                       footer.css, book-2.css
+   footer.css colophon classes not used — footer rules already
+   covered by footerNav/footerBtn/footerDivider/colophonMeta.
+   ============================================================ */
+
+/* ===================== FOUNDATION ===================== */
+
+:root {
+    --navH: 56px;
+    --bg: #000;
+    --fg: #fff;
+    --muted: rgba(255, 255, 255, .72);
+    --faint: rgba(255, 255, 255, .10);
+    --fainter: rgba(255, 255, 255, .08);
+    --max: 1400px;
+    --heroShift: 0px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: calc(var(--navH) + 18px);
+    scrollbar-gutter: stable;
+    color-scheme: dark;
+}
+
+@supports not (scrollbar-gutter: stable) {
+    html {
+        overflow-y: scroll;
+    }
+}
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "Space Grotesk", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    overflow-x: hidden;
+    text-rendering: optimizeLegibility;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+a,
+a * {
+    cursor: pointer !important;
+}
+
+.wrap {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 0 28px;
+}
+
+/* book-2 overrides foundation's 1100px with 920px */
+.wrapNarrow {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 0 28px;
+}
+
+section {
+    display: block;
+    unicode-bidi: isolate;
+    padding: 50px 0;
+}
+
+section:first-of-type {
+    border-top: none;
+}
+
+/* content layers above potential decorative elements */
+.wrap,
+.wrapNarrow,
+.heroContent,
+.contents {
+    position: relative;
+    z-index: 2;
+}
+
+/* ===================== TOP NAVIGATION ===================== */
+
+.topnav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--navH);
+    display: flex;
+    align-items: center;
+    z-index: 999;
+    background: rgba(0, 0, 0, 0.62);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, .12);
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+    transition: opacity 700ms ease, transform 700ms ease;
+    contain: layout style;
+}
+
+.topnav.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.navInner {
+    width: 100%;
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 0 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+}
+
+.brand {
+    font-family: "Unbounded", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    font-size: 22px;
+    white-space: nowrap;
+    transform: translateY(1px);
+}
+
+.navLinks {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.navLinks a {
+    font-family: "IBM Plex Mono", system-ui, monospace;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    font-size: 13px;
+    color: rgba(255, 255, 255, .78);
+    padding: 9px 7px 9px 9px;
+    border: 1px solid transparent;
+    transform: translateY(1px);
+}
+
+.navLinks a:hover {
+    color: rgba(255, 255, 255, .95);
+    border-color: rgba(255, 255, 255, .18);
+}
+
+.navLinks a.is-active {
+    color: rgba(255, 255, 255, .95);
+    border-color: rgba(255, 255, 255, .22);
+}
+
+/* Waitlist animated border CTA
+   @property --borderAngle is scoped to ::before only. The pseudo-element gets
+   isolation: isolate + will-change so its repaint layer stays fully separated
+   from the nav backdrop and cannot interfere with the model-viewer compositor. */
+
+/* @property --borderAngle {
+    syntax: "<angle>";
+    inherits: false;
+    initial-value: 0deg;
+} */
+
+/* Waitlist CTA — static green border + glow, no animation (compositor-safe) */
+.navLinks a[href="waitlist.html"] {
+    color: rgba(0, 255, 229, 0.95);
+    padding: 9px 14px;
+    border: 1px solid rgba(0, 255, 229, 0.95);
+    /* background: rgba(0, 0, 0, 0.55);
+    box-shadow: 0 0 8px rgba(0, 255, 136, 0.25), 0 0 18px rgba(0, 255, 136, 0.12); */
+}
+
+.navLinks a[href="waitlist.html"]:hover {
+    color: rgba(0, 255, 229, 0.95);
+    border-color: rgba(0, 255, 229, 0.95);
+    /* background: rgba(0, 255, 136, 0.08);
+    box-shadow: 0 0 12px rgba(0, 255, 136, 0.45), 0 0 28px rgba(0, 255, 136, 0.2); */
+}
+
+/* @keyframes rotateBorder {
+    to {
+        --borderAngle: 360deg;
+    }
+} */
+
+/* Nav-ready intro sequence — nav hidden until after first paint */
+body:not(.nav-ready) .topnav {
+    opacity: 0;
+    transform: translateY(-100%);
+    transition: none;
+}
+
+body.nav-ready .topnav {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 500ms ease, transform 500ms ease;
+}
+
+/* Waitlist page: hide nav until glyph field has loaded */
+body:not(.intro-ui-visible) .topnav {
+    opacity: 0 !important;
+    transform: translateY(-100%) !important;
+    pointer-events: none !important;
+    transition: none !important;
+}
+
+body.intro-ui-visible .topnav {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+    transition: opacity 400ms ease, transform 400ms ease !important;
+}
+
+/* Exit sequence */
+body.is-exiting .topnav,
+body.intro-ui-visible.is-exiting .topnav {
+    opacity: 0 !important;
+    transform: translateY(-100%) !important;
+    transition: opacity 400ms ease, transform 400ms ease !important;
+}
+
+/* ===================== REVEAL ===================== */
+
+.reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 900ms ease, transform 900ms ease;
+}
+
+.reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ===================== SCROLL MARGIN ===================== */
+
+#contents,
+#plates,
+#navNext {
+    scroll-margin-top: calc(var(--navH) + 18px);
+}
+
+/* ===================== HERO ===================== */
+
+.heroContent {
+    position: relative;
+    width: 100%;
+    padding-top: 18vh;
+    padding-bottom: 1vh;
+    text-align: center;
+}
+
+/* Stagger the four hero reveal elements so they sequence
+   instead of all animating simultaneously on scroll entry */
+.heroContent .reveal:nth-child(1) {
+    transition-delay: 0ms;
+}
+
+.heroContent .reveal:nth-child(2) {
+    transition-delay: 120ms;
+}
+
+.heroContent .reveal:nth-child(3) {
+    transition-delay: 220ms;
+}
+
+.heroContent .reveal:nth-child(4) {
+    transition-delay: 300ms;
+}
+
+.kicker {
+    font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    font-size: 16px;
+    color: rgba(255, 255, 255, .78);
+}
+
+.hero-title {
+    margin-top: 14px;
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.02;
+    font-size: clamp(54px, 7vw, 96px);
+}
+
+.hero-subtitle {
+    margin-top: 14px;
+    font-size: clamp(22px, 3.2vw, 44px);
+    letter-spacing: -0.01em;
+    color: rgba(255, 255, 255, .92);
+}
+
+.hero-meta {
+    margin-top: 24px;
+    font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    font-size: 13px;
+    color: rgba(255, 255, 255, .70);
+}
+
+/* ===================== TYPOGRAPHY ===================== */
+
+.sectionTitle {
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.08;
+    font-size: clamp(28px, 2.2vw, 42px);
+    margin: 0 0 22px;
+    text-align: center;
+}
+
+.prose {
+    font-size: clamp(17px, 1.4vw, 20px);
+    line-height: 1.62;
+    color: rgba(255, 255, 255, .82);
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.prose p {
+    margin: 0 0 22px;
+}
+
+.prose-heading {
+    font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 17px;
+    font-weight: 500;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, .50);
+    margin: 48px 0 14px;
+}
+
+.prose-heading:first-child {
+    margin-top: 0;
+}
+
+.poem-credit {
+    margin-top: 20px;
+    font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    font-size: 12px;
+    color: rgba(255, 255, 255, .64);
+}
+
+/* ===================== CONTENTS SECTION ===================== */
+
+.contents {
+    margin-top: 78px;
+    padding-top: 28px;
+}
+
+.contentsBlock {
+    display: grid;
+    grid-template-columns: 90px 1fr;
+    gap: 22px;
+    padding: 18px 0;
+}
+
+.contentsBlock:last-child {
+    border-bottom: none;
+}
+
+.toc-num {
+    font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    font-size: 16px;
+    color: rgba(255, 255, 255, .70);
+    padding-top: 0px;
+}
+
+.toc-title {
+    font-size: 20px;
+    letter-spacing: -0.01em;
+    color: rgba(255, 255, 255, .92);
+    max-width: none;
+    width: 100%;
+    font-weight: 300;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    overflow-wrap: normal;
+    word-break: normal;
+}
+
+.toc-subtitle {
+    margin-top: 6px;
+    font-size: 18px;
+    font-weight: 50;
+    color: rgb(255, 255, 255);
+    font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.contentsDivider {
+    margin: 22px 0 8px;
+    font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    font-size: 16px;
+    color: rgba(255, 255, 255, .75);
+}
+
+.toc-header {
+    margin: 22px 0 8px;
+    font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    font-size: 16px;
+    color: rgba(255, 255, 255, .75);
+}
+
+.toc-book-title {
+    margin: 30px 0 6px;
+    font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    font-size: 20px;
+    color: rgba(255, 255, 255, .86);
+}
+
+.toc-book-subtitle {
+    margin: 0 0 10px;
+    font-size: 20px;
+    letter-spacing: -0.01em;
+    color: rgba(255, 255, 255, .78);
+}
+
+.toc-book-meta {
+    margin: 0 0 18px;
+    font-size: 16px;
+    line-height: 1.55;
+    color: rgba(255, 255, 255, .62);
+    font-style: normal;
+    letter-spacing: 0;
+    text-transform: none;
+    padding: 20px;
+}
+
+.toc-detail {
+    display: block;
+    margin-top: 6px;
+    font-size: 17px;
+    line-height: 1.45;
+    color: rgba(255, 255, 255, .62);
+    font-style: italic;
+    letter-spacing: 0;
+    text-transform: none;
+}
+
+/* ===================== LINKS IN CONTENTS ===================== */
+
+.toc-book-title a,
+.toc-book-subtitle a,
+.contentsDivider a {
+    color: inherit;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.toc-book-title a:hover,
+.toc-book-subtitle a:hover,
+.contentsDivider a:hover {
+    opacity: .78;
+}
+
+.toc-book-title a::after,
+.toc-book-subtitle a::after {
+    pointer-events: none;
+}
+
+.toc-book-title *,
+.toc-book-subtitle *,
+.contentsDivider * {
+    cursor: pointer;
+}
+
+/* ===================== CONTENTS SECTION LAYOUT ===================== */
+
+#contents {
+    padding-top: 80px;
+}
+
+#contents .sectionTitle {
+    text-align: center;
+    margin-bottom: 38px;
+}
+
+#contents .contents {
+    text-align: center;
+    border-top: none !important;
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+}
+
+#contents .contents::before {
+    display: none !important;
+}
+
+#contents .toc-header,
+#contents .toc-book-title,
+#contents .toc-book-subtitle,
+#contents .toc-book-meta,
+#contents .contentsDivider {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#contents .contentsBlock {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 0;
+    border-bottom: none !important;
+    border-top: none !important;
+}
+
+#contents .contentsBlock+.contentsBlock {
+    margin-top: 8px;
+    border-top: none !important;
+}
+
+#contents .contentsBlock::after {
+    display: none !important;
+}
+
+#contents .toc-num {
+    padding-top: 0;
+    margin: 0 auto 10px;
+    opacity: 0.65;
+    font-size: 18px;
+    letter-spacing: .16em;
+}
+
+#contents .toc-title {
+    text-align: center;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+    max-width: 46ch;
+    font-size: 22px;
+    font-weight: 500;
+}
+
+#contents .toc-subtitle {
+    text-align: center;
+    max-width: 54ch;
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.52);
+}
+
+/* Framed divider labels */
+#contents .contentsDivider {
+    display: block;
+    width: fit-content;
+    max-width: calc(100% - 40px);
+    padding: 14px 14px;
+    border: 1px solid rgba(255, 255, 255, 0.20);
+    border-radius: 0;
+    margin: 32px auto 18px;
+    font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.78);
+    background: rgba(0, 0, 0, 0.18);
+    box-sizing: border-box;
+}
+
+#contents .toc-book-title {
+    display: block;
+    width: fit-content;
+    max-width: calc(100% - 40px);
+    padding: 0px 6px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 0;
+    margin: 26px auto 0;
+}
+
+#contents .toc-book-subtitle {
+    display: block;
+    width: fit-content;
+    max-width: calc(100% - 40px);
+    padding: 5px 0px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 0;
+    margin: 0px auto 0;
+}
+
+/* ===================== PLATES ===================== */
+
+.platesIntro {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 22px;
+    align-items: center;
+    text-align: center;
+}
+
+.platesIntro .prose {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+.plate {
+    margin: 0;
+    border: none;
+    background: transparent;
+}
+
+.plate img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform .9s cubic-bezier(.2, .7, .2, 1), filter .6s ease;
+}
+
+.plate figcaption {
+    margin-top: 12px;
+    padding: 0;
+    max-width: 52ch;
+    font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 14px;
+    line-height: 1.6;
+    letter-spacing: .04em;
+    text-transform: none;
+    color: rgba(255, 255, 255, .62);
+}
+
+.plate:hover img {
+    transform: scale(1.015);
+    filter: brightness(1.05);
+}
+
+/* ===================== MOSAIC PLATES ===================== */
+
+#plates {
+    background: #000;
+    padding-bottom: 120px;
+}
+
+#plates .mosaic {
+    column-count: 4;
+    column-gap: 20px;
+    padding: 60px 40px 0 40px;
+}
+
+#plates .mosaic figure {
+    break-inside: avoid;
+    margin: 0 0 20px 0;
+}
+
+#plates .mosaic img {
+    width: 100%;
+    height: auto;
+    display: block;
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Cline x1='16' y1='6' x2='16' y2='26' stroke='white' stroke-width='2'/%3E%3Cline x1='6' y1='16' x2='26' y2='16' stroke='white' stroke-width='2'/%3E%3C/svg%3E") 16 16, auto;
+    transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+#plates .mosaic figure:nth-child(odd):hover img {
+    box-shadow:
+        0 0 0 7px #ffffff,
+        0 0 20px rgba(255, 79, 216, 0.6);
+}
+
+#plates .mosaic figure:nth-child(even):hover img {
+    box-shadow:
+        0 0 0 7px #ffffff,
+        0 0 20px rgba(0, 255, 200, 0.6);
+}
+
+/* ===================== LIGHTBOX ===================== */
+
+.lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.95);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s ease;
+    z-index: 9999;
+}
+
+.lightbox.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.lightbox img {
+    max-width: 92vw;
+    max-height: 92vh;
+    object-fit: contain;
+}
+
+.lightboxClose {
+    position: absolute;
+    top: 28px;
+    right: 28px;
+    width: 32px;
+    height: 32px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.lightboxClose span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 22px;
+    height: 2px;
+    background: white;
+    transform-origin: center;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.lightboxClose span:first-child {
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.lightboxClose span:last-child {
+    transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.lightboxClose:hover span {
+    opacity: 0.7;
+}
+
+/* ===================== 3D SCROLL STAGE ===================== */
+
+.scrollStage {
+    min-height: 484vh;
+    position: relative;
+}
+
+.stickyCenter {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    display: grid;
+    place-items: center;
+}
+
+#stage model-viewer {
+    width: 1400px;
+    height: 1400px;
+    max-width: 100vw;
+    max-height: 120vh;
+    background: transparent;
+    outline: none;
+    display: block;
+    --progress-bar-height: 0px;
+    opacity: 0;
+    transition: opacity 180ms linear;
+    will-change: transform;
+    transform: translateZ(0);
+    contain: layout style;
+}
+
+#stage model-viewer.isReady {
+    opacity: 1;
+}
+
+.hint {
+    position: fixed;
+    left: 50%;
+    bottom: 80px;
+    transform: translateX(-50%);
+    font-family: "Space Grotesk", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+    color: rgba(255, 255, 255, 0.75);
+    user-select: none;
+    pointer-events: none;
+    mix-blend-mode: screen;
+    opacity: 0;
+    transition: opacity 520ms ease;
+}
+
+.hint.show {
+    opacity: 1;
+}
+
+.hint.hide {
+    opacity: 0;
+}
+
+.enterRig {
+    width: 100vw;
+    height: 100vh;
+    display: grid;
+    place-items: center;
+    transform: translateY(0);
+    opacity: 0;
+    will-change: opacity;
+}
+
+.enterRig.entered {
+    animation: enterRise 2400ms cubic-bezier(0.2, 0.9, 0.2, 1) both;
+}
+
+@keyframes enterRise {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.hoverRig {
+    width: 100vw;
+    height: 100vh;
+    display: grid;
+    place-items: center;
+    will-change: transform;
+    animation: hoverFloat 4.5s ease-in-out infinite;
+    transform: translate3d(0, 0, 0);
+    isolation: isolate;
+}
+
+@keyframes hoverFloat {
+    0% {
+        transform: translate3d(0, 10px, 0) scale(0.995);
+    }
+
+    50% {
+        transform: translate3d(0, -28px, 0) scale(1.01);
+    }
+
+    100% {
+        transform: translate3d(0, 10px, 0) scale(0.995);
+    }
+}
+
+/* ===================== BOOK INTRO SECTION ===================== */
+
+#bookIntro {
+    margin-top: 0;
+    padding-top: 0;
+}
+
+#bookIntro .heroContent {
+    padding-top: 12vh;
+    padding-bottom: 8vh;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#bookIntro .prose {
+    max-width: 70ch;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: justify;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+}
+
+/* ===================== IMAGES ===================== */
+
+/* Portrait image — constrained height (90vh), natural width */
+figure.image-tall {
+    display: block;
+    width: fit-content;
+    margin: 32px auto 54px auto;
+    padding: 0 28px;
+    max-width: 100%;
+}
+
+.prose+figure.image-tall {
+    margin-top: 54px;
+}
+
+figure.image-tall img {
+    display: block;
+    height: 90vh;
+    width: auto;
+    max-width: 100%;
+    margin: 0;
+}
+
+figure.image-tall figcaption {
+    display: block;
+    margin: 14px 0 0 0;
+    max-width: 720px;
+    text-align: left;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 14px;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, .6);
+}
+
+/* Landscape image — wide viewport width (70vw) */
+figure.image-wide {
+    display: block;
+    max-width: 70ch;
+    width: 100%;
+    margin: 32px auto 40px auto;
+    padding: 0;
+    text-align: center;
+    font-size: clamp(17px, 1.4vw, 20px);
+}
+
+figure.image-wide img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+figure.image-wide figcaption {
+    display: block;
+    margin: 14px 0 0 0;
+    text-align: left;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 14px;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, .6);
+}
+
+/* Landscape/comparison image — fills full wrap width, preserves natural aspect ratio */
+figure.image-landscape {
+    display: block;
+    margin: 32px 0 40px 0;
+    padding: 0;
+}
+
+figure.image-landscape img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+figure.image-landscape figcaption {
+    display: block;
+    margin: 14px 0 0 0;
+    text-align: left;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 14px;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, .6);
+}
+
+/* Hero image — 80vw centred, breaks out of wrap constraints */
+figure.image-hero {
+    display: block;
+    width: 80vw;
+    margin: 60px 0 40px calc(50% - 40vw);
+    padding: 0;
+}
+
+figure.image-hero img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+figure.image-hero figcaption {
+    display: block;
+    margin: 14px 0 0 0;
+    max-width: 720px;
+    text-align: left;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 14px;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, .6);
+}
+
+/* ===================== PROSE LEFT (left-aligned body text) ===================== */
+
+.prose-left {
+    font-size: clamp(17px, 1.4vw, 20px);
+    line-height: 1.62;
+    color: rgba(255, 255, 255, .82);
+    text-align: left;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    margin-top: -10px;
+}
+
+.prose-left p {
+    margin: 0 0 22px;
+}
+
+/* ===================== POEM ===================== */
+
+.poem {
+    max-width: 720px;
+    margin: 0 auto 60px auto;
+    padding: 0 28px;
+    font-size: clamp(18px, 1.6vw, 22px);
+    line-height: 1.6;
+    color: rgba(255, 255, 255, .88);
+    text-align: center;
+}
+
+.poem .poem-credit {
+    display: block;
+    margin-top: 11px;
+    text-align: center;
+}
+
+/* ===================== GLYPH AUDIO PLAYER ===================== */
+
+.audioSample.glyphAudio {
+    margin-top: 40px;
+    margin-bottom: 90px;
+    padding-top: 0;
+    text-align: center;
+}
+
+.glyphAudio .glyphStage {
+    position: relative;
+    width: 100%;
+    height: clamp(800px, 90vh, 900px);
+    border-radius: 0;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40'%3E%3Ctext x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' font-size='14' font-family='monospace' fill='rgba(255,255,255,0.10)'%3E%2B%3C/text%3E%3C/svg%3E") repeat,
+        #000;
+}
+
+.glyphAudio .glyphCanvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    z-index: 0;
+    opacity: 0;
+    transition: opacity 600ms ease;
+}
+
+.glyphAudio .audioCardWrap {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    z-index: 2;
+    pointer-events: none;
+    padding: 24px;
+}
+
+.glyphAudio .audioCard {
+    pointer-events: auto;
+    width: min(640px, calc(100% - 48px));
+    border-radius: 0;
+    padding: 18px 18px 16px;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.62);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    box-shadow: 0 18px 60px rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    text-align: center;
+}
+
+.glyphAudio .audioTitle {
+    font-size: 20px;
+    letter-spacing: 0.2px;
+    margin: 0 0 6px 0;
+    opacity: 0.95;
+    text-align: center;
+}
+
+.glyphAudio .audioSub {
+    font-size: 18px;
+    margin: 0 0 14px 0;
+    opacity: 0.78;
+    line-height: 1.35;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+}
+
+.glyphAudio .audioRow {
+    display: grid;
+    grid-template-columns: 44px 1fr auto;
+    gap: 12px;
+    align-items: center;
+}
+
+.glyphAudio .playBtn {
+    width: 44px;
+    height: 44px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: rgba(255, 255, 255, 0.06);
+    color: #fff;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    user-select: none;
+    transition: transform 160ms ease, background 160ms ease, border-color 160ms ease;
+}
+
+.glyphAudio .playBtn:hover {
+    transform: translateY(-1px);
+    background: rgba(255, 255, 255, 0.09);
+    border-color: rgba(255, 255, 255, 0.26);
+}
+
+.glyphAudio .playBtn:active {
+    transform: translateY(0px) scale(0.98);
+}
+
+.glyphAudio .playIcon {
+    width: 18px;
+    height: 18px;
+    display: block;
+}
+
+.glyphAudio input[type="range"].progress {
+    width: 100%;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 6px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.16);
+    outline: none;
+    cursor: pointer;
+}
+
+.glyphAudio input[type="range"].progress::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid rgba(0, 0, 0, 0.35);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+}
+
+.glyphAudio input[type="range"].progress::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid rgba(0, 0, 0, 0.35);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+}
+
+.glyphAudio .time {
+    font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    font-size: 12px;
+    opacity: 0.78;
+    white-space: nowrap;
+}
+
+.glyphAudio .barWrap {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+}
+
+/* ===================== FOOTER NAV ===================== */
+
+.footerNav {
+    display: flex;
+    justify-content: center;
+    padding: 0px 0 0;
+}
+
+.footerBtn {
+    font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    font-size: 12px;
+    color: rgba(255, 255, 255, .78);
+    padding: 12px 28px;
+    border: 1px solid rgba(255, 255, 255, .18);
+    text-decoration: none;
+    transition: background 200ms ease, color 200ms ease;
+}
+
+.footerBtn:first-child {
+    border-right: none;
+}
+
+.footerBtn:hover {
+    background: rgba(255, 255, 255, .10);
+    color: #fff;
+}
+
+.footerDivider {
+    width: 70%;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.12);
+    margin: 56px 0 0;
+}
+
+footer .colophonMeta {
+    color: #ffffff;
+    opacity: 0.35;
+    padding-bottom: 48px;
+    margin-top: 10px;
+}
+
+footer {
+    font-family: "Space Grotesk";
+    padding: 90px 0 10px;
+    text-align: center;
+}
+
+.colophon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* ===================== RESPONSIVE ===================== */
+
+@media (max-width: 960px) {
+    section {
+        padding: 46px 0;
+    }
+
+    .contentsBlock {
+        grid-template-columns: 70px 1fr;
+    }
+}
+
+/* ── MOBILE NAV — Menu toggle button (hidden by default) ────── */
+
+.menuToggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, .28);
+    color: rgba(255, 255, 255, .82);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    /* letter-spacing adds .18em of space *after* the last character too,
+       shifting the text visually right of centre. Compensate with matching
+       padding-left so the optical centre aligns with the box centre. */
+    padding: 7px 0 7px .3em;
+    width: 60px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: border-color 200ms ease, color 200ms ease;
+    flex-shrink: 0;
+}
+
+.menuToggle:hover {
+    border-color: rgba(255, 255, 255, .55);
+    color: #fff;
+}
+
+/* ── FULL-SCREEN PANEL ──────────────────────────────────────── */
+
+.navPanel {
+    position: fixed;
+    inset: 0;
+    z-index: 1002;
+    background: rgba(3, 3, 3, .97);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    opacity: 0;
+    transition: opacity 500ms ease;
+    pointer-events: none;
+}
+
+.navPanel.is-open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* ── CLOSE BUTTON ───────────────────────────────────────────── */
+
+.navPanelClose {
+    position: absolute;
+    top: calc(var(--navH) / 2);
+    right: max(28px, calc((100% - var(--max)) / 2 + 28px));
+    transform: translateY(-50%);
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, .28);
+    color: rgba(255, 255, 255, .72);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    padding: 7px 0 7px .3em;
+    width: 60px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: border-color 180ms ease, color 180ms ease;
+}
+
+.navPanelClose:hover {
+    border-color: rgba(255, 255, 255, .55);
+    color: #fff;
+}
+
+/* ── PANEL LINKS ────────────────────────────────────────────── */
+
+.navPanelLinks {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    padding: var(--navH) 0;
+    box-sizing: border-box;
+}
+
+.navPanelLinks a {
+    display: inline-block;
+    text-decoration: none;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: clamp(14px, 3.8vw, 20px);
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, .65);
+    -webkit-tap-highlight-color: transparent;
+    transition: color 160ms ease;
+    padding: 6px 20px;
+    cursor: pointer;
+}
+
+.navPanelLinks a:hover,
+.navPanelLinks a.is-active {
+    color: #fff;
+}
+
+/* ── 900px: swap inline nav → MENU button ───────────────────── */
+
+@media (max-width: 900px) {
+    .navLinks {
+        display: none;
+    }
+
+    .menuToggle {
+        display: flex;
+        margin-left: auto;
+    }
+
+    .navPanelClose {
+        right: 20px;
+    }
+
+    .navInner {
+        padding: 0 20px;
+    }
+
+    .wrap,
+    .wrapNarrow {
+        padding: 0 20px;
+    }
+}
+
+@media (max-width: 640px) {
+    :root {
+        --navH: 56px;
+    }
+
+    .brand {
+        font-size: 19px;
+    }
+
+    .navInner {
+        padding: 0 20px;
+    }
+
+    .navPanelClose {
+        right: 20px;
+    }
+
+    /* Body prose: 16px, left-aligned, no hyphens on mobile */
+    #bookIntro .prose {
+        font-size: 17px;
+        font-weight: 400;
+        text-align: left;
+        hyphens: none;
+        -webkit-hyphens: none;
+    }
+
+    .navLinks {
+        gap: 10px;
+    }
+
+    .navLinks a {
+        font-size: 11px;
+        letter-spacing: .12em;
+        padding: 10px 6px;
+    }
+
+    /* prose-left: 50% looks fine on desktop but is too narrow on mobile */
+    .prose-left {
+        width: 100%;
+        margin-top: 0;
+        padding: 0 20px;
+    }
+
+    /* Hint text: scale down so it stays on one line on narrow phones */
+    .hint {
+        font-size: 16px;
+        letter-spacing: 0.04em;
+        bottom: 60px;
+    }
+
+    /* Audio player: halve the vertical gap above and below */
+    .audioSample.glyphAudio {
+        margin-top: 20px;
+        margin-bottom: 45px;
+    }
+
+    /* Audio stage: drop the 800px minimum — let it breathe at mobile height */
+    .glyphAudio .glyphStage {
+        height: clamp(480px, 90vh, 900px);
+    }
+
+    /* ── Mobile image fixes: all figures match text column width ── */
+
+    /* Portrait tall images: drop fixed 90vh height, go full-width */
+    figure.image-tall {
+        width: 100%;
+        padding: 0 20px;
+        margin: 24px 0 48px;
+        box-sizing: border-box;
+    }
+
+    /* Inside .wrap the wrap's own padding already provides the gutter,
+       so strip the extra padding to avoid double-indent */
+    .wrap figure.image-tall,
+    .wrapNarrow figure.image-tall {
+        padding: 0;
+    }
+
+    figure.image-tall img {
+        width: 100%;
+        height: auto;
+        max-width: 100%;
+    }
+
+    figure.image-tall figcaption {
+        max-width: 100%;
+    }
+
+    /* Tall portrait image-wide (e.g. buddhas scroll): cap height on mobile */
+    figure.image-wide img {
+        max-height: 85vh;
+        width: auto;
+        max-width: 100%;
+        margin: 0 auto;
+    }
+
+    /* Centered images */
+    figure.image-centered {
+        padding: 0;
+        margin: 24px 0 32px;
+    }
+
+    /* Hero bleed images: undo the calc() bleed, match text width */
+    figure.image-hero {
+        width: 100%;
+        margin: 32px 0 40px 0;
+        padding: 0;
+    }
+
+    /* Full-width diagram images */
+    figure.image-full {
+        padding: 0;
+        margin: 40px 0 48px;
+    }
+
+    /* Image compare slider: remove side padding */
+    figure.image-compare {
+        width: 100%;
+        padding: 0;
+        margin: 24px 0 48px;
+    }
+
+    /* Tall compare base image: drop fixed height */
+    .compareImgBase {
+        height: auto;
+        width: 100%;
+    }
+
+    /* Mosaic grid: single column on mobile — each plate full width */
+    .mosaic,
+    #plates .mosaic {
+        grid-template-columns: 1fr;
+        gap: 4px;
+        padding: 24px 0 0 0;
+        column-count: 1;
+    }
+}
+
+@media (max-width: 520px) {
+    .glyphAudio .audioRow {
+        grid-template-columns: 44px 1fr;
+        grid-auto-rows: auto;
+    }
+
+    .glyphAudio .time {
+        grid-column: 1 / -1;
+        justify-self: end;
+        margin-top: 8px;
+    }
+}
+
+/* ===================== DIAGRAM ===================== */
+
+figure.image-full {
+    display: block;
+    margin: 72px auto 80px auto;
+    padding: 0 28px;
+    max-width: 100%;
+}
+
+figure.image-full img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+figure.image-full figcaption {
+    display: block;
+    margin: 14px 0 0 0;
+    max-width: 720px;
+    text-align: left;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 14px;
+    color: rgba(255, 255, 255, .6);
+}
+
+.image-full-thin {
+    margin-top: 0px;
+    padding-top: 22px;
+}
+
+.image-full-thin img {
+    width: auto;
+    height: 80%;
+    display: block;
+    margin: 0 auto;
+}
+
+/* ===================== POEM SECTION ===================== */
+
+#poem-section {
+    padding-top: 0;
+}
+
+#poem-section figure {
+    margin: auto;
+}
+
+#poem-section figcaption {
+    margin-left: 0px;
+    margin-top: 14px;
+    max-width: 72ch;
+    font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 14px;
+    line-height: 1.6;
+    letter-spacing: .04em;
+    color: rgba(255, 255, 255, .62);
+
+}
+
+.poem-section {
+    margin: 60px 0 80px 0;
+    text-align: center;
+}
+
+.poem-inner {
+    max-width: 68ch;
+    margin: 0 auto;
+    font-size: clamp(18px, 1.6vw, 24px);
+    line-height: 1.6;
+    letter-spacing: -0.01em;
+    color: rgba(255, 255, 255, .92);
+}
+
+.poem-section .poem-line {
+    display: block;
+    margin-bottom: 10px;
+}
+
+
+
+
+
+.mosaic {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+}
+
+.mosaicCol {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+
+
+
+
+/* ── Three.js Multi-Model sections ── */
+section[id^="model3d-"] {
+    background: transparent;
+    padding: 0;
+}
+
+section[id^="model3d-"] .model3dStage {
+    height: var(--model3dStageHeight, 900vh);
+    position: relative;
+}
+
+section[id^="model3d-"] .model3dSticky {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+section[id^="model3d-"] .model3dViewport {
+    width: min(1800px, 96vw);
+    height: 85vh;
+    background: #000;
+    overflow: hidden;
+    position: relative;
+    pointer-events: auto;
+}
+
+canvas[id^="model3dCanvas-"] {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.model3dOverlay {
+    position: absolute;
+    inset: 0;
+    background: #000;
+    opacity: 1;
+    pointer-events: none;
+    transition: opacity 0.15s linear;
+}
+
+.model3dOverlay.is-hidden {
+    opacity: 0;
+}
+
+[id^="model3dHint-"] {
+    position: absolute;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    padding: 10px 14px;
+    opacity: 0;
+    transition: opacity 180ms ease;
+    pointer-events: none;
+}
+
+[id^="model3dHint-"].show {
+    opacity: 1;
+}
+
+[id^="model3dHint-"].hide {
+    opacity: 0;
+}
+
+.model3dCaption {
+    padding: 0;
+    margin-top: -3vh;
+    max-width: 720px;
+    font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    font-size: 14px;
+    line-height: 1.6;
+    letter-spacing: 0.03em;
+    color: rgba(255, 255, 255, .6);
+    text-align: left;
+}
+
+
+
+
+
+
+
+
+/* ===================== IMAGE COMPARISON SLIDER ===================== */
+
+figure.image-compare {
+    display: block;
+    width: fit-content;
+    margin: 32px auto 80px auto;
+    padding: 0 28px;
+    max-width: 100%;
+}
+
+figure.image-compare figcaption {
+    display: block;
+    margin: 14px 0 0 0;
+    max-width: 720px;
+    text-align: left;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 14px;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, .6);
+}
+
+.compareStage {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    cursor: ew-resize;
+    user-select: none;
+    -webkit-user-select: none;
+    width: fit-content;
+    margin: 0 auto;
+}
+
+.compareImgBase {
+    display: block;
+    height: 90vh;
+    width: auto;
+    max-width: 100%;
+    pointer-events: none;
+}
+
+.compareImgOverlay {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    /* height is set inline by JS, starts at 50% — clips from top */
+    height: 50%;
+    top: 0;
+}
+
+.compareImgOverlay img {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    object-position: top left;
+    pointer-events: none;
+}
+
+/* The horizontal dividing bar */
+.compareHandle {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 48px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    cursor: ns-resize;
+    z-index: 4;
+}
+
+.compareBar {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 2px;
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+    pointer-events: none;
+}
+
+.compareKnob {
+    position: relative;
+    z-index: 5;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.95);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000;
+    box-shadow: 0 2px 14px rgba(0, 0, 0, 0.4);
+    transition: transform 120ms ease;
+    flex-shrink: 0;
+}
+
+.compareStage:active .compareKnob,
+.compareHandle:focus .compareKnob {
+    transform: scale(1.12);
+}
+
+.compareKnob svg {
+    width: 18px;
+    height: 18px;
+    transform: rotate(90deg);
+    /* reuse arrow icon, rotate to point up/down */
+}
+
+/* Before / After labels */
+.compareLabel {
+    position: absolute;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 11px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, .88);
+    background: rgba(0, 0, 0, 0.45);
+    padding: 5px 10px;
+    pointer-events: none;
+    z-index: 3;
+    left: 16px;
+}
+
+.compareLabel--before {
+    top: 16px;
+}
+
+.compareLabel--after {
+    bottom: 16px;
+}
+
+/* ===================== IMAGE COMPARISON SLIDER — HORIZONTAL (vertical bar) ===================== */
+/* Add .compareStage--h to the compareStage div for a left/right split instead of top/bottom      */
+
+.compareStage--h {
+    cursor: ew-resize;
+    width: 100%;
+    max-width: 100%;
+}
+
+/* Base image: width-driven, auto height */
+.compareStage--h .compareImgBase {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 90vh;
+}
+
+/* Overlay container: full stage size — clipping done via clip-path set by JS,
+   so the img inside is never constrained to a narrow container */
+.compareStage--h .compareImgOverlay {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    clip-path: inset(0 50% 0 0);
+    /* JS overrides right value */
+}
+
+/* Overlay image: identical rules to base — must render at same pixel size */
+.compareStage--h .compareImgOverlay img {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 90vh;
+    pointer-events: none;
+}
+
+/* vertical dividing bar */
+.compareStage--h .compareHandle {
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    right: auto;
+    width: 48px;
+    height: 100%;
+    transform: translateX(-50%);
+    flex-direction: column;
+    cursor: ew-resize;
+}
+
+.compareStage--h .compareBar {
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    right: auto;
+    width: 2px;
+    height: 100%;
+    transform: translateX(-50%);
+}
+
+/* knob arrow points left/right */
+.compareStage--h .compareKnob svg {
+    transform: rotate(0deg);
+}
+
+/* labels: left / right instead of top / bottom */
+.compareStage--h .compareLabel {
+    left: auto;
+    top: auto;
+    bottom: auto;
+}
+
+.compareStage--h .compareLabel--before {
+    top: 16px;
+    left: 16px;
+}
+
+.compareStage--h .compareLabel--after {
+    top: 16px;
+    right: 16px;
+    left: auto;
+}
+
+/* ===================== BOOK V ADDITIONS ===================== */
+
+/* Page exit veil — sits above content (z 90) but below topnav (z 999) */
+#pageVeil {
+    position: fixed;
+    inset: 0;
+    background: #000;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 90;
+    transition: opacity 320ms ease;
+}
+
+body.is-exiting #pageVeil {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Pause hoverFloat animation when stage is offscreen */
+.hoverRig.anim-paused {
+    animation-play-state: paused;
+}
+
+/* Centered image — max-width constrained, centered, with caption */
+figure.image-centered {
+    max-width: 920px;
+    margin: 32px auto 40px auto;
+    text-align: center;
+    padding: 0 28px;
+}
+
+figure.image-centered img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+figure.image-centered figcaption {
+    margin: 14px auto 0;
+    max-width: 720px;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, .6);
+    text-align: center;
+}
+
+/* Audio card chapter label / title (used in glyph audio player) */
+.chapterLabel {
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.65);
+}
+
+.chapterTitle {
+    margin-top: 10px;
+    font-size: 21px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: white;
+}

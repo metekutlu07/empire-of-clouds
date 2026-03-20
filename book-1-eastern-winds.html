@@ -1,0 +1,690 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+  <!-- =============== Meta & SEO =============== -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#000000">
+  <meta name="author" content="Mete Kutlu">
+  <meta name="copyright" content="© 2026 Mete Kutlu. All rights reserved.">
+  <meta name="description"
+    content="Eastern Winds — Mythical Atmospheres along the Medieval Silk Road. Book I of Empire of Clouds by Mete Kutlu, tracing cloud cosmology from East Asia to the Ottoman world and its resonance with contemporary AI.">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Eastern Winds — Mythical Atmospheres along the Medieval Silk Road">
+  <meta property="og:description"
+    content="Book I of Empire of Clouds by Mete Kutlu. Tracing cloud cosmology from East Asian dragons to Ottoman miniatures and the age of AI.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://empireofclouds.com/book-1-eastern-winds.html">
+  <meta property="og:image" content="https://empireofclouds.com/images/book01/scroll/golden-sky.webp">
+  <meta property="og:image:alt" content="Curly clouds from a 16th-century Safavid miniature, Haft Awrang by Jami">
+  <meta property="og:site_name" content="Empire of Clouds">
+  <meta property="og:locale" content="en_US">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Eastern Winds — Mythical Atmospheres along the Medieval Silk Road">
+  <meta name="twitter:description"
+    content="Book I of Empire of Clouds by Mete Kutlu. Cloud cosmology from East Asia to the Ottoman world.">
+  <meta name="twitter:image" content="https://empireofclouds.com/images/book01/scroll/golden-sky.webp">
+  <meta name="twitter:image:alt" content="Curly clouds from a 16th-century Safavid miniature, Haft Awrang by Jami">
+
+  <link rel="canonical" href="https://empireofclouds.com/book-1-eastern-winds.html">
+  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Book",
+      "name": "Eastern Winds — Mythical Atmospheres along the Medieval Silk Road",
+      "alternateName": "Book I — Eastern Winds",
+      "author": {
+        "@type": "Person",
+        "name": "Mete Kutlu",
+        "url": "https://empireofclouds.com/author.html",
+        "sameAs": ["https://metekutlu.com"]
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Empire of Clouds"
+      },
+      "inLanguage": "en",
+      "url": "https://empireofclouds.com/book-1-eastern-winds.html",
+      "description": "Book I of Empire of Clouds. A research tracing cloud cosmology from East Asian dragons to Ottoman miniatures, exploring the roots of contemporary AI in ancient myth.",
+      "datePublished": "2025",
+      "image": "https://empireofclouds.com/images/book01/scroll/golden-sky.webp",
+      "isPartOf": {
+        "@type": "BookSeries",
+        "name": "Empire of Clouds",
+        "url": "https://empireofclouds.com/books.html"
+      }
+    }
+  </script>
+
+  <title>Eastern Winds · Empire of Clouds</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Unbounded:wght@500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <!-- importmap MUST come before any type="module" scripts -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
+
+  <!-- Model Viewer (Web Component) -->
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+
+  <!-- Three.js scene in its own module file — fully isolated scope -->
+  <script type="module" src="js/book-1-model-3d.js"></script>
+
+  <!-- =============== Styles =============== -->
+  <link rel="stylesheet" href="css/books-stylesheet.css">
+
+</head>
+
+<body>
+
+  <!-- ================= Top Navigation Bar ================= -->
+  <header class="topnav" id="topnav" aria-label="Primary">
+    <div class="navInner">
+      <a class="brand" href="index.html?skip=1" aria-label="Empire of Clouds home">
+        Empire of Clouds
+      </a>
+      <nav class="navLinks" aria-label="Site">
+        <a href="about.html">About</a>
+        <a href="author.html">Author</a>
+        <a class="is-active" href="books.html">Books</a>
+        <a href="partners.html">Partners</a>
+        <a href="https://www.dreampixels.cloud" target="_blank" rel="noopener">Dream Pixels</a>
+        <a href="waitlist.html">Waitlist</a>
+      </nav>
+      <button class="menuToggle" id="menuToggle" aria-label="Open navigation" aria-expanded="false"
+        aria-controls="navPanel">Menu</button>
+    </div>
+  </header>
+
+  <!-- ── Mobile nav panel ── -->
+  <nav class="navPanel" id="navPanel" aria-label="Mobile navigation" aria-hidden="true">
+    <button class="navPanelClose" id="navPanelClose" aria-label="Close navigation">Close</button>
+    <div class="navPanelLinks">
+      <a href="about.html">About</a>
+      <a href="author.html">Author</a>
+      <a class="is-active" href="books.html">Books</a>
+      <a href="partners.html">Partners</a>
+      <a href="https://www.dreampixels.cloud" target="_blank" rel="noopener">Dream Pixels</a>
+      <a href="waitlist.html">Waitlist</a>
+    </div>
+  </nav>
+
+  <!-- 3D Intro: scroll to open the book -->
+  <div class="scrollStage" id="stage" aria-label="3D book intro">
+    <div class="stickyCenter">
+      <div class="enterRig">
+        <div class="hoverRig">
+          <model-viewer id="book" src="3d/book-1.glb" interaction-prompt="none" disable-zoom disable-pan disable-rotate
+            shadow-intensity="0" exposure="0.85" environment-image="legacy" autoplay="false" ar="false"
+            camera-orbit="0deg 82deg 0.85m" min-camera-orbit="0deg 82deg 0.85m" max-camera-orbit="0deg 82deg 0.85m"
+            camera-target="0m -0.04m 0m" field-of-view="30deg" orientation="0deg 0deg 0deg">
+          </model-viewer>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hint">Scroll to open the book</div>
+
+  <!-- ================= Book Intro ================= -->
+  <section id="bookIntro">
+    <div class="wrap">
+
+      <div class="heroContent">
+        <div class="kicker reveal">Book I</div>
+        <div class="hero-title reveal">Eastern Winds</div>
+        <div class="hero-subtitle reveal">Mythical Atmospheres along the Medieval Silk Road</div>
+        <div class="hero-meta reveal">Empire of Clouds · Codes, Colors and Cosmos</div>
+      </div>
+
+      <div class="prose reveal" style="max-width: 70ch; margin-top: 40px;">
+
+        <h3 class="prose-heading">Hypothesis</h3>
+
+        <p>The cloud, once a central concept in premodern cosmology, has returned as the governing principle of our
+          technological
+          era. This research investigates the hypothesis that our cloud infrastructure is not a new invention, but the
+          technological return of an ancient, encodable matrix of the world. By bridging the mythical forerunners of the
+          Silk Road
+          with contemporary AI, we uncover a genealogy where code, atmosphere, and cosmos are once again entangled.</p>
+
+      </div>
+
+      <figure class="image-tall reveal">
+        <img src="images/book01/scroll/golden-sky.webp"
+          alt="Curly clouds in orange, red and purple racing past a golden sun — Safavid miniature from Haft Awrang by Jami, Mashad, 1565"
+          width="2000" height="1470" fetchpriority="high">
+        <figcaption>The curly clouds, symbolic form of the Turkish Renaissance. Borrowed from Chinese arts, these
+          whirling clouds
+          encapsulate a worldview that these paintings influenced by Sufi ideals render in vivid colors, intricate
+          details and
+          enigmatic compositions. The image depicts curly clouds racing past the golden sun and trail off pink rocky
+          outcrops. The
+          intertwined convolutes of orange, red, white and purplish gray visualize in mineral pigments the ungraspable
+          cosmic
+          scarf of lovers. This energetic atmosphere is from a miniature of Salaman and Absal reposing on an island from
+          the
+          Safavid prince Sultan Ibrahim Mirza’s <em>Haft Awrang</em> (Seven Thrones) written by Jami, probably Mashad
+          (Iran), 1565. Freer
+          Gallery of Art, 46.12, folio 194b.
+        </figcaption>
+      </figure>
+
+      <figure class="image-tall reveal">
+        <img src="images/book01/scroll/storm.webp"
+          alt="Spiraling cloud bands of a hurricane over the Pacific Ocean near Alaska — photograph from ISS Expedition 57, 17 December 2018, NASA Johnson Space Center"
+          width="2000" height="1333">
+        <figcaption><strong>Spiraling cloud bands of a hurricane over the Pacific Ocean, near Alaska.</strong>
+          Photograph captured during ISS Expedition 57,
+          17 December 2018. In Turkish and Persian miniature painting, clouds are not depicted as they appear from the
+          ground but
+          as symbols of their fundamental principle, turbulence. Image: NASA Johnson Space Center, Earth Science and
+          Remote
+          Sensing Unit, JSC Gateway to Astronaut Photography of Earth.
+        </figcaption>
+      </figure>
+
+      <figure class="image-tall reveal">
+        <img src="images/book01/scroll/submarine-cables.webp"
+          alt="Indo-Pacific submarine cable network map — the physical nervous system of global cloud computation spanning the ocean floor, TeleGeography Submarine Cable Map 2024"
+          width="2000" height="1753">
+        <figcaption><strong>A fragment of the vast planetary infrastructure of the cloud in the Indo-Pacific
+            region.</strong> Beneath the oceans runs the physical nervous system of global computation, extending the
+          ancient metaphor of the cloud
+          into a material network spanning the Earth.
+          Image: Center for Strategic & International Studies, TeleGeography, Submarine Cable Map 2024.
+        </figcaption>
+      </figure>
+
+      <div class="prose reveal" style="max-width: 70ch; margin-top: 40px;">
+
+        <h3 class="prose-heading">The Spiral of History</h3>
+
+        <p>History is not a linear sequence but a turbulent spiral where past and future fold into one another. As the
+          rigid maps
+          of the Renaissance fail to orient us in the digital age, we search for alternative reference points such as
+          postmodern
+          archaism, electronomadism, digital handicrafts, neomedievalism, and the digital baroque. This inquiry is
+          rooted in my
+          time at the offices of Kengo Kuma and SANAA, where I encountered the notion of a “primitive future” expressed
+          through
+          blurred and ambiguous spaces. At the heart of this movement lies the cloud, functioning simultaneously as a
+          global
+          infrastructure and a sacred symbol.
+        </p>
+
+      </div>
+
+      <figure class="image-tall reveal">
+        <img src="images/book01/scroll/spiral-history.webp"
+          alt="Spiral timeline of Chinese history from 1.7 million years ago to the Revolution of 1911 — diagram by Fan Zeng showing dynasties as concentric spiral arms. Image: DoomGT, Flickr"
+          width="2000" height="1421">
+        <figcaption><strong>Spiral timeline of Chinese history.</strong> Overview of Ancient Chinese
+          History from 1.7 million years ago to the Revolution of 1911, by Fan Zeng. Image: DoomGT, Flickr.
+        </figcaption>
+      </figure>
+
+      <figure class="image-tall reveal">
+        <img src="images/book01/scroll/sanaa-rolex.webp"
+          alt="Interior of the Rolex Learning Center by SANAA, Lausanne, Switzerland, 2010 — continuous curved surfaces and glass facades dissolving spatial boundaries. Photograph by Mete Kutlu, 2015"
+          width="2000" height="1333">
+        <figcaption><strong>A clouded vision: being everywhere and nowhere.</strong> Spatial ambiguity and space as
+          threshold. Metal panels, glass façades,
+          white walls, and continuous curved surfaces multiply reflections and dissolve spatial boundaries, confusing
+          the
+          perception of place and presence. Rolex Learning Center designed by SANAA, Lausanne, Switzerland, 2010.
+          Photograph by
+          Mete Kutlu, 2015.
+        </figcaption>
+      </figure>
+
+      <div class="prose reveal" style="max-width: 70ch; margin-top: 40px;">
+
+        <h3 class="prose-heading">Thought Beyond Intelligence</h3>
+
+        <p>As we delegate our cognitive functions to machines, we risk losing the very trait with which we have
+          identified
+          ourselves as <em>Homo sapiens</em>, the human who knows. In response, we must reclaim uniquely human modes of
+          thought
+          to survive
+          the age of AI. Confronted by the speed and opacity of neural networks, we turn back to myths as flexible tools
+          for
+          navigating complexity. We explore concepts such as competence without comprehension, nonconscious cognition,
+          and the art
+          of thinking the unthinkable. Yet these questions are not entirely new. Along the Silk Road, a striking myth
+          invites us
+          to ponder the nature of thought and creativity: the famous contest between the Chinese and Roman painters at
+          the court
+          of Alexander the Great.
+        </p>
+
+      </div>
+
+      <div class="prose reveal" style="max-width: 70ch; margin-top: 40px;">
+
+        <h3 class="prose-heading">Dragon’s Breath</h3>
+
+        <p>This chapter traces the cloud’s emergence as a cosmological symbol in East Asia. Originating in the dynamic
+          monsoon
+          climate of Neolithic China, the cloud was seen as an auspicious harbinger of abundance, standing in contrast
+          to the
+          obscuring clouds of Western thought. Clouds embodied <em>qi</em>, the vital energy of the cosmos. They are the
+          exhalations of
+          dragons and the vehicles of gods. Watched as celestial prophecies alongside stars, they revealed the hidden
+          rhythms of
+          the universe. Chinese and Japanese painters used these clouds and mist to evoke this invisible yet omnipresent
+          energy,
+          creating open-ended and networked immersive visions.
+        </p>
+
+      </div>
+
+      <figure class="image-wide reveal">
+        <img src="images/book01/scroll/buddhas.webp"
+          alt="Amida and the Twenty-Five Bodhisattvas descending on luminous golden clouds — Muromachi period silk hanging scroll, 16th century, Nara National Museum"
+          width="1052" height="2000">
+        <figcaption><strong>Clouds as vehicles moving between Earth and Heaven.</strong> They serve as interdimensional
+          transportation
+          means for
+          gods, immortals, and enlightened beings known as bodhisattvas. The clouds bring luminous beings depicted
+          entirely in
+          gold. They connect the realm of light to the realm of matter. The painting depicts Amida and the Twenty-Five
+          Bodhisattvas Coming to
+          Welcome the Deceased. Muromachi period, 16th century, color on silk hanging scroll. Paper size: 107.9 x 57 cm.
+          Nara
+          National Museum, Nara, Japan, 1524-0, H055564.
+        </figcaption>
+      </figure>
+
+      <div class="prose reveal" style="max-width: 70ch; margin-top: 40px;">
+
+        <h3 class="prose-heading">The Turkish Storm</h3>
+
+        <p>Asian dragons and clouds traveled on the banners of Turkish and Mongol empires, from the Pacific to the
+          Mediterranean,
+          from Khanbaliq (Beijing) to Constantinople. These Chinese clouds would even drift over the French and Italian
+          rivieras
+          when Matrakçı Nasuh, the da Vinci of the Ottomans, depicted the cities he saw from a ship during joint
+          Franco-Turkish
+          military campaigns. We explore the inclusive and cosmopolitan culture of the nomads, not as barbarians but as
+          builders
+          of civilization. Along the Silk Road, a myth arose of Turkish princes as curious patrons of art, collecting
+          the “eyes of
+          the world.” We trace the flowering of this vision in the Turkish Renaissance of Samarkand (Uzbekistan) and
+          Herat
+          (Afghanistan). We compare the spatial compositions of two miniatures with two examples of contemporary
+          architecture,
+          revealing a shared skepticism of rationalist expression and of rigid linear hierarchies.
+        </p>
+
+      </div>
+
+      <figure class="image-tall reveal">
+        <img src="images/book01/scroll/phoenix.webp"
+          alt="Chinese clouds at the Turkish court of India — Amir Hamza carried by the Rukh across the sea, Legend of Hamza (Dastan-i Hamza), Fatehpur Sikri, c. 1565"
+          width="1451" height="1941">
+        <figcaption>Chinese clouds at the Turkish court of India. Amir Hamza clings to the Rukh's legs to carry him
+          home across the sea, <em>Legend of Hamza</em> (<em>Dastan-i Hamza</em>), Fatehpur Sikri, India, Mughal period
+          (Baburid), c. 1565.
+        </figcaption>
+      </figure>
+
+    </div>
+  </section>
+
+  <!-- ================= Audio Player ================= -->
+  <section class="audioSample glyphAudio" aria-label="Audio excerpt">
+    <div class="wrap">
+      <div class="glyphStage" id="glyphStage">
+        <canvas class="glyphCanvas" id="glyphCanvas" aria-hidden="true"></canvas>
+
+        <div class="audioCardWrap">
+          <div class="audioCard" role="group" aria-label="Audio player">
+
+            <div class="audioTitle">Listen to a chapter excerpt</div>
+            <div class="audioSub">
+              <span class="chapter-label">A short reading from Chapter 1</span>
+              <span class="chapter-title">Spiral of Knowledge</span>
+            </div>
+
+            <div class="audioRow">
+              <button class="playBtn" id="glyphPlayBtn" type="button" aria-label="Play">
+                <svg class="playIcon" id="glyphPlayIcon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M9 7.5v9l8-4.5-8-4.5z" fill="currentColor" />
+                </svg>
+              </button>
+              <div class="barWrap">
+                <input class="progress" id="glyphProgress" type="range" min="0" max="1000" value="0"
+                  aria-label="Progress" />
+              </div>
+              <div class="time" id="glyphTime">0:00 / 0:00</div>
+            </div>
+
+            <audio id="glyphAudio" preload="metadata" src="audio/audiobooks/book-1-chapter-1.mp3"></audio>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= Poem ================= -->
+  <div class="poem reveal">
+    This is a vision of civilization<br>
+    that does not begin in Florence but in Herat,<br>
+    not with Leonardo but with Behzad.<br>
+    Not with the fixed point, but with the drifting cloud.<br>
+    We are not in Italy, but in Turkistan.<br><br>
+
+    I propose an alternative vision of civilization,<br>
+    one that is not sedentary but nomadic,<br>
+    not European but Asian,<br>
+    not standardized but cosmopolitan,<br>
+    not exoteric but esoteric,<br>
+    not rational but inspirational.<br><br>
+
+    This is a story<br>
+    not written as prose but as poem,<br>
+    not of order but of turbulence,<br>
+    not of solids but of fluids,<br>
+    not of grids but of spirals.<br><br>
+
+    <span class="poem-credit">
+      Mete Kutlu, <em>Empire of Clouds</em>, Book I, page 33, Paris, 2025.
+    </span>
+  </div>
+
+  <figure class="image-tall reveal">
+    <img src="images/book01/scroll/winter-forest.webp"
+      alt="Winter scene — dried twisted trees and Chinese-inspired scholar's rocks reimagined as an iridescent dreamscape in an Ottoman miniature, 15th century, Topkapı Palace Museum Library"
+      width="2000" height="1315">
+    <figcaption><strong>Winter Scene.</strong> Turkish imagination transforms a dense winter grove of dried, twisted
+      trees into a
+      variegated dreamscape.
+      Crooked, perforated trunks and fantastical scholar’s rocks (<em>gongshi</em>), inspired by Chinese models, are
+      reinterpreted as
+      an iridescent, otherworldly terrain. The sky mirrors the same colors as the rocks. Atmosphere and geology are
+      entangled
+      through mystical vision and love. The upper right corner has been reconstructed with AI. Turcoman period, 15th
+      century, Baghdad or Tabriz?, Topkapı
+      Palace
+      Museum Library (TSMK), H.2153.
+    </figcaption>
+  </figure>
+
+  <!-- ================= Contents ================= -->
+  <section id="contents">
+    <div class="wrapNarrow">
+      <h2 class="sectionTitle reveal">Contents</h2>
+
+      <div class="contents reveal">
+
+        <div class="contentsDivider">General Introduction</div>
+
+        <div class="contentsBlock">
+          <div class="toc-num">1</div>
+          <div class="toc-text">
+            <div class="toc-title">Methodological Statement</div>
+            <div class="toc-subtitle">
+              Context, Hypothesis &amp; State of the Art
+            </div>
+          </div>
+        </div>
+
+        <div class="contentsBlock">
+          <div class="toc-num">2</div>
+          <div class="toc-text">
+            <div class="toc-title">Spiral of History</div>
+            <div class="toc-subtitle">When the Past Becomes a Future Again</div>
+          </div>
+        </div>
+
+        <div class="contentsBlock">
+          <div class="toc-num">3</div>
+          <div class="toc-text">
+            <div class="toc-title">Thought Beyond Intelligence</div>
+            <div class="toc-subtitle">The Human Mind in the Age of AI</div>
+          </div>
+        </div>
+
+        <div class="contentsDivider">Eastern Winds</div>
+
+        <div class="contentsBlock">
+          <div class="toc-num">4</div>
+          <div class="toc-text">
+            <div class="toc-title">Dragon's Breath</div>
+            <div class="toc-subtitle">
+              Clouds as Cosmic Energy in East Asian Culture
+            </div>
+          </div>
+        </div>
+
+        <div class="contentsBlock">
+          <div class="toc-num">5</div>
+          <div class="toc-text">
+            <div class="toc-title">Turkish Storm</div>
+            <div class="toc-subtitle">
+              Carrying the Chinese Cloud to Roman Lands
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="plates">
+    <div class="wrap">
+      <div class="platesIntro centerIntro">
+        <h2 class="sectionTitle reveal">A Look inside the Book</h2>
+        <div class="prose reveal" style="max-width: 72ch;">
+          Selected spreads from the printed prototype.<br>Click to enlarge.
+        </div>
+      </div>
+    </div>
+
+    <div class="mosaic">
+
+      <div class="mosaicCol">
+
+        <figure class="plate plateAuto reveal">
+          <img src="images/book01/mosaic-webp/book01-00001.webp" alt="Eastern Winds Book I — page spread 1" width="756"
+            height="1008" data-full="images/book01/full-webp/book01-00001.webp">
+        </figure>
+
+        <figure class="plate plateAuto reveal">
+          <img src="images/book01/mosaic-webp/book01-00002.webp" alt="Eastern Winds Book I — page spread 2" width="1008"
+            height="756" data-full="images/book01/full-webp/book01-00002.webp">
+        </figure>
+
+        <figure class="plate plateAuto reveal">
+          <img src="images/book01/mosaic-webp/book01-00004.webp" alt="Eastern Winds Book I — page spread 4" width="756"
+            height="1008" data-full="images/book01/full-webp/book01-00004.webp">
+        </figure>
+
+        <figure class="plate plateAuto reveal">
+          <img src="images/book01/mosaic-webp/book01-00005.webp" alt="Eastern Winds Book I — page spread 5" width="756"
+            height="1008" data-full="images/book01/full-webp/book01-00005.webp">
+        </figure>
+
+        <figure class="plate plateAuto reveal">
+          <img src="images/book01/mosaic-webp/book01-00007.webp" alt="Eastern Winds Book I — page spread 7" width="756"
+            height="1008" data-full="images/book01/full-webp/book01-00007.webp">
+        </figure>
+
+        <figure class="plate plateAuto reveal">
+          <img src="images/book01/mosaic-webp/book01-00012.webp" alt="Eastern Winds Book I — page spread 12" width="756"
+            height="1008" data-full="images/book01/full-webp/book01-00012.webp">
+        </figure>
+
+        <figure class="plate plateAuto reveal">
+          <img src="images/book01/mosaic-webp/book01-00014.webp" alt="Eastern Winds Book I — page spread 14" width="756"
+            height="1008" data-full="images/book01/full-webp/book01-00014.webp">
+        </figure>
+
+      </div>
+
+      <div class="mosaicCol">
+
+        <figure class="plate plateAuto reveal">
+          <img src="images/book01/mosaic-webp/book01-00015.webp" alt="Eastern Winds Book I — page spread 15" width="756"
+            height="1008" data-full="images/book01/full-webp/book01-00015.webp">
+        </figure>
+
+        <figure class="plate plateAuto reveal">
+          <img src="images/book01/mosaic-webp/book01-00016.webp" alt="Eastern Winds Book I — page spread 16" width="756"
+            height="1008" data-full="images/book01/full-webp/book01-00016.webp">
+        </figure>
+
+        <figure class="plate plateAuto reveal">
+          <img src="images/book01/mosaic-webp/book01-00017.webp" alt="Eastern Winds Book I — page spread 17" width="756"
+            height="1008" data-full="images/book01/full-webp/book01-00017.webp">
+        </figure>
+
+        <figure class="plate plateAuto reveal">
+          <img src="images/book01/mosaic-webp/book01-00018.webp" alt="Eastern Winds Book I — page spread 18" width="756"
+            height="1008" data-full="images/book01/full-webp/book01-00018.webp">
+        </figure>
+
+        <figure class="plate plateAuto reveal">
+          <img src="images/book01/mosaic-webp/book01-00020.webp" alt="Eastern Winds Book I — page spread 20" width="756"
+            height="1008" data-full="images/book01/full-webp/book01-00020.webp">
+        </figure>
+
+        <figure class="plate plateAuto reveal">
+          <img src="images/book01/mosaic-webp/book01-00021.webp" alt="Eastern Winds Book I — page spread 21" width="756"
+            height="1008" data-full="images/book01/full-webp/book01-00021.webp">
+        </figure>
+
+        <figure class="plate plateAuto reveal">
+          <img src="images/book01/mosaic-webp/book01-00022.webp" alt="Eastern Winds Book I — page spread 22" width="756"
+            height="1008" data-full="images/book01/full-webp/book01-00022.webp">
+        </figure>
+
+      </div>
+
+      <div class="mosaicCol">
+
+        <figure class="plate plateAuto reveal">
+          <img src="images/book01/mosaic-webp/book01-00023.webp" alt="Eastern Winds Book I — page spread 23" width="756"
+            height="1008" data-full="images/book01/full-webp/book01-00023.webp">
+        </figure>
+
+        <figure class="plate plateAuto reveal">
+          <img src="images/book01/mosaic-webp/book01-00024.webp" alt="Eastern Winds Book I — page spread 24" width="756"
+            height="1008" data-full="images/book01/full-webp/book01-00024.webp">
+        </figure>
+
+        <figure class="plate plateAuto reveal">
+          <img src="images/book01/mosaic-webp/book01-00026.webp" alt="Eastern Winds Book I — page spread 26" width="756"
+            height="1008" data-full="images/book01/full-webp/book01-00026.webp">
+        </figure>
+
+        <figure class="plate plateAuto reveal">
+          <img src="images/book01/mosaic-webp/book01-00027.webp" alt="Eastern Winds Book I — page spread 27" width="756"
+            height="1008" data-full="images/book01/full-webp/book01-00027.webp">
+        </figure>
+
+        <figure class="plate plateAuto reveal">
+          <img src="images/book01/mosaic-webp/book01-00028.webp" alt="Eastern Winds Book I — page spread 28" width="756"
+            height="1008" data-full="images/book01/full-webp/book01-00028.webp">
+        </figure>
+
+        <figure class="plate plateAuto reveal">
+          <img src="images/book01/mosaic-webp/book01-00029.webp" alt="Eastern Winds Book I — page spread 29" width="756"
+            height="1008" data-full="images/book01/full-webp/book01-00029.webp">
+        </figure>
+
+      </div>
+
+      <div class="mosaicCol">
+
+        <figure class="plate plateAuto reveal">
+          <img src="images/book01/mosaic-webp/book01-00030.webp" alt="Eastern Winds Book I — page spread 30" width="756"
+            height="1008" data-full="images/book01/full-webp/book01-00030.webp">
+        </figure>
+
+        <figure class="plate plateAuto reveal">
+          <img src="images/book01/mosaic-webp/book01-00032.webp" alt="Eastern Winds Book I — page spread 32" width="756"
+            height="1008" data-full="images/book01/full-webp/book01-00032.webp">
+        </figure>
+
+        <figure class="plate plateAuto reveal">
+          <img src="images/book01/mosaic-webp/book01-00033.webp" alt="Eastern Winds Book I — page spread 33" width="756"
+            height="1008" data-full="images/book01/full-webp/book01-00033.webp">
+        </figure>
+
+        <figure class="plate plateAuto reveal">
+          <img src="images/book01/mosaic-webp/book01-00034.webp" alt="Eastern Winds Book I — page spread 34" width="756"
+            height="1008" data-full="images/book01/full-webp/book01-00034.webp">
+        </figure>
+
+        <figure class="plate plateAuto reveal">
+          <img src="images/book01/mosaic-webp/book01-00035.webp" alt="Eastern Winds Book I — page spread 35" width="756"
+            height="1008" data-full="images/book01/full-webp/book01-00035.webp">
+        </figure>
+
+        <figure class="plate plateAuto reveal">
+          <img src="images/book01/mosaic-webp/book01-00036.webp" alt="Eastern Winds Book I — page spread 36" width="756"
+            height="1008" data-full="images/book01/full-webp/book01-00036.webp">
+        </figure>
+
+        <figure class="plate plateAuto reveal">
+          <img src="images/book01/mosaic-webp/book01-00037.webp" alt="Eastern Winds Book I — page spread 37" width="756"
+            height="1008" data-full="images/book01/full-webp/book01-00037.webp">
+        </figure>
+
+      </div>
+
+    </div>
+  </section>
+
+  <div class="lightbox" id="lightbox">
+    <button class="lightboxClose" aria-label="Close image">
+      <span></span>
+      <span></span>
+    </button>
+    <img src="" alt="Enlarged book spread">
+  </div>
+
+  <!-- ================= Footer ================= -->
+  <footer id="navNext">
+    <div class="wrapNarrow colophon">
+
+      <div class="footerNav">
+        <a class="footerBtn" href="books.html">← Back to Books</a>
+        <a class="footerBtn" href="book-2-cosmic-cryptography.html">Next: Book II →</a>
+      </div>
+
+      <div class="footerDivider"></div>
+
+      <div class="colophonMeta">
+        © <span id="year"></span> Mete Kutlu — Empire of Clouds
+      </div>
+
+    </div>
+  </footer>
+  <!-- ================= SCRIPTS ================= -->
+  <!-- Page exit veil — fades content to black before navigation -->
+  <div id="pageVeil"></div>
+
+  <script src="js/books-behaviour.js" defer></script>
+</body>
+
+</html>

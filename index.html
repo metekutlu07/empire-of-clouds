@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <!-- =============== Author and Copyright Notice =============== -->
+  <meta name="author" content="Mete Kutlu">
+  <meta name="copyright" content="© 2026 Mete Kutlu. All rights reserved.">
+  <meta name="description"
+    content="Empire of Clouds — Codes, Colors and Cosmos. A research-based artistic and architectural project exploring cloud cosmology, planetary computation and visual cultures along the Silk Road.">
+
+  <!-- =============== Open Graph: Social Sharing Preview =============== -->
+  <meta property="og:title" content="Empire of Clouds — Codes, Colors and Cosmos">
+  <meta property="og:description"
+    content="A research project by Mete Kutlu exploring cosmology, computation and the aesthetics of the cloud.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://empireofclouds.com">
+  <meta property="og:image" content="https://empireofclouds.com/images/og-preview.jpg">
+  <meta property="og:site_name" content="Empire of Clouds">
+  <meta property="og:locale" content="en_US">
+
+  <!-- =============== Canonical URL =============== -->
+  <link rel="canonical" href="https://empireofclouds.com/">
+
+  <!-- =============== Favicon =============== -->
+  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+
+  <!-- ===============  Structured Data SEO: for search engines =============== -->
+  <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Mete Kutlu",
+        "url": "https://empireofclouds.com",
+        "jobTitle": "Artist, Creative Technologist, Researcher and Architect",
+        "sameAs": ["https://metekutlu.com"]
+      }
+  </script>
+
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Home · Empire of Clouds</title>
+
+  <!-- ===============  Fonts =============== -->
+
+  <link href="https://fonts.googleapis.com" rel="preconnect" />
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Asimovian&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Gugi&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Electrolize&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Geo&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Exo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- ===============  Stylesheets =============== -->
+
+  <link rel="stylesheet" href="/css/index.css">
+
+
+</head>
+
+<body>
+
+  <!-- ================= Glyph Matrix Hero ================= -->
+  <section class="heroGlyph hero">
+    <div class="wrap">
+      <div aria-label="Glyph matrix hero" class="glyphHero" id="glyphHero">
+        <canvas id="gl"></canvas>
+        <canvas id="c"></canvas>
+        <div id="glitchOverlay" aria-hidden="true"></div>
+
+        <div id="preludeLayer" aria-hidden="true">
+          <div id="mysticLoader"></div>
+          <div id="preludeStatus"></div>
+          <div id="preludeTransmission"></div>
+          <div id="preludeInstruction"></div>
+          <div id="preludeHover"></div>
+
+          <!-- ── Entry Selection Screen ── -->
+          <div id="entryScreen" aria-hidden="true">
+            <div id="entryInner">
+
+              <div class="entryBlock" id="entryLang">
+                <div class="entryLabel">LANGUAGE</div>
+                <div class="entryOptions" id="langOptions">
+                  <button class="entryOption selected" data-lang="en">EN</button>
+                  <button class="entryOption" data-lang="fr">FR</button>
+                  <button class="entryOption" data-lang="tr">TR</button>
+                  <button class="entryOption" data-lang="zh">中文</button>
+                  <button class="entryOption" data-lang="ja">日本語</button>
+                </div>
+              </div>
+
+              <div class="entryDivider"></div>
+
+              <div class="entryBlock" id="entrySoundBlock">
+                <div class="entryLabel">SOUND</div>
+                <div class="entryOptions">
+                  <button class="entryOption" id="entrySoundToggle" data-sound="off" aria-label="Toggle sound">
+                    <svg id="iconSoundOff" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                      fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                      stroke-linejoin="round">
+                      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+                      <line x1="23" y1="9" x2="17" y2="15" />
+                      <line x1="17" y1="9" x2="23" y2="15" />
+                    </svg>
+                    <svg id="iconSoundOn" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                      fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                      stroke-linejoin="round" style="display:none">
+                      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+                      <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+                      <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              <button id="entryConfirm">ENTER</button>
+
+            </div>
+          </div>
+
+        </div>
+
+        <div id="transmissionWindow" aria-live="polite">
+          <div id="transmissionWarning">WARNING</div>
+          <div id="transmissionText"></div>
+          <div id="transmissionFooter" class="desktop-footer"></div>
+          <div id="transmissionFooterMobile" class="mobile-footer"></div>
+        </div>
+
+        <div id="titleGlow"></div>
+        <div class="titleBlock" id="titleBlock">
+          <div class="titleLine titleMain" style="--d:0ms">Empire of Clouds</div>
+          <div class="titleLine titleSub" style="--d:260ms">Codes, Colors and Cosmos</div>
+          <div class="titleLine titleAuthor" style="--d:520ms">Mete Kutlu</div>
+          <div class="titleButtons">
+            <a class="stage" id="scrollHint" href="introduction.html" aria-label="Enter the Nebula">
+              <div class="scrollContent">
+                <div class="scrollText">ENTER THE NEBULA</div>
+              </div>
+            </a>
+            <a class="stage" id="booksHint" href="books.html" aria-label="Open the Books">
+              <div class="scrollContent">
+                <div class="scrollText">OPEN THE BOOKS</div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- ================= UI Overlays ================= -->
+        <audio id="bgm" loop="" src="audio/index/soft_stellar_winds.mp3"></audio>
+        <audio id="introAudio" src="audio/index/intro.wav"></audio>
+
+        <button id="skipIntro" aria-label="Skip intro">[ Skip ]</button>
+
+        <div aria-label="Player instructions" class="stage" id="matrixInstructions">
+          <div class="instrHeader">
+            <div class="closeWrap">
+              <div aria-label="Close instructions" id="closeInstructions">✕</div>
+            </div>
+            <div class="instrTitle">Interact with the Code Field</div>
+          </div>
+          <div class="instrDivider"></div>
+          <div class="instrLine">Left click · Probe</div>
+          <div class="instrLine">Right click · Override</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= Mobile instruction bar (hidden on desktop) ================= -->
+  <div id="mobileInstructions" aria-hidden="true">
+    <span>Tap · Spyware</span>
+    <span class="mobileInstrDash">—</span>
+    <span>Long press · Reset</span>
+  </div>
+
+  <!-- ================= SCRIPTS ================= -->
+
+  <script type="module" src="/js/index.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Books · Empire of Clouds</title>
+
+    <meta name="author" content="Mete Kutlu">
+    <meta name="copyright" content="© 2026 Mete Kutlu. All rights reserved.">
+    <meta name="description"
+        content="Empire of Clouds — Codes, Colors and Cosmos. A research-based artistic and architectural project exploring cloud cosmology, planetary computation and visual cultures along the Silk Road.">
+
+    <meta property="og:title" content="Empire of Clouds — Codes, Colors and Cosmos">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://empireofclouds.com">
+    <meta property="og:site_name" content="Empire of Clouds">
+
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Unbounded:wght@500;600&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="css/books.css">
+</head>
+
+<body>
+
+    <header class="topnav" id="topnav" aria-label="Primary">
+        <div class="navInner">
+            <a class="brand" href="index.html?skip=1" aria-label="Empire of Clouds home">Empire of Clouds</a>
+            <nav class="navLinks" aria-label="Site">
+                <a href="about.html">About</a>
+                <a href="author.html">Author</a>
+                <a href="books.html" class="is-active">Books</a>
+                <a href="partners.html">Partners</a>
+                <a href="https://www.dreampixels.cloud" target="_blank" rel="noopener">Dream Pixels</a>
+                <a href="waitlist.html">Waitlist</a>
+            </nav>
+            <button class="menuToggle" id="menuToggle" aria-label="Open navigation" aria-expanded="false"
+                aria-controls="navPanel">Menu</button>
+        </div>
+    </header>
+
+    <!-- ── Mobile nav panel ── -->
+    <nav class="navPanel" id="navPanel" aria-label="Mobile navigation" aria-hidden="true">
+        <button class="navPanelClose" id="navPanelClose" aria-label="Close navigation">Close</button>
+        <div class="navPanelLinks">
+            <a href="about.html">About</a>
+            <a href="author.html">Author</a>
+            <a href="books.html" class="is-active">Books</a>
+            <a href="partners.html">Partners</a>
+            <a href="https://www.dreampixels.cloud" target="_blank" rel="noopener">Dream Pixels</a>
+            <a href="waitlist.html">Waitlist</a>
+        </div>
+    </nav>
+
+    <main class="pageWrap">
+
+        <!-- <header class="booksHeader">
+            <div class="booksHeaderTitle">Empire of Clouds<br>Book Series</div>
+        </header> -->
+
+        <div class="booksGrid">
+
+            <a class="bookCard" href="book-1-eastern-winds.html">
+                <div class="coverWrap">
+                    <img src="images/books/book-cover-01.jpg" alt="Eastern Winds" />
+                </div>
+                <div class="bookInfo">
+                    <div class="bookNum">Book I</div>
+                    <div class="bookTitle">Eastern Winds</div>
+                    <div class="bookSubtitle">Mythical Atmospheres<br class="mobile-br"> along the Silk Road</div>
+                </div>
+            </a>
+
+            <a class="bookCard" href="book-2-cosmic-cryptography.html">
+                <div class="coverWrap">
+                    <img src="images/books/book-cover-02.jpg" alt="Cosmic Cryptography" />
+                </div>
+                <div class="bookInfo">
+                    <div class="bookNum">Book II</div>
+                    <div class="bookTitle">Cosmic Cryptography</div>
+                    <div class="bookSubtitle">Talismanic Cities and<br class="mobile-br"> the Algorithmic Universe</div>
+                </div>
+            </a>
+
+            <a class="bookCard" href="book-3-pigment-turbulence.html">
+                <div class="coverWrap">
+                    <img src="images/books/book-cover-03.jpg" alt="Pigment Turbulence" />
+                </div>
+                <div class="bookInfo">
+                    <div class="bookNum">Book III</div>
+                    <div class="bookTitle">Pigment Turbulence</div>
+                    <div class="bookSubtitle">Iridescent Worlds within Clouds</div>
+                </div>
+            </a>
+
+            <a class="bookCard" href="book-4-the-crystal-matrix.html">
+                <div class="coverWrap">
+                    <img src="images/books/book-cover-04.jpg" alt="The Crystal Matrix" />
+                </div>
+                <div class="bookInfo">
+                    <div class="bookNum">Book IV</div>
+                    <div class="bookTitle">The Crystal Matrix</div>
+                    <div class="bookSubtitle">From Glazed Codes to Digital Mosaics</div>
+                </div>
+            </a>
+
+            <a class="bookCard" href="book-5-synthetic-minds.html">
+                <div class="coverWrap">
+                    <img src="images/books/book-cover-05.jpg" alt="Synthetic Minds" />
+                </div>
+                <div class="bookInfo">
+                    <div class="bookNum">Book V</div>
+                    <div class="bookTitle">Synthetic Minds</div>
+                    <div class="bookSubtitle">Data Becomes Space,<br class="mobile-br"> Thought Becomes Cloud</div>
+                </div>
+            </a>
+
+        </div>
+    </main>
+
+    <footer>
+        <div class="colophonMeta">
+            © Mete Kutlu, Paris, 2026
+        </div>
+    </footer>
+
+    <div class="scrollHint" id="scrollHint">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+            <polyline points="4,8 12,16 20,8" stroke="rgba(255,255,255,0.55)" stroke-width="1.5" stroke-linecap="round"
+                stroke-linejoin="round" />
+        </svg>
+    </div>
+
+    <script src="/js/books.js"></script>
+
+</body>
+
+</html>

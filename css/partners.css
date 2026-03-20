@@ -1,0 +1,707 @@
+/* =========================================================
+   PARTNERS PAGE — Consolidated CSS
+   (merged from: index.css, glyphHero-partners.css,
+    partners-glyph.css, top-nav-bar.css)
+========================================================= */
+
+/* =========================================================
+   ROOT & RESET
+========================================================= */
+
+:root {
+    --navH: 56px;
+    --bg: #000;
+    --fg: #fff;
+    --muted: rgba(255, 255, 255, .72);
+    --faint: rgba(255, 255, 255, .10);
+    --fainter: rgba(255, 255, 255, .08);
+    --fgDim: #7a7a7a;
+    --max: 1400px;
+    --frame-line: rgba(255, 255, 255, 0.28);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    scrollbar-gutter: stable;
+}
+
+@supports not (scrollbar-gutter: stable) {
+    html {
+        overflow-y: scroll;
+    }
+}
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "Space Grotesk", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    overflow-x: hidden;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.wrap {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 0 28px;
+}
+
+/* =========================================================
+   TOP NAVIGATION
+========================================================= */
+
+@property --angle {
+    syntax: "<angle>";
+    inherits: false;
+    initial-value: 0deg;
+}
+
+.topnav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--navH);
+    display: flex;
+    align-items: center;
+    z-index: 999;
+    background: rgba(0, 0, 0, 0.62);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, .12);
+    pointer-events: auto;
+    transition: opacity 700ms ease, transform 700ms ease;
+}
+
+.navInner {
+    width: 100%;
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 0 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+}
+
+.brand {
+    font-family: "Unbounded", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    font-size: 22px;
+    white-space: nowrap;
+    transform: translateY(1px);
+}
+
+.navLinks {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.navLinks a {
+    font-family: "IBM Plex Mono", system-ui, monospace;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    font-size: 13px;
+    color: rgba(255, 255, 255, .78);
+    padding: 9px 7px 9px 9px;
+    border: 1px solid transparent;
+    transform: translateY(1px);
+}
+
+.navLinks a:hover {
+    color: rgba(255, 255, 255, .95);
+    border-color: rgba(255, 255, 255, .18);
+}
+
+.navLinks a.is-active {
+    color: rgba(255, 255, 255, .95);
+    border-color: rgba(255, 255, 255, .22);
+}
+
+/* Waitlist animated border CTA */
+.navLinks a[href="waitlist.html"] {
+    color: rgba(255, 255, 255, 0.95);
+    position: relative;
+    padding: 9px 14px;
+    border: 1px solid transparent;
+    background:
+        linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)) padding-box,
+        conic-gradient(from var(--angle), #ff2d9b, #00ff88, #ff2d9b) border-box;
+    animation: rotateBorder 3s linear infinite;
+}
+
+.navLinks a[href="waitlist.html"]:hover {
+    color: #fff;
+    background:
+        linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)) padding-box,
+        conic-gradient(from var(--angle), #ff2d9b, #00ff88, #ff2d9b) border-box;
+    box-shadow: 0 0 10px rgba(255, 45, 155, 0.35), 0 0 22px rgba(0, 255, 136, 0.2);
+}
+
+@keyframes rotateBorder {
+    to {
+        --angle: 360deg;
+    }
+}
+
+/* Nav intro: hidden until intro-ui-visible */
+body:not(.intro-ui-visible) .topnav {
+    opacity: 0 !important;
+    transform: translateY(-100%) !important;
+    pointer-events: none !important;
+    transition: none !important;
+}
+
+body.intro-ui-visible .topnav {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+    transition: opacity 400ms ease, transform 400ms ease !important;
+}
+
+/* Exit sequence */
+body.is-exiting .topnav,
+body.intro-ui-visible.is-exiting .topnav {
+    opacity: 0 !important;
+    transform: translateY(-100%) !important;
+    transition: opacity 400ms ease, transform 400ms ease !important;
+}
+
+/* =========================================================
+   HERO SECTION
+========================================================= */
+
+.heroGlyph.hero {
+    height: 100vh;
+    position: relative;
+    padding: 0 !important;
+    margin: 0;
+}
+
+.heroGlyph.hero .wrap {
+    width: 100%;
+    max-width: none;
+    padding: 0;
+}
+
+/* =========================================================
+   GLYPH HERO
+========================================================= */
+
+.glyphHero {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background: #000;
+    overflow: visible;
+    clip-path: inset(0);
+}
+
+.glyphHero::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.15);
+    z-index: 25;
+}
+
+/* WebGL output canvas */
+.glyphHero #gl {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    z-index: 5;
+    pointer-events: auto;
+}
+
+/* Offscreen 2D source canvas */
+.glyphHero #c {
+    position: absolute;
+    left: -9999px;
+    top: -9999px;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* =========================================================
+   TITLE BLOCK
+========================================================= */
+
+.glyphHero .titleBlock {
+    position: absolute;
+    inset: 0;
+    padding: 0 !important;
+    display: flex;
+    pointer-events: none;
+    z-index: 10;
+    font-family: "Unbounded";
+    letter-spacing: 0.02em;
+    opacity: 0;
+    transition: opacity 800ms ease;
+}
+
+.glyphHero .titleBlock.show {
+    opacity: 1;
+}
+
+/* =========================================================
+   PARTNERS INTRO OVERLAY
+========================================================= */
+
+.partnersIntro {
+    position: absolute;
+    inset: 0;
+    z-index: 60;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(12px);
+    filter: blur(8px);
+    transition: opacity 1.25s ease, transform 1.25s ease, filter 1.25s ease;
+}
+
+.partnersIntro.show {
+    opacity: 1;
+    transform: translateY(0px);
+    filter: blur(0px);
+}
+
+.partnersIntro.is-hidden {
+    opacity: 0;
+    transform: translateY(-10px);
+    filter: blur(6px);
+}
+
+.partnersIntroInner {
+    text-align: center;
+    font-family: "Unbounded", sans-serif;
+    letter-spacing: 0.08em;
+}
+
+.partnersIntroLine {
+    font-size: 33px;
+    font-weight: 600;
+    line-height: 2;
+}
+
+/* =========================================================
+   PARTNERS LAYOUT
+========================================================= */
+
+.partnersLayout {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+/* =========================================================
+   COUNTRY INDEX PANEL
+========================================================= */
+
+.countryIndex {
+    position: absolute;
+    left: max(28px, calc((100vw - var(--max)) / 2 + 28px));
+    top: 50%;
+    z-index: 45;
+    width: 200px;
+    padding: 20px 20px 22px 20px;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(6px) saturate(180%);
+    -webkit-backdrop-filter: blur(6px) saturate(180%);
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    font-family: "Space Grotesk", sans-serif;
+    text-transform: uppercase;
+    text-align: center;
+    pointer-events: none;
+    /* Staged animation */
+    opacity: 0;
+    filter: blur(6px);
+    transform: translateY(calc(-50% + 10px));
+    transition: opacity 1.25s ease, transform 1.25s ease, filter 1.25s ease;
+}
+
+.countryIndex.show {
+    opacity: 1;
+    filter: blur(0px);
+    transform: translateY(-50%);
+}
+
+.countryIndexHeader {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.countryIndexTitle {
+    font-size: 14px;
+    letter-spacing: 0.14em;
+    opacity: 0.75;
+}
+
+.countryIndexDivider {
+    height: 1px;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.countryIndex button {
+    all: unset;
+    cursor: pointer;
+    padding: 6px 8px;
+    border: 1px solid transparent;
+    font-size: 14px;
+    letter-spacing: 0.10em;
+    opacity: 0.85;
+    pointer-events: auto;
+    transition: opacity 0.25s ease, border 0.25s ease, background 0.25s ease;
+}
+
+.countryIndex button:hover {
+    opacity: 1;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+}
+
+.countryIndex button.is-active {
+    opacity: 1;
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* =========================================================
+   COUNTRY CONTENT (CENTER)
+========================================================= */
+
+.countryContent {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
+    pointer-events: none;
+    opacity: 1;
+    transform: translateY(0px);
+    transition: opacity 500ms cubic-bezier(.4, 0, .2, 1), transform 500ms cubic-bezier(.4, 0, .2, 1);
+}
+
+.countryContent.is-hidden {
+    opacity: 0;
+    transform: translateY(22px);
+}
+
+.apertureContent {
+    max-width: 600px;
+    text-align: center;
+    pointer-events: none;
+}
+
+.apertureContent h2 {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 2.2rem;
+    letter-spacing: 0.08em;
+    margin-bottom: 1.2rem;
+}
+
+.apertureContent ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.apertureContent li {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.95rem;
+    margin: 0.45rem 0;
+    opacity: 0.85;
+}
+
+/* =========================================================
+   BOOK INFO PANEL (glass style utility)
+========================================================= */
+
+.bkLabel {
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(6px) saturate(180%);
+    -webkit-backdrop-filter: blur(6px) saturate(180%);
+}
+
+/* =========================================================
+   MENU TOGGLE BUTTON (hidden on desktop)
+========================================================= */
+
+.menuToggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, .28);
+    color: rgba(255, 255, 255, .82);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    /* letter-spacing adds .18em of space *after* the last character too,
+       shifting the text visually right of centre. Compensate with matching
+       padding-left so the optical centre aligns with the box centre. */
+    padding: 7px 0 7px .3em;
+    width: 60px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: border-color 200ms ease, color 200ms ease;
+    flex-shrink: 0;
+}
+
+.menuToggle:hover {
+    border-color: rgba(255, 255, 255, .55);
+    color: #fff;
+}
+
+/* =========================================================
+   FULL-SCREEN NAV PANEL (mobile)
+========================================================= */
+
+.navPanel {
+    position: fixed;
+    inset: 0;
+    z-index: 1002;
+    background: rgba(3, 3, 3, .97);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    opacity: 0;
+    transition: opacity 500ms ease;
+    pointer-events: none;
+}
+
+.navPanel.is-open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.navPanelClose {
+    position: absolute;
+    top: calc(var(--navH) / 2);
+    right: 28px;
+    transform: translateY(-50%);
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, .28);
+    color: rgba(255, 255, 255, .72);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    padding: 7px 0 7px .3em;
+    width: 60px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: border-color 180ms ease, color 180ms ease;
+}
+
+.navPanelClose:hover {
+    border-color: rgba(255, 255, 255, .55);
+    color: #fff;
+}
+
+.navPanelLinks {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    padding: var(--navH) 0;
+    box-sizing: border-box;
+}
+
+.navPanelLinks a {
+    display: inline-block;
+    text-decoration: none;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: clamp(14px, 3.8vw, 20px);
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, .65);
+    -webkit-tap-highlight-color: transparent;
+    transition: color 160ms ease;
+    padding: 6px 20px;
+    cursor: pointer;
+}
+
+.navPanelLinks a:hover,
+.navPanelLinks a.is-active {
+    color: #fff;
+}
+
+/* =========================================================
+   MOBILE COUNTRY GRID (hidden by default)
+========================================================= */
+
+.mobileCountryGrid {
+    display: none;
+}
+
+/* =========================================================
+   RESPONSIVE <= 900px
+========================================================= */
+
+@media (max-width: 900px) {
+    .navLinks {
+        display: none;
+    }
+
+    .menuToggle {
+        display: flex;
+        margin-left: auto;
+    }
+
+    .navPanelClose {
+        right: 20px;
+    }
+
+    .navInner {
+        padding: 0 20px;
+    }
+}
+
+/* =========================================================
+   RESPONSIVE <= 640px — mobile portrait
+========================================================= */
+
+@media (max-width: 640px) {
+
+    :root {
+        --navH: 56px;
+    }
+
+    /* Brand — midway size matching about page */
+    .brand {
+        font-size: 19px;
+    }
+
+    .navInner {
+        padding: 0 20px;
+    }
+
+    .navPanelClose {
+        right: 20px;
+    }
+
+    /* Hide desktop left panel */
+    .countryIndex {
+        display: none !important;
+    }
+
+    /* Shrink intro text to fit inside the circle */
+    .partnersIntroLine {
+        font-size: 18px;
+        line-height: 1.7;
+    }
+
+    .partnersIntro {
+        margin-top: -125px;
+    }
+
+    /* Center content a bit higher so it doesn't overlap grid */
+    .countryContent {
+        padding-bottom: 140px;
+    }
+
+    .apertureContent h2 {
+        font-size: 1.3rem;
+    }
+
+    .apertureContent li {
+        font-size: 0.8rem;
+    }
+
+    /* Mobile country grid: 3-per-row, pinned to bottom of hero */
+    .heroGlyph.hero,
+    .heroGlyph {
+        overflow: visible;
+    }
+
+    .mobileCountryGrid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 45;
+        background: rgba(0, 0, 0, 0.55);
+        backdrop-filter: blur(6px) saturate(180%);
+        -webkit-backdrop-filter: blur(6px) saturate(180%);
+        border-top: 1px solid rgba(255, 255, 255, 0.15);
+        pointer-events: auto;
+        opacity: 0;
+        transform: translateY(10px);
+        transition: opacity 1.25s ease, transform 1.25s ease;
+    }
+
+    .mobileCountryGrid.show {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .mobileCountryGrid button {
+        all: unset;
+        cursor: pointer;
+        display: block;
+        width: 100%;
+        padding: 11px 2px;
+        text-align: center;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 13px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.78);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        box-sizing: border-box;
+        transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .mobileCountryGrid button:active,
+    .mobileCountryGrid button.is-active {
+        background: rgba(255, 255, 255, 0.07);
+        color: #fff;
+        border-color: rgba(255, 255, 255, 0.28);
+    }
+
+    /* Hero needs relative positioning for absolute grid child */
+    .heroGlyph.hero {
+        position: relative;
+    }
+}

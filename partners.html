@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <!-- =============== Meta & SEO =============== -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="Mete Kutlu">
+  <meta name="copyright" content="© 2026 Mete Kutlu. All rights reserved.">
+  <meta name="description"
+    content="Empire of Clouds — Codes, Colors and Cosmos. A research-based artistic and architectural project exploring cloud cosmology, planetary computation and visual cultures along the Silk Road.">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Empire of Clouds — Codes, Colors and Cosmos">
+  <meta property="og:description"
+    content="A research project by Mete Kutlu exploring cosmology, computation and the aesthetics of the cloud.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://empireofclouds.com">
+  <meta property="og:image" content="https://empireofclouds.com/images/og-preview.jpg">
+  <meta property="og:site_name" content="Empire of Clouds">
+  <meta property="og:locale" content="en_US">
+
+  <link rel="canonical" href="https://empireofclouds.com/">
+  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Mete Kutlu",
+      "url": "https://empireofclouds.com",
+      "jobTitle": "Artist, Creative Technologist, Researcher and Architect",
+      "sameAs": ["https://metekutlu.com"]
+    }
+  </script>
+
+  <title>Partners · Empire of Clouds</title>
+
+  <!-- =============== Fonts =============== -->
+  <link href="https://fonts.googleapis.com" rel="preconnect" />
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Unbounded:wght@500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <!-- =============== Styles =============== -->
+  <link rel="stylesheet" href="css/partners.css">
+
+  <!-- Three.js import map -->
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+      }
+    }
+  </script>
+
+</head>
+
+<body>
+
+  <!-- ================= Top Navigation ================= -->
+  <header class="topnav is-visible" id="topnav" aria-label="Primary">
+    <div class="navInner">
+      <a class="brand" href="index.html?skip=1" aria-label="Empire of Clouds home">Empire of Clouds</a>
+      <nav class="navLinks" aria-label="Site">
+        <a href="about.html">About</a>
+        <a href="author.html">Author</a>
+        <a href="books.html">Books</a>
+        <a href="partners.html" class="is-active">Partners</a>
+        <a href="https://www.dreampixels.cloud" target="_blank" rel="noopener">Dream Pixels</a>
+        <a href="waitlist.html">Waitlist</a>
+      </nav>
+      <button class="menuToggle" id="menuToggle" aria-label="Open navigation" aria-expanded="false"
+        aria-controls="navPanel">Menu</button>
+    </div>
+  </header>
+
+  <!-- ── Mobile nav panel ── -->
+  <nav class="navPanel" id="navPanel" aria-label="Mobile navigation" aria-hidden="true">
+    <button class="navPanelClose" id="navPanelClose" aria-label="Close navigation">Close</button>
+    <div class="navPanelLinks">
+      <a href="about.html">About</a>
+      <a href="author.html">Author</a>
+      <a href="books.html">Books</a>
+      <a href="partners.html" class="is-active">Partners</a>
+      <a href="https://www.dreampixels.cloud" target="_blank" rel="noopener">Dream Pixels</a>
+      <a href="waitlist.html">Waitlist</a>
+    </div>
+  </nav>
+
+  <!-- ================= Glyph Matrix Hero ================= -->
+  <section class="heroGlyph hero">
+    <div class="wrap">
+      <div aria-label="Glyph matrix hero" class="glyphHero" id="glyphHero">
+
+        <canvas id="gl"></canvas>
+        <canvas id="c"></canvas>
+
+        <div class="titleBlock" id="titleBlock">
+
+          <!-- Intro stats overlay -->
+          <div class="partnersIntro" id="partnersIntro">
+            <div class="partnersIntroInner">
+              <div class="partnersIntroLine">42 institutions</div>
+              <div class="partnersIntroLine">across 13 countries</div>
+            </div>
+          </div>
+
+          <!-- Partners layout -->
+          <div class="partnersLayout">
+
+            <!-- Country index (left) -->
+            <aside class="countryIndex" id="countryIndex">
+              <div class="countryIndexHeader">
+                <div class="countryIndexTitle">Countries</div>
+                <div class="countryIndexDivider"></div>
+              </div>
+              <button data-country="china">CHINA</button>
+              <button data-country="france">FRANCE</button>
+              <button data-country="germany">GERMANY</button>
+              <button data-country="italy">ITALY</button>
+              <button data-country="japan">JAPAN</button>
+              <button data-country="korea">SOUTH KOREA</button>
+              <button data-country="kyrgyzstan">KYRGYZSTAN</button>
+              <button data-country="lebanon">LEBANON</button>
+              <button data-country="tunisia">TUNISIA</button>
+              <button data-country="turkey">TURKEY</button>
+              <button data-country="uk">UNITED KINGDOM</button>
+              <button data-country="usa">UNITED STATES</button>
+              <button data-country="uzbekistan">UZBEKISTAN</button>
+            </aside>
+
+            <!-- Center aperture content -->
+            <div class="countryContent" id="countryContent">
+              <div class="apertureContent">
+                <h2 id="countryTitle"></h2>
+                <ul id="partnerList"></ul>
+              </div>
+            </div>
+
+          </div><!-- /.partnersLayout -->
+
+        </div><!-- /#titleBlock -->
+
+      </div><!-- /#glyphHero -->
+    </div>
+
+    <!-- ── Mobile country grid (bottom bar, ≤640px only) ── -->
+    <div class="mobileCountryGrid" id="mobileCountryGrid">
+      <button data-country="china">CHINA</button>
+      <button data-country="france">FRANCE</button>
+      <button data-country="germany">GERMANY</button>
+      <button data-country="italy">ITALY</button>
+      <button data-country="japan">JAPAN</button>
+      <button data-country="korea">S. KOREA</button>
+      <button data-country="kyrgyzstan">KYRGYZSTAN</button>
+      <button data-country="lebanon">LEBANON</button>
+      <button data-country="tunisia">TUNISIA</button>
+      <button data-country="turkey">TURKEY</button>
+      <button data-country="uk">UK</button>
+      <button data-country="usa">USA</button>
+      <button data-country="uzbekistan">UZBEKISTAN</button>
+    </div>
+  </section>
+
+  <!-- ================= Scripts ================= -->
+  <script type="module" src="js/partners.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,787 @@
+/* =============================================================
+   AUTHOR PAGE — consolidated stylesheet
+   Replaces: index.css + glyphHero.css + top-nav-bar.css +
+             waitlist-waito.css + author inline <style>
+   ============================================================= */
+
+/* ── DESIGN TOKENS ─────────────────────────────────────────── */
+:root {
+    --navH: 56px;
+    --bg: #000;
+    --fg: #fff;
+    --muted: rgba(255, 255, 255, .72);
+    --faint: rgba(255, 255, 255, .10);
+    --fainter: rgba(255, 255, 255, .08);
+    --max: 1400px;
+    --fgDim: #7a7a7a;
+    --frame-line: rgba(255, 255, 255, 0.28);
+}
+
+/* ── RESET & BASE ───────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: calc(var(--navH) + 18px);
+    scrollbar-gutter: stable;
+}
+
+@supports not (scrollbar-gutter: stable) {
+    html {
+        overflow-y: scroll;
+    }
+}
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "Space Grotesk", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    overflow-x: hidden;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* ── TOP NAVIGATION ─────────────────────────────────────────── */
+.topnav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--navH);
+    display: flex;
+    align-items: center;
+    z-index: 999;
+    background: rgba(0, 0, 0, 0.62);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, .12);
+}
+
+.navInner {
+    width: 100%;
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 0 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+}
+
+.brand {
+    font-family: "Unbounded", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    font-size: 22px;
+    white-space: nowrap;
+    transform: translateY(1px);
+}
+
+.navLinks {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.navLinks a {
+    font-family: "IBM Plex Mono", system-ui, monospace;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    font-size: 13px;
+    color: rgba(255, 255, 255, .78);
+    padding: 9px 7px 9px 9px;
+    border: 1px solid transparent;
+    transform: translateY(1px);
+}
+
+.navLinks a:hover {
+    color: rgba(255, 255, 255, .95);
+    border-color: rgba(255, 255, 255, .18);
+}
+
+.navLinks a.is-active {
+    color: rgba(255, 255, 255, .95);
+    border-color: rgba(255, 255, 255, .22);
+}
+
+/* ── WAITLIST CTA (animated border) ────────────────────────── */
+@property --angle {
+    syntax: "<angle>";
+    inherits: false;
+    initial-value: 0deg;
+}
+
+.navLinks a[href="waitlist.html"] {
+    color: rgba(255, 255, 255, 0.95);
+    padding: 9px 14px;
+    border: 1px solid transparent;
+    background:
+        linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)) padding-box,
+        conic-gradient(from var(--angle), #ff2d9b, #00ff88, #ff2d9b) border-box;
+    animation: rotateBorder 3s linear infinite;
+}
+
+.navLinks a[href="waitlist.html"]:hover {
+    color: #fff;
+    background:
+        linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)) padding-box,
+        conic-gradient(from var(--angle), #ff2d9b, #00ff88, #ff2d9b) border-box;
+    box-shadow: 0 0 10px rgba(255, 45, 155, 0.35), 0 0 22px rgba(0, 255, 136, 0.2);
+}
+
+@keyframes rotateBorder {
+    to {
+        --angle: 360deg;
+    }
+}
+
+/* ── NAV INTRO / EXIT SEQUENCE ──────────────────────────────── */
+/* Hidden until glyph field has emerged */
+body:not(.intro-ui-visible) .topnav {
+    opacity: 0 !important;
+    transform: translateY(-100%) !important;
+    pointer-events: none !important;
+    transition: none !important;
+}
+
+body.intro-ui-visible .topnav {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+    transition: opacity 400ms ease, transform 400ms ease !important;
+}
+
+body.is-exiting .topnav,
+body.intro-ui-visible.is-exiting .topnav {
+    opacity: 0 !important;
+    transform: translateY(-100%) !important;
+    transition: opacity 400ms ease, transform 400ms ease !important;
+}
+
+/* ── HERO LAYOUT ────────────────────────────────────────────── */
+.hero {
+    min-height: 100vh;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero.heroGlyph {
+    padding: 0 !important;
+    margin: 0;
+}
+
+.hero.heroGlyph .wrap {
+    width: 100%;
+    max-width: none;
+    padding: 0;
+}
+
+/* ── GLYPH HERO CONTAINER ───────────────────────────────────── */
+.glyphHero {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background: #000;
+    overflow: hidden;
+}
+
+.glyphHero::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.15);
+    z-index: 25;
+}
+
+/* WebGL output canvas */
+.glyphHero #gl {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    z-index: 0;
+}
+
+/* Offscreen 2D source canvas */
+.glyphHero #c {
+    position: absolute;
+    left: -9999px;
+    top: -9999px;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* ── STAGE INTRO TRANSITIONS ────────────────────────────────── */
+.glyphHero .stage {
+    opacity: 0;
+    transform: translateY(10px);
+    filter: blur(6px);
+    transition: opacity 1.25s ease, transform 1.25s ease, filter 1.25s ease;
+}
+
+.glyphHero .stage.show {
+    opacity: 1;
+    transform: translateY(0px);
+    filter: blur(0px);
+}
+
+/* ── TITLE BLOCK ────────────────────────────────────────────── */
+.glyphHero .titleBlock {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 10;
+    opacity: 0;
+    transition: opacity 800ms ease;
+}
+
+.glyphHero .titleBlock.show {
+    opacity: 1;
+}
+
+/* ── HERO PANELS ────────────────────────────────────────────── */
+.heroPanel {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition:
+        opacity 420ms cubic-bezier(.4, 0, .2, 1),
+        visibility 0s linear 420ms;
+}
+
+.heroPanel.is-active {
+    opacity: 1;
+    visibility: visible;
+    transition:
+        opacity 420ms cubic-bezier(.4, 0, .2, 1),
+        visibility 0s linear 0s;
+}
+
+#waitlistHero {
+    z-index: 30;
+}
+
+#contactHero {
+    z-index: 40;
+}
+
+/* Canvas always interactive */
+.glyphHero canvas {
+    pointer-events: auto;
+}
+
+/* ── AUTHOR NAME ────────────────────────────────────────────── */
+.authorName {
+    font-family: "Unbounded", sans-serif;
+    font-weight: 700;
+    font-size: clamp(28px, 4.5vw, 58px);
+    letter-spacing: 0.04em;
+    color: #fff;
+    margin: 0 0 2rem 0;
+    text-align: center;
+}
+
+/* ── BIO BOXES ──────────────────────────────────────────────── */
+.waitlistBox,
+.contactBox {
+    width: min(850px, 92vw);
+    padding: 44px 25px 36px;
+    text-align: center;
+    color: #ffffff;
+    pointer-events: auto;
+}
+
+.waitlistBox h2,
+.contactBox h2 {
+    font-family: "Unbounded", sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    margin-bottom: 30px;
+}
+
+.waitlistBox p,
+.contactBox p.contactIntro {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: clamp(16px, 1.6vw, 20px);
+    line-height: 1.65;
+    color: rgba(255, 255, 255, 0.85);
+    text-align: left;
+    margin-bottom: 1.2rem;
+}
+
+/* ── SCROLL / MORE BUTTON ───────────────────────────────────── */
+.glyphHero #scrollHint {
+    position: absolute;
+    left: 50%;
+    bottom: 130px;
+    transform: translateX(-50%) translateY(10px);
+    /* stage-off state */
+    z-index: 42;
+    pointer-events: auto;
+    cursor: pointer;
+    padding: 10px 14px 10px 17px;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    background: rgba(53, 53, 53, 0.19);
+    backdrop-filter: blur(6px) saturate(180%);
+    -webkit-backdrop-filter: blur(6px) saturate(180%);
+    color: rgba(255, 255, 255, 0.92);
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 17px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    transition: opacity 1.25s ease, transform 1.25s ease,
+        filter 1.25s ease, background 0.3s ease;
+}
+
+.glyphHero #scrollHint.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+    filter: blur(0px);
+}
+
+.glyphHero #scrollHint:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+/* ── UNIFIED CONTROLS (top-right) ───────────────────────────── */
+.glyphHero #unifiedControls {
+    position: absolute;
+    top: 24px;
+    right: 40px;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    width: 280px;
+    height: 40px;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(5px) saturate(180%);
+    -webkit-backdrop-filter: blur(5px) saturate(180%);
+    color: rgba(255, 255, 255, 0.9);
+    font-family: "Space Grotesk", system-ui, sans-serif;
+    font-size: 16px;
+    letter-spacing: 0.04em;
+    overflow: hidden;
+    transition: opacity 1.25s ease, transform 1.25s ease, filter 1.25s ease;
+}
+
+.glyphHero #audioControl {
+    padding: 8px 12px 10px 12px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.glyphHero #audioControl:hover {
+    background: rgba(255, 255, 255, 0.09);
+}
+
+.glyphHero .controlDivider {
+    width: 1px;
+    background: rgba(255, 255, 255, 0.25);
+    align-self: stretch;
+}
+
+.glyphHero #glyphFamilyIndicator {
+    padding: 8px 12px 10px 12px;
+    pointer-events: none;
+}
+
+.glyphHero #familyIcon {
+    margin-right: 10px;
+    font-size: 16px;
+}
+
+/* ── PLAYER INSTRUCTIONS (bottom-right) ─────────────────────── */
+.glyphHero #matrixInstructions {
+    position: absolute;
+    right: 40px;
+    bottom: 40px;
+    z-index: 22;
+    width: 240px;
+    padding: 8px 12px 10px 12px;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(5px) saturate(180%);
+    -webkit-backdrop-filter: blur(5px) saturate(180%);
+    color: rgba(255, 255, 255, 0.9);
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 15px;
+    letter-spacing: 0.04em;
+}
+
+.glyphHero #matrixInstructions .instrHeader {
+    display: flex;
+    align-items: center;
+    gap: 0;
+}
+
+.glyphHero #matrixInstructions .instrTitle {
+    font-size: 15px;
+    font-weight: 400;
+    opacity: .85;
+}
+
+.glyphHero #matrixInstructions #closeInstructions {
+    cursor: pointer;
+    pointer-events: auto;
+    user-select: none;
+    opacity: 0.85;
+}
+
+.glyphHero #matrixInstructions #closeInstructions:hover {
+    opacity: 1;
+}
+
+.glyphHero #matrixInstructions .instrDivider {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.22);
+    margin: 6px -12px 10px -12px;
+}
+
+.glyphHero #matrixInstructions .instrLine {
+    line-height: 1.5;
+    opacity: 0.85;
+}
+
+.glyphHero #matrixInstructions .closeWrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding-right: 12px;
+    margin-right: 12px;
+}
+
+.glyphHero #matrixInstructions .closeWrap::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: calc(-7px - 1px);
+    bottom: calc(-5px - 1px);
+    width: 1px;
+    background: rgba(255, 255, 255, 0.25);
+}
+
+/* ── REVEAL SYSTEM ──────────────────────────────────────────── */
+.reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 650ms ease, transform 650ms ease;
+}
+
+.reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+    will-change: auto;
+}
+
+/* ── SPLIT LAYOUT ───────────────────────────────────────────── */
+.hero.heroGlyph {
+    height: 100vh;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+.splitLayout {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+}
+
+/* LEFT — glyph matrix, slightly less than half */
+.splitLeft {
+    flex: 0 0 42%;
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+    border-right: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.splitLeft .glyphHero {
+    width: 100%;
+    height: 100%;
+}
+
+/* Canvases fill their container (the left column) */
+.splitLeft .glyphHero #gl,
+.splitLeft .glyphHero #c {
+    width: 100%;
+    height: 100%;
+}
+
+/* RIGHT — plain black, scrollable text */
+.splitRight {
+    flex: 1 1 0;
+    background: #000;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.bioScrollWrap {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-top: var(--navH);
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.bioScrollWrap::-webkit-scrollbar {
+    display: none;
+}
+
+.bioBox {
+    padding: 52px 56px 80px 52px;
+    max-width: 780px;
+}
+
+.bioBox .authorName {
+    font-family: "Unbounded", sans-serif;
+    font-weight: 700;
+    font-size: clamp(24px, 2.6vw, 38px);
+    letter-spacing: 0.04em;
+    color: #fff;
+    margin: 0 0 2.2rem 0;
+    text-align: left;
+}
+
+.bioBox .contactIntro {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: clamp(16px, 1.5vw, 19px);
+    line-height: 1.75;
+    color: rgba(255, 255, 255, 0.82);
+    margin-bottom: 1.5rem;
+}
+
+/* Unified controls — keep absolute within left panel */
+.glyphHero #unifiedControls {
+    position: absolute;
+    top: 24px;
+    right: 16px;
+    left: auto;
+    max-width: calc(100% - 32px);
+}
+
+/* On narrower screens fall back to stacked */
+/* ── MENU TOGGLE ────────────────────────────────────────────── */
+
+.menuToggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, .28);
+    color: rgba(255, 255, 255, .82);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    padding: 7px 0 7px .3em;
+    width: 60px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: border-color 200ms ease, color 200ms ease;
+    flex-shrink: 0;
+}
+
+.menuToggle:hover {
+    border-color: rgba(255, 255, 255, .55);
+    color: #fff;
+}
+
+/* ── FULL-SCREEN NAV PANEL ──────────────────────────────────── */
+
+.navPanel {
+    position: fixed;
+    inset: 0;
+    z-index: 1002;
+    background: rgba(3, 3, 3, .97);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    opacity: 0;
+    transition: opacity 500ms ease;
+    pointer-events: none;
+}
+
+.navPanel.is-open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.navPanelClose {
+    position: absolute;
+    top: calc(var(--navH) / 2);
+    right: 28px;
+    transform: translateY(-50%);
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, .28);
+    color: rgba(255, 255, 255, .72);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    padding: 7px 0 7px .3em;
+    width: 60px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: border-color 180ms ease, color 180ms ease;
+}
+
+.navPanelClose:hover {
+    border-color: rgba(255, 255, 255, .55);
+    color: #fff;
+}
+
+.navPanelLinks {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    padding: var(--navH) 0;
+    box-sizing: border-box;
+}
+
+.navPanelLinks a {
+    display: inline-block;
+    text-decoration: none;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: clamp(14px, 3.8vw, 20px);
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, .65);
+    -webkit-tap-highlight-color: transparent;
+    transition: color 160ms ease;
+    padding: 6px 20px;
+    cursor: pointer;
+}
+
+.navPanelLinks a:hover,
+.navPanelLinks a.is-active {
+    color: #fff;
+}
+
+/* ── RESPONSIVE ≤ 900px ─────────────────────────────────────── */
+
+@media (max-width: 900px) {
+    .navLinks {
+        display: none;
+    }
+
+    .menuToggle {
+        display: flex;
+        margin-left: auto;
+    }
+
+    .navPanelClose {
+        right: 20px;
+    }
+
+    .navInner {
+        padding: 0 20px;
+    }
+
+    /* Hide glyph column — show only bio on mobile */
+    .splitLeft {
+        display: none;
+    }
+
+    .splitRight {
+        height: 100vh;
+        width: 100%;
+    }
+
+    .bioScrollWrap {
+        padding-top: var(--navH);
+    }
+
+    .splitLayout {
+        flex-direction: row;
+    }
+}
+
+/* ── RESPONSIVE ≤ 640px ─────────────────────────────────────── */
+
+@media (max-width: 640px) {
+    :root {
+        --navH: 56px;
+    }
+
+    .brand {
+        font-size: 19px;
+    }
+
+    .navInner {
+        padding: 0 20px;
+    }
+
+    .navPanelClose {
+        right: 20px;
+    }
+
+    .bioBox {
+        padding: 28px 20px 60px;
+    }
+}
+
+/* ── Hide author name on mobile — hierarchy conflict with nav ── */
+@media (max-width: 900px) {
+    .bioBox .authorName {
+        display: none;
+    }
+}
+
+/* ===================== MOBILE NAV + BIO REVEAL ≤ 640px ===================== */
+
+@media (max-width: 640px) {
+
+    /* Bio text starts invisible, fades in after nav */
+    .bioBox {
+        opacity: 0;
+        transform: translateY(12px);
+        transition: opacity 600ms ease 300ms, transform 600ms ease 300ms;
+    }
+
+    body.intro-ui-visible .bioBox {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    /* Nav appears quickly on mobile */
+    body.intro-ui-visible .topnav {
+        transition: opacity 300ms ease, transform 300ms ease !important;
+    }
+}

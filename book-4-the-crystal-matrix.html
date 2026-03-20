@@ -1,0 +1,781 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#000000">
+  <meta name="author" content="Mete Kutlu">
+  <meta name="copyright" content="© 2026 Mete Kutlu. All rights reserved.">
+  <meta name="description"
+    content="The Crystal Matrix — From Glazed Codes to Digital Mosaics. Book IV of Empire of Clouds by Mete Kutlu, tracing Roman unswept floor mosaics, glazed Silk Road monuments and medieval marble cosmologies as proto-digital image systems.">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="The Crystal Matrix — From Glazed Codes to Digital Mosaics">
+  <meta property="og:description"
+    content="Book IV of Empire of Clouds by Mete Kutlu. Roman mosaics, glazed monuments and marble cosmologies as proto-digital systems, reframing the pixel as the latest chapter in a deep history of assembled images.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://empireofclouds.com/book-4-the-crystal-matrix.html">
+  <meta property="og:image" content="https://empireofclouds.com/images/book04/scroll/mosaic-roma.webp">
+  <meta property="og:image:alt"
+    content="Unswept Floor Mosaic (asarotos oikos) — Roman mosaic from the triclinium, 2nd century AD">
+  <meta property="og:site_name" content="Empire of Clouds">
+  <meta property="og:locale" content="en_US">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="The Crystal Matrix — From Glazed Codes to Digital Mosaics">
+  <meta name="twitter:description"
+    content="Book IV of Empire of Clouds by Mete Kutlu. Roman mosaics and glazed monuments as proto-digital image systems.">
+  <meta name="twitter:image" content="https://empireofclouds.com/images/book04/scroll/mosaic-roma.webp">
+  <meta name="twitter:image:alt"
+    content="Unswept Floor Mosaic (asarotos oikos) — Roman mosaic from the triclinium, 2nd century AD">
+
+  <link rel="canonical" href="https://empireofclouds.com/book-4-the-crystal-matrix.html">
+  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Book",
+    "name": "The Crystal Matrix — From Glazed Codes to Digital Mosaics",
+    "alternateName": "Book IV — The Crystal Matrix",
+    "author": {
+      "@type": "Person",
+      "name": "Mete Kutlu",
+      "url": "https://empireofclouds.com/author.html",
+      "sameAs": ["https://metekutlu.com"]
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Empire of Clouds"
+    },
+    "image": "https://empireofclouds.com/images/book04/scroll/mosaic-roma.webp",
+    "url": "https://empireofclouds.com/book-4-the-crystal-matrix.html",
+    "description": "Book IV of Empire of Clouds. Roman unswept floor mosaics, glazed Silk Road monuments and medieval marble cosmologies as proto-digital image systems, tracing the deep history of the assembled pixel.",
+    "inLanguage": "en",
+    "datePublished": "2026",
+    "isPartOf": {
+      "@type": "BookSeries",
+      "name": "Empire of Clouds",
+      "url": "https://empireofclouds.com/books.html"
+    }
+  }
+  </script>
+
+  <title>The Crystal Matrix · Empire of Clouds</title>
+
+  <!-- =============== Fonts =============== -->
+  <link href="https://fonts.googleapis.com" rel="preconnect" />
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Unbounded:wght@500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <!-- importmap MUST come before any type="module" scripts -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
+
+  <!-- Model Viewer (Web Component) -->
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+
+  <!-- Three.js scene in its own module file — fully isolated scope -->
+  <script type="module" src="js/book-4-model-3d.js"></script>
+
+  <!-- =============== Styles =============== -->
+  <link rel="stylesheet" href="css/books-stylesheet.css">
+
+</head>
+
+<body>
+
+  <!-- ================= Top Navigation Bar ================= -->
+  <header class="topnav" id="topnav" aria-label="Primary">
+    <div class="navInner">
+      <a class="brand" href="index.html?skip=1" aria-label="Empire of Clouds home">
+        Empire of Clouds
+      </a>
+      <nav class="navLinks" aria-label="Site">
+        <a href="about.html">About</a>
+        <a href="author.html">Author</a>
+        <a class="is-active" href="books.html">Books</a>
+        <a href="partners.html">Partners</a>
+        <a href="https://www.dreampixels.cloud" target="_blank" rel="noopener">Dream Pixels</a>
+        <a href="waitlist.html">Waitlist</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- 3D Intro: scroll to open the book -->
+  <div class="scrollStage" id="stage" aria-label="3D book intro">
+    <div class="stickyCenter">
+      <div class="enterRig">
+        <div class="hoverRig">
+          <model-viewer id="book" src="3d/book-4.glb" interaction-prompt="none" disable-zoom disable-pan disable-rotate
+            shadow-intensity="0" exposure="0.85" environment-image="legacy" autoplay="false" ar="false"
+            camera-orbit="0deg 82deg 0.85m" min-camera-orbit="0deg 82deg 0.85m" max-camera-orbit="0deg 82deg 0.85m"
+            camera-target="0m -0.04m 0m" field-of-view="30deg" orientation="0deg 0deg 0deg">
+          </model-viewer>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hint">Scroll to open the book</div>
+
+  <section id="bookIntro">
+    <div class="wrap">
+
+      <div class="heroContent">
+        <div class="kicker reveal">Book IV</div>
+        <div class="hero-title reveal">The Crystal Matrix</div>
+        <div class="hero-subtitle reveal">From Glazed Codes to Digital Mosaics</div>
+        <div class="hero-meta reveal">Empire of Clouds · Codes, Colors and Cosmos</div>
+      </div>
+
+      <div class="prose reveal" style="max-width: 70ch; margin-top: 60px;">
+
+        <p>There was a time when the structure of the universe was imagined as a mosaic. In this alternative archaeology
+          of the
+          image, the history of the pixel does not begin with the computer screen, but on the floors of antiquity.
+        </p>
+
+      </div>
+
+      <figure class="image-full reveal">
+        <img src="images/book04/scroll/mosaic-roma.webp"
+          alt="Unswept Floor Mosaic (asarotos oikos), Roman triclinium, Aquileia, Italy, 3rd-4th century CE — tesserae depicting scattered food scraps with a mouse. Museo Gregoriano Profano, Vatican Museums">
+        <figcaption><strong>Unswept Floor Mosaic (<em>asarotos oikos</em>)</strong>, originally decorating the
+          <em>triclinium</em>, the
+          dining room of a Roman house in Aquileia, Italy, 3rd–4th century CE. The mosaic depicts scattered food scraps,
+          shells,
+          and bones with a mouse feeding on the remains, rendered in <em>trompe-l’œil</em>. The motif derives from a
+          celebrated
+          Hellenistic mosaic attributed to Sosos of Pergamon (Turkey). Built from thousands of colored tesserae, these
+          works
+          functioned as artisanal simulations anticipating augmented reality. The digital image was not the first
+          disjointed
+          image. In Roman mosaics, the tessera already functioned as the pixel. Museo Gregoriano Profano, Vatican
+          Museums.
+          Photograph: Getty Images, published in <em>Daily Sabah</em>.
+        </figcaption>
+      </figure>
+
+      <div class="prose reveal" style="max-width: 70ch; margin-top: 60px;">
+
+        <h3 class="prose-heading">An Alternative Archaeology of the Pixel</h3>
+        <p>For the ancient atomist, vision was a physical immersion into a cloud of swirling particles. As New
+          Antiquarians show,
+          the turbulent worldview of Lucretius strikingly resembles our own condition in the age of AI, more than
+          Plato’s and
+          Aristotle's models. Ancient mosaicists translated this atomistic vision into stone carpets. In the Roman
+          villas of
+          Carthage, a small snail unveils the true function of these mosaics: they were not merely decoration, but a
+          sophisticated
+          medium of simulation. Built from discrete, assembled units, these mosaics act as proto-digital media,
+          producing earliest
+          historical forms of augmented reality.
+        </p>
+
+      </div>
+
+      <figure class="image-full reveal">
+        <img src="images/book04/scroll/marbles.webp" loading="lazy" decoding="async"
+          alt="Veined marble cladding simulating celestial oceans — Church of Saint Saviour in Chora, Byzantine Constantinople, 1321. Two assembled photographs by Mete Kutlu, 2020">
+        <figcaption><strong>Diving into celestial oceans.</strong> Every vein was imagined as crystallized pneuma, each
+          wave a visible
+          trace of the winds of
+          creation, each glittering impurity a divine breath captured in stone. The marble cladding transformed the
+          church into a
+          cosmic simulation, returning the believer to the moment of creation and allowing them to walk as if upon the
+          waters of
+          the primordial ocean. Church of Saint Saviour in Chora, Byzantine period, 1321, Constantinople (Turkey). Two
+          assembled photographs by Mete Kutlu, 2020.
+        </figcaption>
+      </figure>
+
+      <div class="prose reveal" style="max-width: 70ch; margin-top: 60px;">
+
+        <h3 class="prose-heading">Crystallized Clouds</h3>
+        <p>Architectural surfaces gave material form to the myths inhabited by the medieval eye. Byzantine and Ottoman
+          architects
+          discovered in veined marbles a material capable of simulating storms and winds. By selecting slabs for their
+          swirling
+          mineral patterns, they transformed massive buildings into polychrome atmospheres. In their hands, marble
+          became a
+          crystallized cloud. Geology was translated into meteorology. Architecture captured the primordial storm, the
+          moment of
+          creation frozen inside the earth.</p>
+      </div>
+
+      <div class="prose reveal" style="max-width: 70ch; margin-top: 60px;">
+
+        <figure class="image-wide reveal">
+          <img src="images/book04/scroll/esztergom-all.webp" loading="lazy" decoding="async"
+            alt="Esztergom, Hungary through six regimes of vision: Renaissance engravings by Hogenberg (1595), Ottoman miniature by Matrakci Nasuh (1546), Google Earth satellite view (2025), Draco constellation from al-Sufi (c. 1440), and the Milky Way">
+          <figcaption><strong>The city of Esztergom in Hungary seen through different eyes.</strong> At the top,
+            Renaissance bird’s-eye
+            views engraved by Frans
+            Hogenberg and published by Georg Braun in the atlas <em>Civitates Orbis Terrarum</em> (Cologne, 1595) depict
+            the city
+            through
+            perspectival landscape views structured by optical geometry and a distant observer. At center left, the
+            miniature by
+            Matrakçı Nasuh represents the city as an enigmatic talisman whose winding walls evoke the figure of the
+            Draco
+            constellation. <em>History of the Conquest of Siklos, Esztergom and Szekesféhérvar</em> (<em>Tarih-i Feth-i
+              Siklos,
+              Estergon,
+              Istolnibelgrad</em>), written and illustrated in Constantinople, 1546. Topkapı Palace Museum Library,
+            H.1608, fol.
+            90b. At
+            center right, a contemporary satellite image reveals a third regime of vision in which the city appears as a
+            landscape
+            recorded by orbital sensors and processed through digital cartographic systems. Google Earth, July 2025. The
+            bottom row
+            expands the comparison to the celestial scale. Left: Draco constellation, star chart from <em>The Book of
+              the
+              Shape of Stars</em>
+            (<em>Kitab Suwar al-Kawakib</em>) by Abd al-Rahman al-Sufi, manuscript from the library of Ulugh Beg,
+            Timurid period,
+            c. 1440,
+            Samarkand. Bibliothèque nationale de France, Arabe 5036, fol. 34v. Right: the Milky Way galaxy, horizontally
+            mirrored
+            photograph by Frankastro, 23 July 2022, composite of ten exposures of two minutes each taken with an EOS 5D
+            and Sigma
+            Art 24/35 lens.
+          </figcaption>
+        </figure>
+
+        <h3 class="prose-heading">A Cosmic Odyssey</h3>
+        <p>These urban myths were preserved in miniature paintings. To the Ottoman painter, a city was not just physical
+          reality,
+          but a whirling map of stars. In the chronicles of Sultan Süleyman’s campaigns, the conquest of Europe becomes
+          a cosmic
+          odyssey. Armies sail from one planetary orbit to another, conquering cities built atop the Milky Way. The
+          miniature was
+          an early media for augmented reality, materializing the invisible scripts that governed the Constantinopolitan
+          imagination.</p>
+
+      </div>
+
+      <figure class="image-full reveal">
+        <img src="images/book04/scroll/augustus.webp" loading="lazy" decoding="async"
+          alt="Augmented reality reconstruction of the Montgomery Tower, Wall of Philippe Augustus, Saint-Paul, Paris — virtual medieval gate anchored over surviving masonry. Designed by Mete Kutlu, 2022">
+        <figcaption><strong>Immersive reconstruction of the Montgomery Tower of the Wall of Philippe Augustus,
+            Saint-Paul,
+            Paris.</strong> This augmented reality experience
+          reveals the medieval tower and gate
+          of the Wall of Philippe Augustus at the Montgomery Tower stop in Saint-Paul. When the user points the phone
+          toward the
+          surviving stones, a virtual reconstruction appears in place, allowing the viewer to walk through the gate and
+          re-enter
+          the city along the wall built under Philip II of France. The model is spatially aligned with the remaining
+          masonry and
+          serves as a prototype for testing architectural anchoring in augmented reality. Designed and developed by Mete
+          Kutlu.
+          Screenshots from the app experience, 2022.
+        </figcaption>
+      </figure>
+
+      <div class="prose reveal" style="max-width: 70ch; margin-top: 60px;">
+
+        <h3 class="prose-heading">The Augmented <em>Flâneur</em></h3>
+        <p>Today, augmented reality takes these imaginary cities off the paper and anchors them within our
+          three-dimensional
+          world. Urban space has become a cloud of spatial data; the city itself becomes the screen, a personalized
+          interface
+          where past and present coexist. As we walk along the virtual reconstruction of the medieval walls of Paris, we
+          transition from the traditional <em>flâneur</em> to the spatially extended cyborg. Navigating "mirror worlds,"
+          our
+          interaction
+          with the city is now mediated through data stored in the Cloud. This is our new tool for fabricating modern
+          urban myths,
+          placing gaze within gaze and layers of history within the palm of our hand.</p>
+
+      </div>
+
+      <figure class="image-tall reveal">
+        <img src="images/book04/scroll/nadir.webp" loading="lazy" decoding="async"
+          alt="Glazed quartz mosaic tilework on the facade of the Nadir Divanbegi Madrasa, Bukhara, Uzbekistan, 1623 — cobalt blue reflective surface from silica-rich tesserae. Photograph by Mete Kutlu, 2021">
+        <figcaption><strong>Quartz and the architecture of light.</strong> Along the Silk Road, monuments were assembled
+          from glazed
+          mosaic tiles made
+          with silica-rich pastes derived from crushed quartz. Combined with metallic oxides such as cobalt and copper,
+          these
+          materials produced deep blue, highly reflective surfaces that transform architecture into luminous structures
+          of light
+          rather than brick. In Samarkand and Bukhara, people felt as if not dwelling simply on Earth but among the
+          stars, in a cosmic and
+          mythic virtual world. Façade detail from the Nadir Divanbegi Madrasa, Bukhara (Uzbekistan), 1623, Janid
+          period. Photograph
+          by Mete Kutlu, 2021.
+        </figcaption>
+      </figure>
+
+      <div class="prose reveal" style="max-width: 70ch; margin-top: 60px;">
+
+        <h3 class="prose-heading">The City of Quartz</h3>
+        <p>The narrative culminates in Samarkand (Uzbekistan), the legendary City of Quartz, the ancient capital of the
+          Silk Road. Along the 15th-century Silk Road,
+          cities were
+          networked information processing systems. Monuments were dressed in a layer of quartz crystals, covered with
+          luminous
+          information circuits that gave the impression of an immaterial, virtual city. Through 3D scanning, these
+          mosaics are now
+          captured as digital meshes composed of millions of points. Here, we transition from one mosaic epistemology to
+          another.
+          Long before the silicon microchip, there was the silica tile. The same mineral foundation that produced the
+          shimmering
+          surfaces of Timurid architecture now underlies our computational hardware. The monuments of Samarkand are the
+          distant
+          ancestors of the digital matrix.</p>
+
+      </div>
+
+    </div>
+  </section>
+
+  <figure class="image-compare reveal" aria-label="Image comparison slider">
+    <div class="compareStage">
+      <img class="compareImgBase" src="images/book04/scroll/mosaic-d.webp" loading="lazy" decoding="async"
+        alt="Source miniature — Church of the Blachernae, Byzantine icon, c. 13th century">
+      <div class="compareImgOverlay" aria-hidden="true">
+        <img src="images/book04/scroll/mosaic-a.webp" loading="lazy" decoding="async"
+          alt="Triangulated geometric mesh of the Gur Amir muqarnas vault derived from the 3D scan — stellate geometries and nested cells of the glazed tilework. Visualization by Mete Kutlu, 2024">
+      </div>
+      <div class="compareHandle" role="slider" aria-label="Drag to compare images" aria-valuenow="50" aria-valuemin="0"
+        aria-valuemax="100" tabindex="0">
+        <div class="compareBar"></div>
+        <div class="compareKnob">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M8 5l-5 7 5 7M16 5l5 7-5 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+        </div>
+      </div>
+      <span class="compareLabel compareLabel--before">3D Scan</span>
+      <span class="compareLabel compareLabel--after">Mesh Structure</span>
+    </div>
+    <figcaption>
+      <strong>From artisanal mosaics to digital ones: the muqarnas of the Gur Amir Mausoleum.</strong> The portal niche
+      of the mausoleum
+      built
+      in 1403 in Samarkand (Uzbekistan) as the tomb of Timur features an intricate muqarnas vault composed of nested
+      cells, stellate
+      geometries, and glazed tilework. The slider reveals two regimes of representation: a photorealistic 3D scan of the
+      structure and the triangulated geometric mesh derived from it. Generated from 250 photographs taken on 10 October
+      2023
+      with a Fujifilm XT-3 camera, the model was processed using Apple’s Object Capture API, Cinema 4D, Octane, and
+      After
+      Effects. Scan and visualization by Mete Kutlu, 2024.
+    </figcaption>
+  </figure>
+
+  <!-- Full-width image -->
+  <figure class="image-tall reveal">
+    <img src="images/book04/scroll/kaltaminor.webp" loading="lazy" decoding="async"
+      alt="Kalta Minor minaret, Itchan Kala, Khiva, Uzbekistan, 1855 (unfinished), Khiva Khanate period — turquoise glazed tilework. Photograph by Mete Kutlu, 2023">
+    <figcaption><strong>Kalta Minor, Itchan Kala, Khiva (Uzbekistan), 1855 (unfinished).</strong> Period of the Khiva
+      Khanate. Photograph
+      by Mete Kutlu,
+      2023.
+    </figcaption>
+  </figure>
+
+  <!-- Audio player with animated glyph canvas -->
+  <section class="audioSample glyphAudio" aria-label="Audio excerpt">
+    <div class="wrap">
+      <div class="glyphStage" id="glyphStage">
+        <canvas class="glyphCanvas" id="glyphCanvas" aria-hidden="true"></canvas>
+
+        <div class="audioCardWrap">
+          <div class="audioCard" role="group" aria-label="Audio player">
+            <div class="audioTitle">Listen to a chapter excerpt</div>
+            <div class="audioSub">
+              <span class="chapter-label">A short reading from Chapter 21</span>
+              <span class="chapter-title">City as a Star Map</span>
+            </div>
+
+            <div class="audioRow">
+              <button class="playBtn" id="glyphPlayBtn" type="button" aria-label="Play">
+                <svg class="playIcon" id="glyphPlayIcon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M9 7.5v9l8-4.5-8-4.5z" fill="currentColor" />
+                </svg>
+              </button>
+
+              <div class="barWrap">
+                <input class="progress" id="glyphProgress" type="range" min="0" max="1000" value="0"
+                  aria-label="Progress" />
+              </div>
+
+              <div class="time" id="glyphTime">0:00 / 0:00</div>
+            </div>
+
+            <audio id="glyphAudio" preload="metadata" src="audio/audiobooks/book-4-chapter-21.mp3"></audio>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Three.js 3D model section -->
+  <section id="model3d-b" aria-label="3D transition model">
+    <div class="model3dStage" id="model3dStage-b">
+      <div class="model3dSticky" id="model3dSticky-b">
+        <div class="model3dViewport">
+          <canvas id="model3dCanvas-b"></canvas>
+          <div class="model3dOverlay" id="model3dOverlay-b"></div>
+          <div class="model3dHint" id="model3dHint-b">Scroll to reveal</div>
+        </div>
+      </div>
+    </div>
+    <div class="wrapNarrow">
+      <div class="model3dCaption reveal">
+        <strong>From Silk Road cosmology to machine vision.</strong> The "cloud collar" motif sculpted on a glazed
+        terracotta base from
+        the façade of the Mausoleum of Princess Shad-i Mülk Aqa at Shah-i Zinda, commissioned between 1371–1383 during
+        the Timurid period. The visualization juxtaposes the optimized geometric mesh of a photogrammetric scan and its
+        photorealistic rendering. The model was created from 33 photographs taken on 8 November 2021 with an iPhone 11
+        and processed using Apple's Object Capture API, Cinema 4D, Octane, and After Effects. Scan and visualization by
+        Mete Kutlu, 2023.
+      </div>
+    </div>
+  </section>
+
+  <!-- Contents -->
+  <section id="contents">
+    <div class="wrapNarrow">
+      <h2 class="sectionTitle reveal">Contents</h2>
+      <div class="contents reveal">
+        <div class="toc-header">BOOK IV</div>
+        <div class="toc-book-title">The Crystal Matrix</div>
+        <div class="toc-book-subtitle">From Glazed Codes to Digital Mosaics</div>
+        <div class="toc-book-meta">
+          Digital Media: Augmented Reality and 3D Scanning<br>
+          Artisanal Media: From African Mosaics to Korean Temples
+        </div>
+
+        <div class="contentsBlock">
+          <div class="toc-num">19</div>
+          <div class="toc-text">
+            <div class="toc-title">From Mosaics to Pixels</div>
+            <div class="toc-subtitle">Walking within Simulated Gardens</div>
+          </div>
+        </div>
+
+        <div class="contentsBlock">
+          <div class="toc-num">20</div>
+          <div class="toc-text">
+            <div class="toc-title">Marbles as Crystallized Clouds</div>
+            <div class="toc-subtitle">When Geology Becomes Cosmic Meteorology</div>
+          </div>
+        </div>
+
+        <div class="contentsBlock">
+          <div class="toc-num">21</div>
+          <div class="toc-text">
+            <div class="toc-title">The City as a Star Map</div>
+            <div class="toc-subtitle">Matrakçi's Cosmographic Vision of Esztergom</div>
+          </div>
+        </div>
+
+        <div class="contentsBlock">
+          <div class="toc-num">22</div>
+          <div class="toc-text">
+            <div class="toc-title">The Augmented <em>Flâneur</em></div>
+            <div class="toc-subtitle">Walking through Layers of Myth and Code</div>
+          </div>
+        </div>
+
+        <div class="contentsBlock">
+          <div class="toc-num">23</div>
+          <div class="toc-text">
+            <div class="toc-title">Programming the City of Quartz</div>
+            <div class="toc-subtitle">From Silica Tiles to Silicon Chips</div>
+            <span class="toc-detail">French Institute of Central Asian Studies (IFEAC, Uzbekistan)</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="plates">
+    <div class="wrap">
+      <div class="platesIntro centerIntro">
+        <h2 class="sectionTitle reveal">A Look inside the Book</h2>
+        <div class="prose reveal" style="max-width: 72ch;">
+          Selected spreads from the printed prototype. Click to enlarge.
+        </div>
+      </div>
+    </div>
+
+    <div class="mosaic">
+
+      <div class="mosaicCol">
+        <!-- 7 images -->
+        <figure class="plate plateAuto reveal">
+          <img src="images/book04/mosaic-webp/book04-00001.webp" alt="The Crystal Matrix Book IV — page spread 1"
+            loading="lazy" decoding="async" width="756" height="1008"
+            data-full="images/book04/full-webp/book04-00001.webp">
+        </figure>
+
+        <figure class="plate plateAuto reveal">
+          <img src="images/book04/mosaic-webp/book04-00002.webp" alt="The Crystal Matrix Book IV — page spread 2"
+            loading="lazy" decoding="async" width="756" height="1008"
+            data-full="images/book04/full-webp/book04-00002.webp">
+        </figure>
+
+        <figure class="plate plateAuto reveal">
+          <img src="images/book04/mosaic-webp/book04-00003.webp" alt="The Crystal Matrix Book IV — page spread 3"
+            loading="lazy" decoding="async" width="756" height="1008"
+            data-full="images/book04/full-webp/book04-00003.webp">
+        </figure>
+
+        <figure class="plate plateAuto reveal">
+          <img src="images/book04/mosaic-webp/book04-00004.webp" alt="The Crystal Matrix Book IV — page spread 4"
+            loading="lazy" decoding="async" width="756" height="1008"
+            data-full="images/book04/full-webp/book04-00004.webp">
+        </figure>
+
+        <figure class="plate plateAuto reveal">
+          <img src="images/book04/mosaic-webp/book04-00005.webp" alt="The Crystal Matrix Book IV — page spread 5"
+            loading="lazy" decoding="async" width="756" height="1008"
+            data-full="images/book04/full-webp/book04-00005.webp">
+        </figure>
+
+        <figure class="plate plateAuto reveal">
+          <img src="images/book04/mosaic-webp/book04-00006.webp" alt="The Crystal Matrix Book IV — page spread 6"
+            loading="lazy" decoding="async" width="756" height="1008"
+            data-full="images/book04/full-webp/book04-00006.webp">
+        </figure>
+
+        <figure class="plate plateAuto reveal">
+          <img src="images/book04/mosaic-webp/book04-00007.webp" alt="The Crystal Matrix Book IV — page spread 7"
+            loading="lazy" decoding="async" width="756" height="1008"
+            data-full="images/book04/full-webp/book04-00007.webp">
+        </figure>
+      </div>
+
+
+      <div class="mosaicCol">
+        <!-- 10 images -->
+        <figure class="plate plateAuto reveal">
+          <img src="images/book04/mosaic-webp/book04-00008.webp" alt="The Crystal Matrix Book IV — page spread 8"
+            loading="lazy" decoding="async" width="756" height="1008"
+            data-full="images/book04/full-webp/book04-00008.webp">
+        </figure>
+
+        <figure class="plate plateAuto reveal">
+          <img src="images/book04/mosaic-webp/book04-00009.webp" alt="The Crystal Matrix Book IV — page spread 9"
+            loading="lazy" decoding="async" width="756" height="1008"
+            data-full="images/book04/full-webp/book04-00009.webp">
+        </figure>
+
+        <figure class="plate plateAuto reveal">
+          <img src="images/book04/mosaic-webp/book04-00010.webp" alt="The Crystal Matrix Book IV — page spread 10"
+            loading="lazy" decoding="async" width="756" height="1008"
+            data-full="images/book04/full-webp/book04-00010.webp">
+        </figure>
+
+        <figure class="plate plateAuto reveal">
+          <img src="images/book04/mosaic-webp/book04-00011.webp" alt="The Crystal Matrix Book IV — page spread 11"
+            loading="lazy" decoding="async" width="756" height="1008"
+            data-full="images/book04/full-webp/book04-00011.webp">
+        </figure>
+
+        <figure class="plate plateAuto reveal">
+          <img src="images/book04/mosaic-webp/book04-00012.webp" alt="The Crystal Matrix Book IV — page spread 12"
+            loading="lazy" decoding="async" width="756" height="1008"
+            data-full="images/book04/full-webp/book04-00012.webp">
+        </figure>
+
+        <figure class="plate plateAuto reveal">
+          <img src="images/book04/mosaic-webp/book04-00013.webp" alt="The Crystal Matrix Book IV — page spread 13"
+            loading="lazy" decoding="async" width="756" height="1008"
+            data-full="images/book04/full-webp/book04-00013.webp">
+        </figure>
+
+        <figure class="plate plateAuto reveal">
+          <img src="images/book04/mosaic-webp/book04-00014.webp" alt="The Crystal Matrix Book IV — page spread 14"
+            loading="lazy" decoding="async" width="756" height="1008"
+            data-full="images/book04/full-webp/book04-00014.webp">
+        </figure>
+
+        <figure class="plate plateAuto reveal">
+          <img src="images/book04/mosaic-webp/book04-00015.webp" alt="The Crystal Matrix Book IV — page spread 15"
+            loading="lazy" decoding="async" width="756" height="1008"
+            data-full="images/book04/full-webp/book04-00015.webp">
+        </figure>
+
+        <figure class="plate plateAuto reveal">
+          <img src="images/book04/mosaic-webp/book04-00016.webp" alt="The Crystal Matrix Book IV — page spread 16"
+            loading="lazy" decoding="async" width="756" height="1008"
+            data-full="images/book04/full-webp/book04-00016.webp">
+        </figure>
+
+        <figure class="plate plateAuto reveal">
+          <img src="images/book04/mosaic-webp/book04-00017.webp" alt="The Crystal Matrix Book IV — page spread 17"
+            loading="lazy" decoding="async" width="756" height="1008"
+            data-full="images/book04/full-webp/book04-00017.webp">
+        </figure>
+      </div>
+
+
+      <div class="mosaicCol">
+        <!-- 9 images -->
+        <figure class="plate plateAuto reveal">
+          <img src="images/book04/mosaic-webp/book04-00018.webp" alt="The Crystal Matrix Book IV — page spread 18"
+            loading="lazy" decoding="async" width="756" height="1008"
+            data-full="images/book04/full-webp/book04-00018.webp">
+        </figure>
+
+        <figure class="plate plateAuto reveal">
+          <img src="images/book04/mosaic-webp/book04-00019.webp" alt="The Crystal Matrix Book IV — page spread 19"
+            loading="lazy" decoding="async" width="756" height="1008"
+            data-full="images/book04/full-webp/book04-00019.webp">
+        </figure>
+
+        <figure class="plate plateAuto reveal">
+          <img src="images/book04/mosaic-webp/book04-00020.webp" alt="The Crystal Matrix Book IV — page spread 20"
+            loading="lazy" decoding="async" width="756" height="1008"
+            data-full="images/book04/full-webp/book04-00020.webp">
+        </figure>
+
+        <figure class="plate plateAuto reveal">
+          <img src="images/book04/mosaic-webp/book04-00021.webp" alt="The Crystal Matrix Book IV — page spread 21"
+            loading="lazy" decoding="async" width="756" height="1008"
+            data-full="images/book04/full-webp/book04-00021.webp">
+        </figure>
+
+        <figure class="plate plateAuto reveal">
+          <img src="images/book04/mosaic-webp/book04-00022.webp" alt="The Crystal Matrix Book IV — page spread 22"
+            loading="lazy" decoding="async" width="756" height="1008"
+            data-full="images/book04/full-webp/book04-00022.webp">
+        </figure>
+
+        <figure class="plate plateAuto reveal">
+          <img src="images/book04/mosaic-webp/book04-00023.webp" alt="The Crystal Matrix Book IV — page spread 23"
+            loading="lazy" decoding="async" width="756" height="1008"
+            data-full="images/book04/full-webp/book04-00023.webp">
+        </figure>
+
+        <figure class="plate plateAuto reveal">
+          <img src="images/book04/mosaic-webp/book04-00024.webp" alt="The Crystal Matrix Book IV — page spread 24"
+            loading="lazy" decoding="async" width="756" height="1008"
+            data-full="images/book04/full-webp/book04-00024.webp">
+        </figure>
+
+        <figure class="plate plateAuto reveal">
+          <img src="images/book04/mosaic-webp/book04-00025.webp" alt="The Crystal Matrix Book IV — page spread 25"
+            loading="lazy" decoding="async" width="756" height="1008"
+            data-full="images/book04/full-webp/book04-00025.webp">
+        </figure>
+
+        <figure class="plate plateAuto reveal">
+          <img src="images/book04/mosaic-webp/book04-00026f.webp" alt="The Crystal Matrix Book IV — page spread 26"
+            loading="lazy" decoding="async" width="756" height="1008"
+            data-full="images/book04/full-webp/book04-00026f.webp">
+        </figure>
+      </div>
+
+
+      <div class="mosaicCol">
+        <!-- 8 images -->
+        <figure class="plate plateAuto reveal">
+          <img src="images/book04/mosaic-webp/book04-00027.webp" alt="The Crystal Matrix Book IV — page spread 27"
+            loading="lazy" decoding="async" width="756" height="1008"
+            data-full="images/book04/full-webp/book04-00027.webp">
+        </figure>
+
+        <figure class="plate plateAuto reveal">
+          <img src="images/book04/mosaic-webp/book04-00028.webp" alt="The Crystal Matrix Book IV — page spread 28"
+            loading="lazy" decoding="async" width="756" height="1008"
+            data-full="images/book04/full-webp/book04-00028.webp">
+        </figure>
+
+        <figure class="plate plateAuto reveal">
+          <img src="images/book04/mosaic-webp/book04-00029f.webp" alt="The Crystal Matrix Book IV — page spread 29"
+            loading="lazy" decoding="async" width="756" height="1008"
+            data-full="images/book04/full-webp/book04-00029f.webp">
+        </figure>
+
+        <figure class="plate plateAuto reveal">
+          <img src="images/book04/mosaic-webp/book04-00030f.webp" alt="The Crystal Matrix Book IV — page spread 30"
+            loading="lazy" decoding="async" width="756" height="1008"
+            data-full="images/book04/full-webp/book04-00030f.webp">
+        </figure>
+
+        <figure class="plate plateAuto reveal">
+          <img src="images/book04/mosaic-webp/book04-00031f.webp" alt="The Crystal Matrix Book IV — page spread 31"
+            loading="lazy" decoding="async" width="756" height="1008"
+            data-full="images/book04/full-webp/book04-00031f.webp">
+        </figure>
+
+        <figure class="plate plateAuto reveal">
+          <img src="images/book04/mosaic-webp/book04-00032f.webp" alt="The Crystal Matrix Book IV — page spread 32"
+            loading="lazy" decoding="async" width="756" height="1008"
+            data-full="images/book04/full-webp/book04-00032f.webp">
+        </figure>
+
+        <figure class="plate plateAuto reveal">
+          <img src="images/book04/mosaic-webp/book04-00033.webp" alt="The Crystal Matrix Book IV — page spread 33"
+            loading="lazy" decoding="async" width="756" height="1008"
+            data-full="images/book04/full-webp/book04-00033.webp">
+        </figure>
+
+        <figure class="plate plateAuto reveal">
+          <img src="images/book04/mosaic-webp/book04-00034.webp" alt="The Crystal Matrix Book IV — page spread 34"
+            loading="lazy" decoding="async" width="756" height="1008"
+            data-full="images/book04/full-webp/book04-00034.webp">
+        </figure>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="lightbox" id="lightbox">
+    <button class="lightboxClose" aria-label="Close image">
+      <span></span>
+      <span></span>
+    </button>
+    <img src="" alt="">
+  </div>
+
+  <footer id="navNext">
+    <div class="wrapNarrow colophon">
+
+      <div class="footerNav">
+        <a href="books.html" class="footerBtn">← Back to Books</a>
+        <a href="book-5-synthetic-minds.html" class="footerBtn">Next: Book V →</a>
+      </div>
+
+      <div class="footerDivider"></div>
+
+      <div class="colophonMeta">
+        © <span id="year"></span> Mete Kutlu — Empire of Clouds
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- ================= SCRIPTS ================= -->
+  <!-- Page exit veil — fades content to black before navigation -->
+  <div id="pageVeil"></div>
+
+  <script src="js/books-behaviour.js" defer></script>
+</body>
+
+</html>

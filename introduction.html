@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <!-- =============== Author and Copyright Notice =============== -->
+  <meta name="author" content="Mete Kutlu">
+  <meta name="copyright" content="© 2026 Mete Kutlu. All rights reserved.">
+  <meta name="description"
+    content="Empire of Clouds — Codes, Colors and Cosmos. A research-based artistic and architectural project exploring cloud cosmology, planetary computation and visual cultures along the Silk Road.">
+
+  <!-- =============== Open Graph: Social Sharing Preview =============== -->
+  <meta property="og:title" content="Empire of Clouds — Codes, Colors and Cosmos">
+  <meta property="og:description"
+    content="A research project by Mete Kutlu exploring cosmology, computation and the aesthetics of the cloud.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://empireofclouds.com">
+  <meta property="og:image" content="https://empireofclouds.com/images/og-preview.jpg">
+  <meta property="og:site_name" content="Empire of Clouds">
+  <meta property="og:locale" content="en_US">
+
+  <!-- =============== Canonical URL =============== -->
+  <link rel="canonical" href="https://empireofclouds.com/">
+
+  <!-- =============== Favicon =============== -->
+  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+
+  <!-- =============== Structured Data SEO =============== -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Mete Kutlu",
+      "url": "https://empireofclouds.com",
+      "jobTitle": "Artist, Creative Technologist, Researcher and Architect",
+      "sameAs": ["https://metekutlu.com"]
+    }
+  </script>
+
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Introduction · Empire of Clouds</title>
+
+  <!-- =============== Fonts =============== -->
+  <link href="https://fonts.googleapis.com" rel="preconnect" />
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Unbounded:wght@500;600;700;800&family=Asimovian&display=swap"
+    rel="stylesheet">
+
+  <!-- =============== Stylesheet (merged) =============== -->
+  <link rel="stylesheet" href="/css/introduction.css">
+
+  <!-- Three.js import map -->
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+      }
+    }
+  </script>
+
+</head>
+
+<body>
+
+  <!-- Full-screen backdrop: sits behind hint panels, catches outside clicks -->
+  <div id="hintBackdrop"></div>
+
+  <!-- ================= Top Navigation Bar ================= -->
+  <header class="topnav is-visible" id="topnav" aria-label="Primary">
+    <div class="navInner">
+      <a class="brand" href="index.html?skip=1" aria-label="Empire of Clouds home">
+        Empire of Clouds
+      </a>
+      <nav class="navLinks" aria-label="Site">
+        <a href="about.html">About</a>
+        <a href="author.html">Author</a>
+        <a href="books.html">Books</a>
+        <a href="partners.html">Partners</a>
+        <a href="https://www.dreampixels.cloud" target="_blank" rel="noopener">Dream Pixels</a>
+        <a href="waitlist.html">Waitlist</a>
+      </nav>
+      <button class="menuToggle" id="menuToggle" aria-label="Open navigation" aria-expanded="false"
+        aria-controls="navPanel">Menu</button>
+    </div>
+  </header>
+
+  <!-- ── Mobile nav panel ── -->
+  <nav class="navPanel" id="navPanel" aria-label="Mobile navigation" aria-hidden="true">
+    <button class="navPanelClose" id="navPanelClose" aria-label="Close navigation">Close</button>
+    <div class="navPanelLinks">
+      <a href="about.html">About</a>
+      <a href="author.html">Author</a>
+      <a href="books.html">Books</a>
+      <a href="partners.html">Partners</a>
+      <a href="https://www.dreampixels.cloud" target="_blank" rel="noopener">Dream Pixels</a>
+      <a href="waitlist.html">Waitlist</a>
+    </div>
+  </nav>
+
+  <!-- ================= 3D Model — Scope ================= -->
+  <section id="model3d-b" class="scrollSection is-active" aria-label="3D model: Scope">
+    <div class="model3dStage" id="model3dStage-b">
+      <div class="model3dSticky" id="model3dSticky-b">
+        <div class="model3dViewport">
+          <canvas id="model3dCanvas-b"></canvas>
+          <div class="model3dOverlay" id="model3dOverlay-b"></div>
+
+          <div class="model3dStatsOverlay">
+            <div class="model3dStatsPart revealManual" data-show-step="1" data-hide-step="2">
+              <div class="model3dStatsBox">
+                <ul class="model3dStatsList">
+                  <li>6 years of research along<br>the medieval Silk Road</li>
+                  <li>
+                    <span class="statDesktop">5 books / 2,613 pages / 1,000 images</span>
+                    <span class="statMobile">5 books<br>2,613 pages<br>1,000 images</span>
+                  </li>
+                  <li>2 awards</li>
+                </ul>
+              </div>
+            </div>
+            <div class="model3dStatsPart revealManual" data-show-step="2" data-hide-step="3">
+              <div class="model3dStatsBox">
+                <ul class="model3dStatsList">
+                  <li>42 supporting institutions<br>across 13 countries</li>
+                  <li>Fieldwork in <span class="statBr"><br></span>25 cities</li>
+                  <li>5 3D scanning missions</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="model3dHint" id="model3dHint-b">
+            <button class="hintClose" id="hintClose-b" aria-label="Close">✕</button>
+
+            <!-- Desktop: mouse + arrow keys -->
+            <div class="hintMethods hintMethodsDesktop">
+              <div class="hintMethod">
+                <svg class="hintIcon" width="33" height="51" viewBox="0 0 22 34" fill="none"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <rect x="1" y="1" width="20" height="32" rx="10" stroke="rgba(255,255,255,0.55)" stroke-width="1.5" />
+                  <line x1="11" y1="8" x2="11" y2="13" stroke="rgba(255,255,255,0.9)" stroke-width="1.5"
+                    stroke-linecap="round">
+                    <animate attributeName="y2" values="13;17;13" dur="1.6s" repeatCount="indefinite" />
+                    <animate attributeName="opacity" values="1;0.2;1" dur="1.6s" repeatCount="indefinite" />
+                  </line>
+                </svg>
+                <span class="hintLabel">Scroll</span>
+              </div>
+              <div class="hintDivider"></div>
+              <div class="hintMethod">
+                <svg class="hintIcon" width="81" height="54" viewBox="0 0 54 36" fill="none"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <rect x="18" y="0.75" width="17" height="15.5" rx="2" stroke="rgba(255,255,255,0.55)"
+                    stroke-width="1.5" />
+                  <polyline points="26.5,5 26.5,12" stroke="rgba(255,255,255,0.9)" stroke-width="1.5"
+                    stroke-linecap="round" />
+                  <polyline points="23,9 26.5,5 30,9" stroke="rgba(255,255,255,0.9)" stroke-width="1.5"
+                    stroke-linecap="round" stroke-linejoin="round" />
+                  <rect x="18" y="19.75" width="17" height="15.5" rx="2" stroke="rgba(255,255,255,0.55)"
+                    stroke-width="1.5" />
+                  <polyline points="26.5,24 26.5,31" stroke="rgba(255,255,255,0.9)" stroke-width="1.5"
+                    stroke-linecap="round" />
+                  <polyline points="23,27 26.5,31 30,27" stroke="rgba(255,255,255,0.9)" stroke-width="1.5"
+                    stroke-linecap="round" stroke-linejoin="round" />
+                  <rect x="0.75" y="19.75" width="15.5" height="15.5" rx="2" stroke="rgba(255,255,255,0.2)"
+                    stroke-width="1.5" />
+                  <polyline points="4.5,27.5 12,27.5" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"
+                    stroke-linecap="round" />
+                  <polyline points="7,25 4,27.5 7,30" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"
+                    stroke-linecap="round" stroke-linejoin="round" />
+                  <rect x="37.75" y="19.75" width="15.5" height="15.5" rx="2" stroke="rgba(255,255,255,0.2)"
+                    stroke-width="1.5" />
+                  <polyline points="41.5,27.5 49,27.5" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"
+                    stroke-linecap="round" />
+                  <polyline points="46.5,25 49.5,27.5 46.5,30" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"
+                    stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                <span class="hintLabel">Arrow keys</span>
+              </div>
+            </div>
+            <p class="hintTagline hintTaglineDesktop">Scroll or use arrow keys to explore</p>
+
+            <!-- Mobile: swipe finger -->
+            <div class="hintMethods hintMethodsMobile">
+              <div class="hintMethod">
+                <img src="/images/introduction/swipe.png" class="hintIcon" alt="Swipe"
+                  style="width:62px;height:auto;opacity:0.85;">
+
+              </div>
+            </div>
+            <p class="hintTagline hintTaglineMobile">Swipe up or down to explore</p>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= About the Project ================= -->
+  <section id="about" class="scrollSection">
+    <div class="aboutBg"></div>
+    <div class="aboutOuter">
+      <div class="aboutInner">
+        <div class="aboutText">
+          <p class="reveal">Empire of Clouds is the culmination of six years of doctoral research along the ancient
+            Silk Road. It offers
+            a colorful invitation to a cosmic journey that moves from the secret archives of the Vatican to the
+            architectures of machine learning. In the personal library of the Ottoman sultan in Constantinople, we
+            encounter the prototypes of our own algorithmic future.</p>
+          <p class="reveal">The voyage traces how the fantastical atmospheres of miniature paintings open toward the
+            unknown depths of the cosmos. Within the mineral waves of marble-clad temples, we rediscover the turbulent
+            birth of galaxies. The pixel becomes the cosmos, the pigment becomes the algorithm. Once expressed through
+            myths and prophecy, the cloud returns today as the governing principle of our societies: a planetary
+            technological infrastructure that reshapes how we think and create.</p>
+          <p class="reveal">The compass for cultural evolution is no longer the Italian Renaissance of Florence but
+            the Turkish Renaissance which took place in Herat, Afghanistan. This was a model of civilization where
+            algorithms and cosmology entangled within an iridescent vision of the world.</p>
+        </div>
+      </div>
+      <div class="aboutMarquee">
+        <div class="track" id="logoTrack"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 3D Model — Results ================= -->
+  <section id="model3d-d" class="scrollSection" aria-label="3D model: Results">
+    <div class="model3dStage" id="model3dStage-d">
+      <div class="model3dSticky" id="model3dSticky-d">
+        <div class="model3dViewport">
+          <canvas id="model3dCanvas-d"></canvas>
+          <div class="model3dOverlay" id="model3dOverlay-d"></div>
+
+          <div class="model3dStatsOverlay">
+            <div class="model3dStatsPart revealManual" data-show-step="1" data-hide-step="2">
+              <div class="model3dStatsBox">
+                <ul class="model3dStatsList">
+                  <li>20 algorithmic experiments</li>
+                  <li>20 video essays</li>
+                  <li>8 augmented reality applications</li>
+                </ul>
+              </div>
+            </div>
+            <div class="model3dStatsPart revealManual" data-show-step="2" data-hide-step="3">
+              <div class="model3dStatsBox">
+                <ul class="model3dStatsList">
+                  <li>10 terabytes of generated data</li>
+                  <li>7 interactive platforms</li>
+                  <li>2 immersive websites</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="model3dHint" id="model3dHint-d">
+            <button class="hintClose" id="hintClose-d" aria-label="Close">✕</button>
+
+            <!-- Desktop: mouse + arrow keys -->
+            <div class="hintMethods hintMethodsDesktop">
+              <div class="hintMethod">
+                <svg class="hintIcon" width="33" height="51" viewBox="0 0 22 34" fill="none"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <rect x="1" y="1" width="20" height="32" rx="10" stroke="rgba(255,255,255,0.55)" stroke-width="1.5" />
+                  <line x1="11" y1="8" x2="11" y2="13" stroke="rgba(255,255,255,0.9)" stroke-width="1.5"
+                    stroke-linecap="round">
+                    <animate attributeName="y2" values="13;17;13" dur="1.6s" repeatCount="indefinite" />
+                    <animate attributeName="opacity" values="1;0.2;1" dur="1.6s" repeatCount="indefinite" />
+                  </line>
+                </svg>
+                <span class="hintLabel">Scroll</span>
+              </div>
+              <div class="hintDivider"></div>
+              <div class="hintMethod">
+                <svg class="hintIcon" width="81" height="54" viewBox="0 0 54 36" fill="none"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <rect x="18" y="0.75" width="17" height="15.5" rx="2" stroke="rgba(255,255,255,0.55)"
+                    stroke-width="1.5" />
+                  <polyline points="26.5,5 26.5,12" stroke="rgba(255,255,255,0.9)" stroke-width="1.5"
+                    stroke-linecap="round" />
+                  <polyline points="23,9 26.5,5 30,9" stroke="rgba(255,255,255,0.9)" stroke-width="1.5"
+                    stroke-linecap="round" stroke-linejoin="round" />
+                  <rect x="18" y="19.75" width="17" height="15.5" rx="2" stroke="rgba(255,255,255,0.55)"
+                    stroke-width="1.5" />
+                  <polyline points="26.5,24 26.5,31" stroke="rgba(255,255,255,0.9)" stroke-width="1.5"
+                    stroke-linecap="round" />
+                  <polyline points="23,27 26.5,31 30,27" stroke="rgba(255,255,255,0.9)" stroke-width="1.5"
+                    stroke-linecap="round" stroke-linejoin="round" />
+                  <rect x="0.75" y="19.75" width="15.5" height="15.5" rx="2" stroke="rgba(255,255,255,0.2)"
+                    stroke-width="1.5" />
+                  <polyline points="4.5,27.5 12,27.5" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"
+                    stroke-linecap="round" />
+                  <polyline points="7,25 4,27.5 7,30" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"
+                    stroke-linecap="round" stroke-linejoin="round" />
+                  <rect x="37.75" y="19.75" width="15.5" height="15.5" rx="2" stroke="rgba(255,255,255,0.2)"
+                    stroke-width="1.5" />
+                  <polyline points="41.5,27.5 49,27.5" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"
+                    stroke-linecap="round" />
+                  <polyline points="46.5,25 49.5,27.5 46.5,30" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"
+                    stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                <span class="hintLabel">Arrow keys</span>
+              </div>
+            </div>
+            <p class="hintTagline hintTaglineDesktop">Scroll or use arrow keys to explore</p>
+
+            <!-- Mobile: swipe finger -->
+            <div class="hintMethods hintMethodsMobile">
+              <div class="hintMethod">
+                <img src="/images/introduction/swipe.png" class="hintIcon" alt="Swipe"
+                  style="width:62px;height:auto;opacity:0.85;">
+
+              </div>
+            </div>
+            <p class="hintTagline hintTaglineMobile">Swipe up or down to explore</p>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= Progress Nav ================= -->
+  <nav class="progressNav" id="progressNav">
+    <div class="progressGroup">
+      <span class="progressGroupLabel">Scope</span>
+      <button class="progressDot is-active" data-step="0" data-substep="0">⟐</button>
+      <button class="progressDot" data-step="0" data-substep="1">⟑</button>
+      <button class="progressDot" data-step="0" data-substep="2">⟒</button>
+      <button class="progressDot" data-step="0" data-substep="3">⟓</button>
+    </div>
+    <div class="progressGroup">
+      <span class="progressGroupLabel">About</span>
+      <button class="progressDot" data-step="1" data-substep="0">※</button>
+    </div>
+    <div class="progressGroup">
+      <span class="progressGroupLabel">Results</span>
+      <button class="progressDot" data-step="2" data-substep="0">⍜</button>
+      <button class="progressDot" data-step="2" data-substep="1">⍝</button>
+      <button class="progressDot" data-step="2" data-substep="2">⍞</button>
+      <button class="progressDot" data-step="2" data-substep="3">⍟</button>
+    </div>
+  </nav>
+
+  <!-- ================= 3D Model Captions ================= -->
+  <div class="model3dCaption" id="captionB">
+    <div class="capTitle">Wooden statue of Sanshin (산신)</div>
+    <div class="capSubtitle">Samcheonsa Temple, Bukhansan Mountain, Seoul</div>
+    <div class="capMeta">Scan no: K117 · 298 photos · 1 February 2022</div>
+  </div>
+
+  <div class="model3dCaption" id="captionD">
+    <div class="capTitle">Canopy of the entrance to the Huijeongdang (희정당)</div>
+    <div class="capSubtitle">Changdeokgung Palace, Seoul, b. 1496 to r. 1920</div>
+    <div class="capMeta">Scan no: K100 · 65 photos · 28 December 2021</div>
+  </div>
+
+  <!-- ================= Scripts ================= -->
+  <!-- Single merged module: 3D scenes + reveal observer + intro wipe + scroll controller + hint logic + CTA exit -->
+  <script type="module" src="/js/introduction.js"></script>
+
+</body>
+
+</html>
