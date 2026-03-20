@@ -1,4 +1,4 @@
-import PostProcessing from "./postprocessing-noise.js";
+// No WebGL postprocessing — noise is a simple 2D canvas overlay.
 
 // ============================================================
 // reveal-and-overlay  (intro wipe + reveal observer)
@@ -54,33 +54,40 @@ document.addEventListener("DOMContentLoaded", () => {
     const canvas = document.getElementById("c");
     const ctx = canvas.getContext("2d", { alpha: false });
 
-    // ---------- WebGL output + NoisePass (postprocessing) ----------
+    // ---------- 2D output canvas + noise overlay ----------
     const glCanvas = document.getElementById("gl");
-    const host = document.getElementById("glyphHero");
+    const glCtx   = glCanvas.getContext("2d");
+    const host     = document.getElementById("glyphHero");
     let hostW = 1, hostH = 1;
-    let post;
-    try {
-        // Mobile: width < 640px → highp shader + sin(dot) hash + lower strength
-        //   (OLED true-black makes noise visually stronger; separate shader
-        //   avoids mediump banding that mobile GPUs enforce but desktop GPUs hide).
-        // Desktop: exact original shader, untouched.
-        const isMobile = window.innerWidth < 640;
-        const noiseStrength = isMobile ? 0.04 : 0.15;
-        post = new PostProcessing(glCanvas, { enabled: true, strength: noiseStrength, mobile: isMobile });
-    } catch (e) {
-        console.error(e);
-        const box = document.createElement("div");
-        box.style.position = "fixed";
-        box.style.inset = "16px";
-        box.style.zIndex = "9999";
-        box.style.padding = "12px 14px";
-        box.style.border = "1px solid rgba(255,255,255,0.25)";
-        box.style.borderRadius = "12px";
-        box.style.background = "rgba(0,0,0,0.75)";
-        box.style.color = "#fff";
-        box.style.font = "12px/1.35 ui-monospace, Menlo, Monaco, Consolas, monospace";
-        box.textContent = "PostProcessing init failed: " + (e && e.message ? e.message : String(e));
-        document.body.appendChild(box);
+
+    // Noise: pre-generate 10 frames of random pixel data (CSS-pixel resolution),
+    // store as offscreen canvases, cycle through at ~25 fps inside the 60fps loop.
+    let noiseFrames   = [];
+    let noiseFrameIdx = 0;
+    let noiseTickCount = 0;
+    const NOISE_FRAMES     = 10;
+    const NOISE_FPS_EVERY  = 2; // advance noise frame every N animation frames ≈ 25fps at 60fps
+
+    function buildNoiseFrames(w, h) {
+        noiseFrames = [];
+        for (let f = 0; f < NOISE_FRAMES; f++) {
+            const nc   = document.createElement("canvas");
+            nc.width   = w;
+            nc.height  = h;
+            const nCtx = nc.getContext("2d");
+            const idata = nCtx.createImageData(w, h);
+            const buf   = new Uint32Array(idata.data.buffer);
+            for (let i = 0; i < buf.length; i++) {
+                if      (Math.random() < 0.05) buf[i] = 0x080000ff; // red,   alpha 8
+                else if (Math.random() < 0.10) buf[i] = 0x0800ff00; // green, alpha 8
+                else if (Math.random() < 0.15) buf[i] = 0x08ff0000; // blue,  alpha 8
+                else if (Math.random() < 0.20) buf[i] = 0xccdddddd; // gray,  alpha 204
+            }
+            nCtx.putImageData(idata, 0, 0);
+            noiseFrames.push(nc);
+        }
+        noiseFrameIdx  = 0;
+        noiseTickCount = 0;
     }
 
 
@@ -2170,8 +2177,13 @@ document.addEventListener("DOMContentLoaded", () => {
         hostW = Math.max(1, (host && host.clientWidth) ? host.clientWidth : window.innerWidth);
         hostH = Math.max(1, window.innerHeight);
         dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
-        // Keep WebGL output and 2D source at identical device resolution
-        if (post) post.setSize(hostW, hostH, dpr);
+        // Size the visible output canvas at device resolution, same as glyph source
+        glCanvas.width        = Math.floor(hostW * dpr);
+        glCanvas.height       = Math.floor(hostH * dpr);
+        glCanvas.style.width  = hostW + "px";
+        glCanvas.style.height = hostH + "px";
+        // Rebuild noise frames at CSS-pixel resolution (upscaled to glCanvas by drawImage)
+        buildNoiseFrames(Math.floor(hostW), Math.floor(hostH));
         canvas.width = Math.floor(hostW * dpr);
         canvas.height = Math.floor(hostH * dpr);
 
@@ -2608,7 +2620,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
         applyLiquidWarp(now);
 
-        if (post) post.render(canvas, now);
+        // Composite: copy glyph canvas → visible canvas, then overlay noise frame
+        glCtx.drawImage(canvas, 0, 0, glCanvas.width, glCanvas.height);
+        noiseTickCount++;
+        if (noiseTickCount >= NOISE_FPS_EVERY) {
+            noiseTickCount = 0;
+            noiseFrameIdx  = (noiseFrameIdx + 1) % NOISE_FRAMES;
+        }
+        if (noiseFrames.length) {
+            glCtx.drawImage(noiseFrames[noiseFrameIdx], 0, 0, glCanvas.width, glCanvas.height);
+        }
         rafId = requestAnimationFrame(frame);
     }
 
