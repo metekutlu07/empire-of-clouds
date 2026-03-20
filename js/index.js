@@ -2628,7 +2628,9 @@ document.addEventListener("DOMContentLoaded", () => {
             noiseFrameIdx  = (noiseFrameIdx + 1) % NOISE_FRAMES;
         }
         if (noiseFrames.length) {
+            glCtx.globalAlpha = 0.15; // overall noise intensity — tune this one value (0=none, 1=full)
             glCtx.drawImage(noiseFrames[noiseFrameIdx], 0, 0, glCanvas.width, glCanvas.height);
+            glCtx.globalAlpha = 1.0;
         }
         rafId = requestAnimationFrame(frame);
     }
