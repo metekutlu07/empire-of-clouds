@@ -2163,7 +2163,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function resize() {
         hostW = Math.max(1, (host && host.clientWidth) ? host.clientWidth : window.innerWidth);
         hostH = Math.max(1, window.innerHeight);
-        dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
+        dpr = Math.max(1, Math.min(3, window.devicePixelRatio || 1));
         // Keep WebGL output and 2D source at identical device resolution
         if (post) post.setSize(hostW, hostH, dpr);
         canvas.width = Math.floor(hostW * dpr);
