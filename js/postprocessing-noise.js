@@ -77,10 +77,16 @@ export default class PostProcessing {
       void main(){ v_uv = a_uv; gl_Position = vec4(a_pos, 0.0, 1.0); }
     `;
 
-    // Only change from the original: mediump → highp.
-    // mediump (16-bit) loses precision on large pixel coordinates, causing the
-    // hash to alias into visible repeating bands on mobile GPUs. Desktop GPUs
-    // silently promote mediump to highp, hiding the bug. highp fixes it everywhere.
+    // Two fixes vs. the original:
+    // 1. mediump → highp: mediump loses precision on large pixel coords, causing
+    //    repeating bands on mobile GPUs. Desktop GPUs silently upgrade mediump,
+    //    hiding the bug. highp fixes it everywhere.
+    // 2. hash21: replaced fract(p.x*p.y) with sin(dot()) — the original produces
+    //    hyperbolic-band artifacts (x*y=const curves) that become visible with
+    //    highp precision, especially against high-contrast features like grid lines.
+    //    sin(dot(p, k))*large is the standard WebGL film-grain hash with no
+    //    structural periodicity. fract(u_time)*60.0 keeps the time input bounded
+    //    so highp precision stays high throughout a long session.
     const fs100 = `
       precision highp float;
       varying vec2 v_uv;
@@ -90,15 +96,14 @@ export default class PostProcessing {
       uniform float u_noiseStrength;
 
       float hash21(vec2 p){
-        p = fract(p * vec2(123.34, 456.21));
-        p += dot(p, p + 45.32);
-        return fract(p.x * p.y);
+        return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
       }
 
       void main(){
         vec4 col = texture2D(u_tex, v_uv);
         vec2 cell = floor(gl_FragCoord.xy / 3.0);
-        float n = hash21(cell + (u_time * 60.0));
+        float t = fract(u_time) * 60.0;
+        float n = hash21(cell + t);
         float g = (n - 0.5) * 2.0;
         col.rgb = clamp(col.rgb + g * u_noiseStrength, 0.0, 1.0);
         gl_FragColor = col;
@@ -119,15 +124,14 @@ export default class PostProcessing {
       uniform float u_noiseStrength;
 
       float hash21(vec2 p){
-        p = fract(p * vec2(123.34, 456.21));
-        p += dot(p, p + 45.32);
-        return fract(p.x * p.y);
+        return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
       }
 
       void main(){
         vec4 col = texture(u_tex, v_uv);
         vec2 cell = floor(gl_FragCoord.xy / 3.0);
-        float n = hash21(cell + (u_time * 60.0));
+        float t = fract(u_time) * 60.0;
+        float n = hash21(cell + t);
         float g = (n - 0.5) * 2.0;
         col.rgb = clamp(col.rgb + g * u_noiseStrength, 0.0, 1.0);
         outColor = col;

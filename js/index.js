@@ -60,10 +60,11 @@ document.addEventListener("DOMContentLoaded", () => {
     let hostW = 1, hostH = 1;
     let post;
     try {
-        // OLED mobile screens (high DPR) make noise visually stronger than LCD —
-        // true black means any brightness deviation is immediately visible.
-        // Reduce strength proportionally so the effect feels equally subtle.
-        const noiseStrength = (window.devicePixelRatio || 1) >= 2 ? 0.07 : 0.15;
+        // OLED mobile screens make noise appear much harsher than LCD —
+        // true black makes any brightness deviation immediately visible.
+        // Use pointer:coarse (touchscreen) to detect mobile vs retina desktop.
+        const isMobile = window.matchMedia("(pointer: coarse)").matches;
+        const noiseStrength = isMobile ? 0.04 : 0.15;
         post = new PostProcessing(glCanvas, { enabled: true, strength: noiseStrength });
     } catch (e) {
         console.error(e);
