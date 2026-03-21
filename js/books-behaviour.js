@@ -1025,9 +1025,10 @@ document.getElementById("year").textContent = new Date().getFullYear();
      internal link navigation
    ============================================================ */
 
-// Nav enter — reveal after first paint
+// Reveal after first paint: nav slides in, page veil fades out
 requestAnimationFrame(() => requestAnimationFrame(() => {
     document.body.classList.add('nav-ready');
+    document.body.classList.add('page-ready');
 }));
 
 // Nav enter — delayed class for waitlist-style glyph reveal compatibility
@@ -1186,30 +1187,41 @@ document.addEventListener('click', function (e) {
 /* ============================================================
    9. BFCACHE FLASH FIX
    When navigating back via bfcache the page is restored in its
-   last-seen state (hint visible, navPanel open). Reset both.
+   last-seen state (hint visible, navPanel open, is-exiting on
+   body). The veil is already opaque (page-ready was removed when
+   we left), so we get a clean black screen. Reset all state then
+   re-add page-ready to fade the veil out normally.
    ============================================================ */
 
 window.addEventListener('pageshow', function (e) {
     if (!e.persisted) return;
 
-    // Reset the swipe hint
-    var hint = document.querySelector('.hint');
-    if (hint) {
-        hint.classList.remove('show');
-        setTimeout(function () { hint.classList.add('show'); }, 700);
-    }
+    // Ensure veil is covering the page while we reset (remove page-ready
+    // and is-exiting so the #pageVeil CSS default opacity:1 applies)
+    document.body.classList.remove('page-ready');
+    document.body.classList.remove('is-exiting');
 
-    // Close the nav panel if it was left open
+    // Reset the swipe hint (hide immediately, re-show after reveal)
+    var hint = document.querySelector('.hint');
+    if (hint) hint.classList.remove('show');
+
+    // Close the nav panel
     var panel = document.getElementById('navPanel');
-    if (panel && panel.classList.contains('is-open')) {
+    if (panel) {
         panel.style.transition = 'none';
         panel.classList.remove('is-open');
         panel.setAttribute('aria-hidden', 'true');
         document.body.style.overflow = '';
         var toggle = document.getElementById('menuToggle');
         if (toggle) toggle.setAttribute('aria-expanded', 'false');
-        requestAnimationFrame(function () {
-            requestAnimationFrame(function () { panel.style.transition = ''; });
-        });
     }
+
+    // Reveal: fade veil out, restore panel transitions, re-show hint
+    requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
+            if (panel) panel.style.transition = '';
+            document.body.classList.add('page-ready');
+            if (hint) setTimeout(function () { hint.classList.add('show'); }, 700);
+        });
+    });
 });

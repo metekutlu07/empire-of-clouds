@@ -2050,19 +2050,26 @@ figure.image-compare figcaption {
 
 /* ===================== BOOK V ADDITIONS ===================== */
 
-/* Page exit veil — sits above content (z 90) but below topnav (z 999) */
+/* Page veil — starts visible so nothing flashes during initial render.
+   JS adds .page-ready to body once state is clean, fading the veil out.
+   .is-exiting brings it back opaque for exit navigation. */
 #pageVeil {
     position: fixed;
     inset: 0;
     background: #000;
-    opacity: 0;
-    pointer-events: none;
+    opacity: 1;            /* covers page during load — prevents any flash */
+    pointer-events: auto;
     z-index: 90;
     transition: opacity 320ms ease;
 }
 
+body.page-ready #pageVeil {
+    opacity: 0;            /* revealed once JS marks the page ready */
+    pointer-events: none;
+}
+
 body.is-exiting #pageVeil {
-    opacity: 1;
+    opacity: 1;            /* re-covers page for exit navigation */
     pointer-events: auto;
 }
 
