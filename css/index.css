@@ -2224,7 +2224,7 @@ body.archive-unsealed #preludeLayer::before {
         flex-direction: column !important;
         align-items: center !important;
         justify-content: center !important;
-        padding: 0 5vw 40px !important;
+        padding: 0 5vw 80px !important;
         text-align: center;
     }
 
@@ -2248,7 +2248,7 @@ body.archive-unsealed #preludeLayer::before {
         transform: none !important;
         align-items: center !important;
         gap: 40px !important;
-        margin-top: 2.5rem !important;
+        margin-top: 4rem !important;
         width: 100% !important;
         pointer-events: none !important;
         z-index: auto !important;

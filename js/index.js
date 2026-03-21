@@ -805,10 +805,16 @@ document.addEventListener("DOMContentLoaded", () => {
         const books = document.getElementById("booksHint");
         const instr = document.getElementById("matrixInstructions");
         const mobileInstr = document.getElementById("mobileInstructions");
-        if (nebula) nebula.classList.remove("show");
-        if (books) books.classList.remove("show");
-        if (instr) instr.classList.remove("show");
-        if (mobileInstr) mobileInstr.classList.remove("show");
+
+        // Snap elements to hidden instantly — suppressing CSS transitions prevents
+        // a visible fade-out flash if showMainUI() is ever called while elements
+        // already carry the "show" class (e.g. after a skip-button double-trigger
+        // or a bfcache restore that re-runs init).
+        const toHide = [titleBlock, nebula, books, instr, mobileInstr].filter(Boolean);
+        toHide.forEach(el => { el.style.transition = "none"; el.classList.remove("show"); });
+        // Force a reflow so the transition:none is committed before we re-enable it.
+        if (toHide[0]) void toHide[0].getBoundingClientRect();
+        toHide.forEach(el => { el.style.transition = ""; });
         const GLYPH_WAIT = INTRO_DONE_MS + 800;
         setTimeout(() => {
             if (titleBlock) titleBlock.classList.add("show");
@@ -822,6 +828,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function unlockArchive() {
+        // Guard: skipToFinalScene() sets prelude.active = false before this can
+        // run. If the pollInterval fires after a skip, bail out immediately so
+        // showMainUI() isn't called a second time (which would cause a flash).
+        if (!prelude.active) return;
+
         // Rings have fully decayed — canvas is black under unsealing mode
         // prelude.active stays TRUE so holeMask/cloud-holes never show through
         prelude.patch = null;
@@ -3040,3 +3051,38 @@ if (booksLink) {
     });
 
 }
+
+// ==========================================
+// bfcache guard — pageshow
+// ==========================================
+// Browsers (especially Safari) can restore a previously-visited page from the
+// back-forward cache (bfcache) with all DOM classes intact — including "show"
+// on the title and buttons.  DOMContentLoaded doesn't re-fire, so the normal
+// init sequence never resets them.  pageshow with e.persisted === true is the
+// only reliable hook into this case.  We snap every UI element to hidden
+// instantly (no transition) then re-fade them in cleanly.
+window.addEventListener("pageshow", function (e) {
+    if (!e.persisted) return; // not a bfcache restore — normal load handles itself
+
+    const titleBlock  = document.getElementById("titleBlock");
+    const nebula      = document.getElementById("scrollHint");
+    const books       = document.getElementById("booksHint");
+    const instr       = document.getElementById("matrixInstructions");
+    const mobileInstr = document.getElementById("mobileInstructions");
+
+    const targets = [titleBlock, nebula, books, instr, mobileInstr].filter(Boolean);
+
+    // Disable transitions so the forced hide is instantaneous — no fade-out flash.
+    targets.forEach(el => { el.style.transition = "none"; el.classList.remove("show"); });
+    document.body.getBoundingClientRect(); // force reflow
+    targets.forEach(el => { el.style.transition = ""; });
+
+    // Re-animate with a short stagger that feels like a fresh arrival.
+    setTimeout(() => { if (titleBlock)  titleBlock.classList.add("show"); }, 300);
+    setTimeout(() => {
+        if (nebula)      nebula.classList.add("show");
+        if (books)       books.classList.add("show");
+        if (mobileInstr) mobileInstr.classList.add("show");
+    }, 600);
+    setTimeout(() => { if (instr) instr.classList.add("show"); }, 1000);
+});
