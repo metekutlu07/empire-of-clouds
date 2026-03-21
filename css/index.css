@@ -2247,7 +2247,7 @@ body.archive-unsealed #preludeLayer::before {
         inset: auto !important;
         transform: none !important;
         align-items: center !important;
-        gap: 20px !important;
+        gap: 40px !important;
         margin-top: 2.5rem !important;
         width: 100% !important;
         pointer-events: none !important;
