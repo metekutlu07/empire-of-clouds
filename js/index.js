@@ -1641,46 +1641,47 @@ document.addEventListener("DOMContentLoaded", () => {
 
     }
 
-    function onPointerDown(e) {
-
-        if (e.button !== 0) return;
-        onPointerMove(e);
+    // Shared left-click / short-tap logic called by both pointer and touch paths
+    function fireLeftClick(clientX, clientY) {
+        if (entryScreen && entryScreen.classList.contains("visible") && !entryScreen.classList.contains("fade-out")) return;
 
         const rect = glCanvas.getBoundingClientRect();
         if (prelude.active) {
-            const px = e.clientX - rect.left;
-            const py = e.clientY - rect.top;
-            if (handlePreludeLeftClick(px, py)) return;
+            const px = clientX - rect.left;
+            const py = clientY - rect.top;
+            handlePreludeLeftClick(px, py);
             return;
         }
 
-        const mx = clamp((e.clientX - rect.left) / rect.width, 0, 0.999999);
-        const my = clamp((e.clientY - rect.top) / rect.height, 0, 1);
-
+        const mx = clamp((clientX - rect.left) / rect.width, 0, 0.999999);
+        const my = clamp((clientY - rect.top) / rect.height, 0, 1);
         const cellX = Math.floor(mx * cols);
         const cellY = Math.floor(my * rows);
 
-
         const family = glyphFamilies[currentFamilyIndex];
-
         waves.push({
-            cx: cellX,
-            cy: cellY,
-            step: 0,
-            max: WAVE_MAX_STEP,
+            cx: cellX, cy: cellY,
+            step: 0, max: WAVE_MAX_STEP,
             nextAt: performance.now() + 10,
             familyIndex: currentFamilyIndex,
             glyphs: family.glyphs,
             color: family.color,
             shape: family.shape
         });
-
         playWaveSound("left", currentFamilyIndex);
-
-
         currentFamilyIndex = (currentFamilyIndex + 1) % glyphFamilies.length;
+    }
 
+    function onPointerDown(e) {
+        // Don't fire glyph interactions while the entry screen is still up
+        if (entryScreen && entryScreen.classList.contains("visible") && !entryScreen.classList.contains("fade-out")) return;
 
+        // Touch taps are handled by touchend (to avoid conflict with long-press)
+        if (e.pointerType === "touch") return;
+
+        if (e.button !== 0) return;
+        onPointerMove(e);
+        fireLeftClick(e.clientX, e.clientY);
     }
 
     glCanvas.addEventListener("pointermove", onPointerMove, { passive: true });
@@ -1694,9 +1695,14 @@ document.addEventListener("DOMContentLoaded", () => {
     // ---------- Long press = right-click equivalent (mobile) ----------
     let longPressTimer = null;
     let longPressMoved = false;
+    let longPressFired = false;   // true when the 500ms threshold was reached
+    let lastTouchX = 0, lastTouchY = 0;
     const LONG_PRESS_MS = 500;
 
     function fireLongPress(clientX, clientY) {
+        // Don't fire glyph interactions while the entry screen is still up
+        if (entryScreen && entryScreen.classList.contains("visible") && !entryScreen.classList.contains("fade-out")) return;
+
         const rect = glCanvas.getBoundingClientRect();
 
         if (prelude.active) {
@@ -1742,12 +1748,18 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     glCanvas.addEventListener("touchstart", (e) => {
+        // preventDefault blocks iOS text-selection callout on long press
+        e.preventDefault();
         longPressMoved = false;
+        longPressFired = false;
         const touch = e.touches[0];
+        lastTouchX = touch.clientX;
+        lastTouchY = touch.clientY;
         longPressTimer = setTimeout(() => {
+            longPressFired = true;
             fireLongPress(touch.clientX, touch.clientY);
         }, LONG_PRESS_MS);
-    }, { passive: true });
+    }, { passive: false }); // non-passive so preventDefault works
 
     glCanvas.addEventListener("touchmove", () => {
         longPressMoved = true;
@@ -1758,11 +1770,16 @@ document.addEventListener("DOMContentLoaded", () => {
     glCanvas.addEventListener("touchend", () => {
         clearTimeout(longPressTimer);
         longPressTimer = null;
+        // Short tap (no move, no long press) = left click
+        if (!longPressMoved && !longPressFired) {
+            fireLeftClick(lastTouchX, lastTouchY);
+        }
     }, { passive: true });
 
     glCanvas.addEventListener("touchcancel", () => {
         clearTimeout(longPressTimer);
         longPressTimer = null;
+        longPressFired = false;
     }, { passive: true });
 
 
@@ -1919,7 +1936,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // clone node so rapid clicks overlap
         const s = base.cloneNode();
-        s.volume = 0.8;
+        s.volume = 0.4;
         s.play().catch(() => { });
     }
 

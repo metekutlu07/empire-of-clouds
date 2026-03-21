@@ -755,6 +755,34 @@ body.intro-ui-visible.is-exiting .topnav {
     .bioBox {
         padding: 28px 20px 60px;
     }
+
+    /* Lock html/body so iOS Safari doesn't split scroll momentum between
+       the page and the inner bio scroll container — all scrolling must
+       happen only inside .bioScrollWrap */
+    html,
+    body {
+        overflow: hidden !important;
+        height: 100% !important;
+        position: fixed !important;
+        width: 100% !important;
+    }
+
+    /* Ensure the layout and scroll container fill the full viewport */
+    .splitLayout {
+        height: 100dvh !important;
+    }
+
+    .splitRight {
+        height: 100dvh !important;
+    }
+
+    /* Prevent scroll chaining to parent — momentum stays inside the container */
+    .bioScrollWrap {
+        overflow-y: scroll !important; /* scroll (not auto) = iOS momentum */
+        overscroll-behavior: contain;
+        -webkit-overflow-scrolling: touch;
+        height: 100% !important;
+    }
 }
 
 /* ── Hide author name on mobile — hierarchy conflict with nav ── */

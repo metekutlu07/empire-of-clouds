@@ -793,6 +793,28 @@ window.addEventListener("keydown", e => {
     handleStep(dir);
 });
 
+// ── Touch swipe navigation (mobile) ─────────────────────────────────────────
+// Mirrors wheel/keyboard: swipe up = next, swipe down = prev.
+// Horizontal swipes are ignored (same axis preference as wheel).
+(function initSwipe() {
+    let sx = 0, sy = 0;
+    const MIN_SWIPE = 40; // px threshold
+
+    window.addEventListener("touchstart", e => {
+        sx = e.touches[0].clientX;
+        sy = e.touches[0].clientY;
+    }, { passive: true });
+
+    window.addEventListener("touchend", e => {
+        const dx = e.changedTouches[0].clientX - sx;
+        const dy = e.changedTouches[0].clientY - sy;
+        // Require dominant vertical axis and minimum distance
+        if (Math.abs(dy) < MIN_SWIPE || Math.abs(dx) > Math.abs(dy)) return;
+        if (hintIsOpen()) { closeAllHints(); return; }
+        handleStep(dy < 0 ? 1 : -1); // swipe up = forward, swipe down = back
+    }, { passive: true });
+})();
+
 
 // ─────────────────────────────────────────────────────────────────────────────
 //  HINT DISMISS LOGIC

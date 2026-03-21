@@ -704,4 +704,23 @@ body.intro-ui-visible.is-exiting .topnav {
     .heroGlyph.hero {
         position: relative;
     }
+
+    /* ── No scrolling — this is a full-screen app ── */
+    html,
+    body {
+        overflow: hidden !important;
+        height: 100% !important;
+        position: fixed !important;
+        width: 100% !important;
+    }
+
+    .glyphHero {
+        height: 100dvh !important;
+        min-height: 100dvh !important;
+    }
+
+    .heroGlyph.hero {
+        height: 100dvh !important;
+        overflow: hidden !important;
+    }
 }

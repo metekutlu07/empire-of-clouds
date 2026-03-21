@@ -1016,12 +1016,12 @@ body.intro-ui-visible.is-exiting .progressNav {
         align-items: flex-start;
     }
 
-    /* Hint panel: 40px gaps on mobile, fade only */
+    /* Hint panel: 60px gaps on mobile — narrower, text stays single-line */
     [id^="model3dHint-"] {
-        width: calc(100vw - 80px);
+        width: calc(100vw - 120px);
         min-width: unset;
-        left: 40px;
-        right: 40px;
+        left: 60px;
+        right: 60px;
         transform: translateY(-50%);
     }
 

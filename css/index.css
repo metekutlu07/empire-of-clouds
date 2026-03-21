@@ -1050,6 +1050,10 @@ section[model3d-d] {
     height: 100%;
     display: block;
     image-rendering: pixelated;
+    /* Prevent iOS text-selection callout and blue highlight on long press */
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
     image-rendering: crisp-edges;
     z-index: 0;
     cursor: default;
