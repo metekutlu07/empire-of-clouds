@@ -202,39 +202,37 @@ section:first-of-type {
     }
 } */
 
-/* Nav-ready intro sequence — nav hidden until after first paint */
-body:not(.nav-ready) .topnav {
+/* ── PAGE VEIL ───────────────────────────────────────────────
+   Covers the entire page on load (opacity 1) and fades out once
+   JS adds .ready to <body>. pointer-events:none means it can
+   never block scrolling or tapping, even when fully opaque.   ─────────────────────────────────────────────────────────── */
+#veil {
+    position: fixed;
+    inset: 0;
+    background: #000;
+    z-index: 9000;
+    opacity: 1;
+    pointer-events: none;
+    transition: opacity 500ms ease;
+}
+
+body.ready #veil {
     opacity: 0;
-    transform: translateY(-100%);
+}
+
+/* ── NAV SLIDE-IN ────────────────────────────────────────────
+   Topnav starts hidden and slides down as the veil fades out.
+   ─────────────────────────────────────────────────────────── */
+body:not(.ready) .topnav {
+    opacity: 0;
+    transform: translateY(-10px);
     transition: none;
 }
 
-body.nav-ready .topnav {
+body.ready .topnav {
     opacity: 1;
     transform: translateY(0);
     transition: opacity 500ms ease, transform 500ms ease;
-}
-
-/* Waitlist page: hide nav until glyph field has loaded */
-body:not(.intro-ui-visible) .topnav {
-    opacity: 0 !important;
-    transform: translateY(-100%) !important;
-    pointer-events: none !important;
-    transition: none !important;
-}
-
-body.intro-ui-visible .topnav {
-    opacity: 1 !important;
-    transform: translateY(0) !important;
-    transition: opacity 400ms ease, transform 400ms ease !important;
-}
-
-/* Exit sequence */
-body.is-exiting .topnav,
-body.intro-ui-visible.is-exiting .topnav {
-    opacity: 0 !important;
-    transform: translateY(-100%) !important;
-    transition: opacity 400ms ease, transform 400ms ease !important;
 }
 
 /* ===================== REVEAL ===================== */

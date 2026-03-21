@@ -1016,36 +1016,69 @@ document.getElementById("year").textContent = new Date().getFullYear();
 })();
 
 /* ============================================================
-   8. NAV TRANSITION
-   Runs immediately on script execution (no defer wrapper
-   needed — script tag is defer in HTML so DOM is ready).
-   - Adds nav-ready after two rAFs for a clean first paint
-   - Adds intro-ui-visible after 2000ms (waitlist compatibility)
-   - Single click listener handles exit animation for all
-     internal link navigation
+   8. PAGE TRANSITIONS
+   #veil (z:9000, pointer-events:none) covers the page on load.
+   Adding .ready to <body> fades it out and slides the topnav in.
+   On exit: remove .ready (veil fades back to black), navigate.
+   On bfcache restore: reset hint + navPanel, re-add .ready.
    ============================================================ */
 
-// Reveal after first paint: nav slides in, page veil fades out
-requestAnimationFrame(() => requestAnimationFrame(() => {
-    document.body.classList.add('nav-ready');
-    document.body.classList.add('page-ready');
-}));
+// Entry — fade veil out and slide nav in after first paint
+requestAnimationFrame(function () {
+    requestAnimationFrame(function () {
+        document.body.classList.add('ready');
+    });
+});
 
-// Nav enter — delayed class for waitlist-style glyph reveal compatibility
-setTimeout(function () {
-    document.body.classList.add('intro-ui-visible');
-}, 2000);
-
-// Nav exit — slide up on any internal link click
+// Exit — fade to black, close panel, then navigate
 document.addEventListener('click', function (e) {
-    const link = e.target.closest('a');
+    var link = e.target.closest('a');
     if (!link) return;
-    const href = link.getAttribute('href');
+    var href = link.getAttribute('href');
     if (!href || href.startsWith('#') || link.target === '_blank') return;
     if (link.origin && link.origin !== location.origin) return;
     e.preventDefault();
-    document.body.classList.add('is-exiting');
-    setTimeout(function () { window.location.href = href; }, 420);
+
+    // Close nav panel immediately
+    var panel = document.getElementById('navPanel');
+    if (panel) {
+        panel.classList.remove('is-open');
+        panel.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+        var toggle = document.getElementById('menuToggle');
+        if (toggle) toggle.setAttribute('aria-expanded', 'false');
+    }
+
+    // Fade to black, then navigate after the transition (500ms)
+    document.body.classList.remove('ready');
+    setTimeout(function () { window.location.href = href; }, 520);
+});
+
+// Bfcache restore — page is frozen in last state; reset and re-reveal
+window.addEventListener('pageshow', function (e) {
+    if (!e.persisted) return;
+
+    // Reset nav panel (may have been open when user navigated away)
+    var panel = document.getElementById('navPanel');
+    if (panel) {
+        panel.classList.remove('is-open');
+        panel.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+        var toggle = document.getElementById('menuToggle');
+        if (toggle) toggle.setAttribute('aria-expanded', 'false');
+    }
+
+    // Reset swipe hint (may have been visible)
+    var hint = document.querySelector('.hint');
+    if (hint) hint.classList.remove('show');
+
+    // Snap veil back to opaque, then fade in
+    document.body.classList.remove('ready');
+    requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
+            document.body.classList.add('ready');
+        });
+    });
 });
 
 /* ============================================================

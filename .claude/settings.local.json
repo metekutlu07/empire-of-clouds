@@ -8,7 +8,11 @@
       "Bash(do)",
       "Bash(echo \"=== $f ===\")",
       "Read(//Users/pesto/Desktop/website-empire/**)",
-      "Bash(done)"
+      "Bash(done)",
+      "Bash(sed -i '' 's|^<body>$|<body>\\\\n<div id=\"\"veil\"\"></div>|' \"$f\")",
+      "Bash(echo \"$f done\")",
+      "Bash(sed -i '' '/<div id=\"\"pageVeil\"\"><\\\\/div>/d' \"$f\")",
+      "Bash(echo \"$f cleaned\")"
     ]
   }
 }
