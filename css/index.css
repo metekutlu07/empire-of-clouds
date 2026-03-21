@@ -1094,7 +1094,7 @@ section[model3d-d] {
     inset: 0;
     padding-left: 6vw;
     padding-right: 6vw;
-    padding-top: 12vh;
+    padding-top: calc(12vh - 20px);
     pointer-events: none;
     z-index: 10;
     font-family: "Unbounded";
@@ -2224,7 +2224,7 @@ body.archive-unsealed #preludeLayer::before {
         flex-direction: column !important;
         align-items: center !important;
         justify-content: center !important;
-        padding: 0 5vw !important;
+        padding: 0 5vw 40px !important;
         text-align: center;
     }
 
