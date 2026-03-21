@@ -839,6 +839,63 @@ import PostProcessing from "./postprocessing-noise.js";
         });
     });
 
+    // ── Bio glyph dividers ───────────────────────────────────────────────────
+    // Fills each .bioGlyphDivider with a row of fixed-width cells that
+    // independently cycle through the same glyph / color palette as the matrix.
+    // Each cell is forced to a constant pixel width so the row never shifts
+    // when a glyph swaps in — the layout stays perfectly stable.
+    (function () {
+        const ALL_DIV = [
+            ...GLYPHS.slice(0, 40),
+            "✳", "✶", "✷", "✸", "✹", "✺", "✻", "✼", "✽", "✾",
+            "∴", "∵", "∷", "≈", "∽",
+        ];
+        const COLORS_DIV = [
+            "rgba(255,255,255,0.55)",  // white — weighted 3×
+            "rgba(255,255,255,0.55)",
+            "rgba(255,255,255,0.55)",
+            "rgba(255,255,255,0.20)",  // dim white
+            "hsla(137,100%,73%,0.80)", // green
+            "hsla(137,100%,73%,0.50)", // green faint
+            "hsla(318,100%,77%,0.75)", // pink
+            "hsla(318,100%,77%,0.45)", // pink faint
+        ];
+        const CELL_PX = 20;
+
+        function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+        function buildRow(div) {
+            const w = div.getBoundingClientRect().width || 600;
+            const count = Math.max(1, Math.floor(w / CELL_PX));
+            div.innerHTML = "";
+            for (let i = 0; i < count; i++) {
+                const span = document.createElement("span");
+                span.className = "bioGlyphCell";
+                span.textContent = pick(ALL_DIV);
+                span.style.color = pick(COLORS_DIV);
+                div.appendChild(span);
+
+                // Each cell picks its own interval so rows feel alive, not
+                // like a synchronized ticker — staggered start avoids all
+                // cells swapping on the same frame.
+                const ms = 900 + Math.random() * 1300;
+                setTimeout(() => {
+                    setInterval(() => {
+                        if (Math.random() < 0.4) {
+                            span.textContent = pick(ALL_DIV);
+                            span.style.color = pick(COLORS_DIV);
+                        }
+                    }, ms);
+                }, Math.random() * ms);
+            }
+        }
+
+        // Measure after one paint so getBoundingClientRect() is reliable.
+        requestAnimationFrame(() => {
+            document.querySelectorAll(".bioGlyphDivider").forEach(div => buildRow(div));
+        });
+    }());
+
 })();
 
 // ── Rewrite index.html nav links to skip prelude ─────────────────────

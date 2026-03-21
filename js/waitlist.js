@@ -1,28 +1,42 @@
-import PostProcessing from "./postprocessing-noise.js";
+// No WebGL postprocessing — noise is a simple 2D canvas overlay (same as index page).
 
 (() => {
     const canvas = document.getElementById("c");
     const ctx = canvas.getContext("2d", { alpha: false });
 
-    // ── WebGL output + post-processing ─────────────────────────────────────
+    // ── 2D output canvas + noise overlay (same system as index page) ────────
     const glCanvas = document.getElementById("gl");
+    const glCtx    = glCanvas.getContext("2d");
     const host = document.getElementById("glyphHero");
     let hostW = 1, hostH = 1;
-    let post;
 
-    try {
-        post = new PostProcessing(glCanvas, { enabled: true, strength: 0.15 });
-    } catch (e) {
-        console.error(e);
-        const box = document.createElement("div");
-        Object.assign(box.style, {
-            position: "fixed", inset: "16px", zIndex: "9999",
-            padding: "12px 14px", border: "1px solid rgba(255,255,255,0.25)",
-            background: "rgba(0,0,0,0.75)", color: "#fff",
-            font: "12px/1.35 ui-monospace, Menlo, Monaco, Consolas, monospace"
-        });
-        box.textContent = "PostProcessing init failed: " + (e?.message ?? String(e));
-        document.body.appendChild(box);
+    // Noise: pre-generate 10 frames of random pixel data, cycle at ~25 fps.
+    let noiseFrames    = [];
+    let noiseFrameIdx  = 0;
+    let noiseTickCount = 0;
+    const NOISE_FRAMES    = 10;
+    const NOISE_FPS_EVERY = 2; // advance every N animation frames ≈ 25 fps at 60 fps
+
+    function buildNoiseFrames(w, h) {
+        noiseFrames = [];
+        for (let f = 0; f < NOISE_FRAMES; f++) {
+            const nc   = document.createElement("canvas");
+            nc.width   = w;
+            nc.height  = h;
+            const nCtx = nc.getContext("2d");
+            const idata = nCtx.createImageData(w, h);
+            const buf   = new Uint32Array(idata.data.buffer);
+            for (let i = 0; i < buf.length; i++) {
+                if      (Math.random() < 0.05) buf[i] = 0x080000ff; // red,  alpha 8
+                else if (Math.random() < 0.10) buf[i] = 0x0800ff00; // green,alpha 8
+                else if (Math.random() < 0.15) buf[i] = 0x08ff0000; // blue, alpha 8
+                else if (Math.random() < 0.20) buf[i] = 0xccdddddd; // gray, alpha 204
+            }
+            nCtx.putImageData(idata, 0, 0);
+            noiseFrames.push(nc);
+        }
+        noiseFrameIdx  = 0;
+        noiseTickCount = 0;
     }
 
     // ── Glyph sets ─────────────────────────────────────────────────────────
@@ -93,9 +107,9 @@ import PostProcessing from "./postprocessing-noise.js";
     ];
 
     // ── Intro emergence ────────────────────────────────────────────────────
-    const INTRO_STAGGER_MS = 1500;
+    const INTRO_STAGGER_MS = 800;
     const INTRO_RISE_MS = 250;
-    const INTRO_BLACK_MS = 1000;
+    const INTRO_BLACK_MS = 300;
     const INTRO_DONE_MS = INTRO_STAGGER_MS + INTRO_RISE_MS + 250;
 
     let introStart = performance.now();
@@ -411,8 +425,9 @@ import PostProcessing from "./postprocessing-noise.js";
         const N = cols * rows;
         const cx = (cols - 1) / 2, cy = (rows - 1) / 2;
         const base = Math.min(cols, rows);
-        _holeCircleR = base * 0.60;
-        _holeStarRadBase = base * 0.6;
+        const isMobile = window.innerWidth <= 640;
+        _holeCircleR     = base * (isMobile ? 0.50 : 0.60);
+        _holeStarRadBase = base * (isMobile ? 0.50 : 0.60);
         const spikes = 5;
         const innerRatio = 0.55;
         _holeCellLen = new Float32Array(N);
@@ -465,7 +480,11 @@ import PostProcessing from "./postprocessing-noise.js";
         hostW = Math.max(1, host?.clientWidth || window.innerWidth);
         hostH = Math.max(1, host?.clientHeight || window.innerHeight);
         dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
-        if (post) post.setSize(hostW, hostH, dpr);
+        glCanvas.width        = Math.floor(hostW);
+        glCanvas.height       = Math.floor(hostH);
+        glCanvas.style.width  = hostW + "px";
+        glCanvas.style.height = hostH + "px";
+        buildNoiseFrames(Math.floor(hostW), Math.floor(hostH));
         canvas.width = Math.floor(hostW * dpr);
         canvas.height = Math.floor(hostH * dpr);
         ctx.setTransform(1, 0, 0, 1, 0, 0);
@@ -707,7 +726,18 @@ import PostProcessing from "./postprocessing-noise.js";
             if (p >= 1) morphActive = false;
         }
         drawTrailOverlay();
-        if (post) post.render(canvas, now);
+        // Composite: copy glyph canvas → visible canvas, then overlay noise frame
+        glCtx.drawImage(canvas, 0, 0, glCanvas.width, glCanvas.height);
+        noiseTickCount++;
+        if (noiseTickCount >= NOISE_FPS_EVERY) {
+            noiseTickCount = 0;
+            noiseFrameIdx  = (noiseFrameIdx + 1) % NOISE_FRAMES;
+        }
+        if (noiseFrames.length) {
+            glCtx.globalAlpha = 0.25;
+            glCtx.drawImage(noiseFrames[noiseFrameIdx], 0, 0, glCanvas.width, glCanvas.height);
+            glCtx.globalAlpha = 1.0;
+        }
         requestAnimationFrame(frame);
     }
 

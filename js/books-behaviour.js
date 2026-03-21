@@ -70,14 +70,16 @@ document.getElementById("year").textContent = new Date().getFullYear();
     const enterRig = document.querySelector(".enterRig");
     const hint = document.querySelector(".hint");
 
-    // On mobile: bring the camera closer so the book fills more of the square canvas
+    // On mobile: bring the camera moderately closer so the book fills more of the
+    // full-height canvas. 0.72x is less aggressive than the previous 0.60x so the
+    // book stays fully inside the canvas even on a tall dvh viewport.
     if (model && window.matchMedia("(max-width: 640px)").matches) {
         ["camera-orbit", "min-camera-orbit", "max-camera-orbit"].forEach(attr => {
             const val = model.getAttribute(attr);
             if (!val) return;
             const parts = val.split(" ");
-            // radius is the third token (e.g. "0.85m") — scale it down by 40%
-            parts[2] = (parseFloat(parts[2]) * 0.6).toFixed(2) + "m";
+            // radius is the third token (e.g. "0.85m") — scale it down by 28%
+            parts[2] = (parseFloat(parts[2]) * 0.72).toFixed(2) + "m";
             model.setAttribute(attr, parts.join(" "));
         });
     }

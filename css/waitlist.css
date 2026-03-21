@@ -689,6 +689,10 @@ body.intro-ui-visible.is-exiting .topnav {
         min-height: 100dvh !important;
     }
 
+    .heroPanel {
+        padding-top: 10px;
+    }
+
     .hero.heroGlyph .wrap {
         padding-bottom: 0 !important;
         overflow: hidden !important;

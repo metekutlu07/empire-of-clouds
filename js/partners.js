@@ -1,6 +1,6 @@
 // partners.js — single module file
 // Consolidates: topnav.js, reveal.js, glyphHero-partners.js, inline page scripts
-import PostProcessing from "./postprocessing-noise.js";
+// No WebGL postprocessing — noise is a simple 2D canvas overlay (same as index.js)
 
 // ── Year footer ───────────────────────────────────────────────────────────────
 const yearEl = document.getElementById("year");
@@ -38,27 +38,33 @@ setTimeout(() => {
 const canvas = document.getElementById("c");
 const ctx = canvas.getContext("2d", { alpha: false });
 
-// ---------- WebGL output + NoisePass (postprocessing) ----------
+// ---------- 2D noise overlay (same system as index.js) ----------
 const glCanvas = document.getElementById("gl");
+const glCtx = glCanvas.getContext("2d");
 const host = document.getElementById("glyphHero");
 let hostW = 1, hostH = 1;
-let post;
-try {
-    post = new PostProcessing(glCanvas, { enabled: true, strength: 0.15 });
-} catch (e) {
-    console.error(e);
-    const box = document.createElement("div");
-    box.style.position = "fixed";
-    box.style.inset = "16px";
-    box.style.zIndex = "9999";
-    box.style.padding = "12px 14px";
-    box.style.border = "1px solid rgba(255,255,255,0.25)";
-    box.style.borderRadius = "12px";
-    box.style.background = "rgba(0,0,0,0.75)";
-    box.style.color = "#fff";
-    box.style.font = "12px/1.35 ui-monospace, Menlo, Monaco, Consolas, monospace";
-    box.textContent = "PostProcessing init failed: " + (e && e.message ? e.message : String(e));
-    document.body.appendChild(box);
+
+const NOISE_FRAMES = 10;
+const NOISE_FPS_EVERY = 2;
+let noiseFrames = [];
+let noiseFrameIdx = 0;
+let noiseTickCount = 0;
+
+function buildNoiseFrames(w, h) {
+    noiseFrames = [];
+    for (let f = 0; f < NOISE_FRAMES; f++) {
+        const oc = document.createElement("canvas");
+        oc.width = w; oc.height = h;
+        const ox = oc.getContext("2d");
+        const id = ox.createImageData(w, h);
+        const d = id.data;
+        for (let i = 0; i < d.length; i += 4) {
+            const v = Math.random() * 255 | 0;
+            d[i] = v; d[i + 1] = v; d[i + 2] = v; d[i + 3] = 255;
+        }
+        ox.putImageData(id, 0, 0);
+        noiseFrames.push(oc);
+    }
 }
 
 // const GLYPHS = [
@@ -1116,8 +1122,12 @@ function resize() {
     hostW = Math.max(1, (host && host.clientWidth) ? host.clientWidth : window.innerWidth);
     hostH = Math.max(1, (host && host.clientHeight) ? host.clientHeight : window.innerHeight);
     dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
-    // Keep WebGL output and 2D source at identical device resolution
-    if (post) post.setSize(hostW, hostH, dpr);
+    // Size the 2D noise canvas to match the host
+    glCanvas.width = Math.floor(hostW);
+    glCanvas.height = Math.floor(hostH);
+    glCanvas.style.width = hostW + "px";
+    glCanvas.style.height = hostH + "px";
+    buildNoiseFrames(Math.floor(hostW), Math.floor(hostH));
     canvas.width = Math.floor(hostW * dpr);
     canvas.height = Math.floor(hostH * dpr);
 
@@ -1494,7 +1504,18 @@ function frame(now) {
     }
     drawTrailOverlay();
 
-    if (post) post.render(canvas, now);
+    // Composite glyph canvas then noise overlay onto glCanvas
+    glCtx.drawImage(canvas, 0, 0, glCanvas.width, glCanvas.height);
+    noiseTickCount++;
+    if (noiseTickCount >= NOISE_FPS_EVERY) {
+        noiseTickCount = 0;
+        noiseFrameIdx = (noiseFrameIdx + 1) % NOISE_FRAMES;
+    }
+    if (noiseFrames.length) {
+        glCtx.globalAlpha = 0.25;
+        glCtx.drawImage(noiseFrames[noiseFrameIdx], 0, 0, glCanvas.width, glCanvas.height);
+        glCtx.globalAlpha = 1.0;
+    }
 
     requestAnimationFrame(frame);
 }

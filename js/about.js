@@ -1,5 +1,32 @@
-// ── Show nav immediately (no hero intro delay on this page) ──────────
-document.body.classList.add("intro-ui-visible");
+// ── Show nav immediately on desktop; on mobile coordinate with image load ────
+if (window.innerWidth > 640) {
+    // Desktop: reveal nav right away (no layout shift concern)
+    document.body.classList.add("intro-ui-visible");
+} else {
+    // Mobile: wait for window.load so the first image is decoded and sized,
+    // then fade in all above-fold content, then slide in the nav bar shortly after.
+    const revealAboveFold = () => {
+        document.documentElement.classList.remove("about-loading");
+        setTimeout(() => {
+            document.body.classList.add("intro-ui-visible");
+        }, 350);
+    };
+
+    if (document.readyState === "complete") {
+        // Already loaded (e.g. bfcache restore)
+        revealAboveFold();
+    } else {
+        window.addEventListener("load", revealAboveFold, { once: true });
+    }
+
+    // bfcache guard
+    window.addEventListener("pageshow", (e) => {
+        if (e.persisted) {
+            document.documentElement.classList.remove("about-loading");
+            document.body.classList.add("intro-ui-visible");
+        }
+    });
+}
 
 // ── Mobile nav panel ─────────────────────────────────────────────────
 (() => {

@@ -186,6 +186,18 @@ body.intro-ui-visible.is-exiting .topnav {
     transition: opacity 400ms ease, transform 400ms ease !important;
 }
 
+/* ── MOBILE LOAD FADE-IN (prevents layout shift from first image) ── */
+/* The html.about-loading class is set by an inline script on mobile  */
+/* and removed on window.load once all images are decoded and sized.  */
+
+#cloudsDiagram {
+    transition: opacity 500ms ease;
+}
+
+html.about-loading #cloudsDiagram {
+    opacity: 0;
+}
+
 /* ── LAYOUT HELPERS ─────────────────────────────────────────── */
 
 .wrap {

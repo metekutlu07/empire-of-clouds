@@ -53,6 +53,12 @@
   <!-- Stylesheet -->
   <link rel="stylesheet" href="css/about.css">
 
+  <!-- ── On mobile: hold content invisible until image loads, preventing layout shift ── -->
+  <script>
+    if (window.innerWidth <= 640) {
+      document.documentElement.classList.add('about-loading');
+    }
+  </script>
 
 </head>
 

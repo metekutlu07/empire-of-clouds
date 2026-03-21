@@ -588,6 +588,32 @@ body.intro-ui-visible.is-exiting .topnav {
     padding-bottom: 2rem;
 }
 
+/* ── Bio glyph dividers ─────────────────────────────────────────────────── */
+/* Rows of fixed-width glyph cells between paragraphs, using the same
+   glyph set and green/pink palette as the main matrix animation.
+   Each cell has a forced width so the row never shifts when glyphs swap. */
+
+.bioGlyphDivider {
+    display: flex;
+    width: 100%;
+    overflow: hidden;
+    height: 22px;
+    align-items: center;
+    margin: 0 0 0.6rem 0;
+    gap: 0;
+}
+
+.bioGlyphCell {
+    display: inline-block;
+    width: 20px;
+    flex-shrink: 0;
+    text-align: center;
+    font-size: 13px;
+    font-family: "Space Mono", monospace;
+    line-height: 1;
+    color: rgba(255, 255, 255, 0.5);
+}
+
 /* Unified controls — keep absolute within left panel */
 .glyphHero #unifiedControls {
     position: absolute;
@@ -764,6 +790,10 @@ body.intro-ui-visible.is-exiting .topnav {
 
     .bioBox {
         padding: 28px 20px 60px;
+    }
+
+    .bioBox .bioLocation {
+        margin-top: 4.5rem;
     }
 
     /* Lock html/body so iOS Safari doesn't split scroll momentum between
