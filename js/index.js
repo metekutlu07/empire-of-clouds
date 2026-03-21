@@ -419,7 +419,7 @@ document.addEventListener("DOMContentLoaded", () => {
         clearTimeout(hintTimer);
         hintTimer = setTimeout(() => {
             if (prelude.mode === mode) showPreludeInstruction("Click the code");
-        }, 6500);
+        }, 1000);
     }
 
     function cancelHint() {
@@ -1948,12 +1948,12 @@ document.addEventListener("DOMContentLoaded", () => {
     for (const type in waveSounds) {
         wavePools[type] = waveSounds[type].map(base => {
             base.preload = "auto";
-            base.volume = 0.4;
+            base.volume = 0.2;
             const pool = [base];
             for (let i = 1; i < WAVE_POOL; i++) {
                 const a = new Audio(base.src);
                 a.preload = "auto";
-                a.volume = 0.4;
+                a.volume = 0.2;
                 pool.push(a);
             }
             return pool;
@@ -1969,7 +1969,7 @@ document.addEventListener("DOMContentLoaded", () => {
         wavePoolRR[type][familyIndex] = (i + 1) % pool.length;
         const s = pool[i];
         s.currentTime = 0;
-        s.volume = 0.4;
+        s.volume = 0.2;
         s.play().catch(() => { });
     }
 
@@ -2838,13 +2838,9 @@ document.addEventListener("DOMContentLoaded", () => {
             // One play+immediate-pause is enough to unlock HTMLMediaElement
             // audio for the whole page, removing the ~300 ms first-tap delay.
             // We do it here (not on touchstart) so it only fires once, cleanly.
-            const _wakeClip = waveSounds.left[0];
-            if (_wakeClip) {
-                _wakeClip.play().then(() => {
-                    _wakeClip.pause();
-                    _wakeClip.currentTime = 0;
-                }).catch(() => { });
-            }
+            // Unlock iOS AudioContext with a silent clip so no audible sound plays.
+            const _silentUnlock = new Audio("data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAAA=");
+            _silentUnlock.play().catch(() => { });
 
             if (entryScreen) entryScreen.classList.add("fade-out");
             if (preludeLayer) preludeLayer.style.pointerEvents = "none";
@@ -2974,18 +2970,71 @@ if (nebulaLink) {
             titleBlock.classList.remove("show");
         }
 
+        // 3. Fade out mobile instruction bar (matches same 1.25s transition)
+        const mobileInstr = document.getElementById("mobileInstructions");
+        if (mobileInstr) {
+            mobileInstr.classList.remove("show");
+        }
+
         const UI_FADE_MS = 1400; // must match your 1.25s CSS
 
-        // 3. AFTER UI fade → start glyph collapse
+        // 4. AFTER UI fade → start glyph collapse
         setTimeout(() => {
             if (window.startNebulaCollapse) {
                 window.startNebulaCollapse();
             }
         }, UI_FADE_MS);
 
-        // 4. Navigate AFTER collapse completes
+        // 5. Navigate AFTER collapse completes
         setTimeout(() => {
             window.location.href = "introduction.html";
+        }, UI_FADE_MS + 2200);
+
+    });
+
+}
+
+// ==========================================
+// Open the Books — same fade-out sequence as Enter the Nebula
+// ==========================================
+
+const booksLink = document.getElementById("booksHint");
+
+if (booksLink) {
+
+    booksLink.addEventListener("click", (e) => {
+
+        e.preventDefault();
+
+        // 1. Fade out staged UI
+        document.querySelectorAll(".glyphHero .stage").forEach(el => {
+            el.classList.remove("show");
+        });
+
+        // 2. Fade out title block
+        const titleBlock = document.getElementById("titleBlock");
+        if (titleBlock) {
+            titleBlock.classList.remove("show");
+        }
+
+        // 3. Fade out mobile instruction bar
+        const mobileInstr = document.getElementById("mobileInstructions");
+        if (mobileInstr) {
+            mobileInstr.classList.remove("show");
+        }
+
+        const UI_FADE_MS = 1400; // must match your 1.25s CSS
+
+        // 4. AFTER UI fade → start glyph collapse (same visual as nebula)
+        setTimeout(() => {
+            if (window.startNebulaCollapse) {
+                window.startNebulaCollapse();
+            }
+        }, UI_FADE_MS);
+
+        // 5. Navigate AFTER collapse completes
+        setTimeout(() => {
+            window.location.href = "books.html";
         }, UI_FADE_MS + 2200);
 
     });

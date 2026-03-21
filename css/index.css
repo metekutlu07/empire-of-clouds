@@ -2376,6 +2376,13 @@ body.archive-unsealed #preludeLayer::before {
         text-align: center;
     }
 
+    /* ── "Click the code" hint — pin to bottom on mobile ───────── */
+    #preludeInstruction {
+        bottom: 20px !important;
+        top: auto !important;
+        transform: translateX(-50%) !important;
+    }
+
     /* ── Boot status bar — more breathing room on mobile ───────── */
     #preludeStatus {
         padding: 0 24px;
