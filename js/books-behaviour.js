@@ -1054,6 +1054,17 @@ document.addEventListener('click', function (e) {
     setTimeout(function () { window.location.href = href; }, 520);
 });
 
+// Bfcache freeze — fires when page is going INTO bfcache (any navigation).
+// Force veil opaque and hide hint so the frozen snapshot is always black.
+window.addEventListener('pagehide', function (e) {
+    if (!e.persisted) return;
+    var veil = document.getElementById('veil');
+    var hint = document.querySelector('.hint');
+    document.body.classList.remove('ready');
+    if (veil) { veil.style.transition = 'none'; veil.style.opacity = '1'; }
+    if (hint) hint.classList.remove('show');
+});
+
 // Bfcache restore — page is frozen in last state; reset and re-reveal
 window.addEventListener('pageshow', function (e) {
     if (!e.persisted) return;
@@ -1217,49 +1228,3 @@ window.addEventListener('pageshow', function (e) {
     document.querySelectorAll('.compareStage').forEach(initCompare);
 })();
 
-/* ============================================================
-   9. BFCACHE FLASH FIX
-   When navigating back via bfcache the page is restored in its
-   last-seen state (hint visible, navPanel open, is-exiting on
-   body). The veil is already opaque (page-ready was removed when
-   we left), so we get a clean black screen. Reset all state then
-   re-add page-ready to fade the veil out normally.
-   ============================================================ */
-
-window.addEventListener('pageshow', function (e) {
-    if (!e.persisted) return;
-
-    // Snap the veil to black instantly (disable transition so there is no
-    // 320ms window where stale page state bleeds through the fading veil)
-    var veil = document.getElementById('pageVeil');
-    if (veil) veil.style.transition = 'none';
-
-    // Remove classes so the default #pageVeil { opacity:1 } rule applies
-    document.body.classList.remove('page-ready');
-    document.body.classList.remove('is-exiting');
-
-    // Reset the swipe hint
-    var hint = document.querySelector('.hint');
-    if (hint) hint.classList.remove('show');
-
-    // Close the nav panel (it may have been left open)
-    var panel = document.getElementById('navPanel');
-    if (panel) {
-        panel.style.transition = 'none';
-        panel.classList.remove('is-open');
-        panel.setAttribute('aria-hidden', 'true');
-        document.body.style.overflow = '';
-        var toggle = document.getElementById('menuToggle');
-        if (toggle) toggle.setAttribute('aria-expanded', 'false');
-    }
-
-    // Re-enable transitions, then trigger the fade-in
-    requestAnimationFrame(function () {
-        if (veil) veil.style.transition = '';
-        if (panel) panel.style.transition = '';
-        requestAnimationFrame(function () {
-            document.body.classList.add('page-ready');
-            if (hint) setTimeout(function () { hint.classList.add('show'); }, 700);
-        });
-    });
-});

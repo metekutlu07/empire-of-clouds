@@ -12,7 +12,8 @@
       "Bash(sed -i '' 's|^<body>$|<body>\\\\n<div id=\"\"veil\"\"></div>|' \"$f\")",
       "Bash(echo \"$f done\")",
       "Bash(sed -i '' '/<div id=\"\"pageVeil\"\"><\\\\/div>/d' \"$f\")",
-      "Bash(echo \"$f cleaned\")"
+      "Bash(echo \"$f cleaned\")",
+      "Bash(head -5 grep -n \"pagehide\\\\|pageshow\" /Users/pesto/Desktop/website-empire/js/books-behaviour.js)"
     ]
   }
 }
