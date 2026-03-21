@@ -680,10 +680,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const displayH = Math.max(1, glCanvas.clientHeight || hostH || window.innerHeight);
 
         const c = clamp(Math.floor((px / displayW) * cols), 0, Math.max(0, cols - 1));
-        // Mirror the Y-flip used by normal click handlers: the WebGL output canvas
-        // renders the 2D texture flipped (UV origin is bottom-left), so pixel Y=0
-        // corresponds to grid row (rows-1) and pixel Y=displayH corresponds to row 0.
-        const r = clamp(Math.floor(((1 - py / displayH)) * rows), 0, Math.max(0, rows - 1));
+        // 2D canvas drawImage preserves natural Y (top=0), no flip needed.
+        const r = clamp(Math.floor((py / displayH) * rows), 0, Math.max(0, rows - 1));
 
         return { c, r };
     }
@@ -1455,7 +1453,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const rect = glCanvas.getBoundingClientRect();
 
             const mx = clamp((e.clientX - rect.left) / rect.width, 0, 1);
-            const my = 1 - clamp((e.clientY - rect.top) / rect.height, 0, 1);
+            const my = clamp((e.clientY - rect.top) / rect.height, 0, 1);
 
             const cx = Math.floor(mx * cols);
             const cy = Math.floor(my * rows);
@@ -1620,7 +1618,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // ---------- Hover trail stamping ----------
         const mx = clamp(mousePX / Math.max(1, hostW), 0, 0.999999);
-        const my = 1 - clamp(mousePY / Math.max(1, window.innerHeight), 0, 0.999999);
+        const my = clamp(mousePY / Math.max(1, window.innerHeight), 0, 0.999999);
 
         const cx = Math.floor(mx * cols);
         const cy = Math.floor(my * rows);
@@ -1657,7 +1655,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         const mx = clamp((e.clientX - rect.left) / rect.width, 0, 0.999999);
-        const my = 1 - clamp((e.clientY - rect.top) / rect.height, 0, 1);
+        const my = clamp((e.clientY - rect.top) / rect.height, 0, 1);
 
         const cellX = Math.floor(mx * cols);
         const cellY = Math.floor(my * rows);
@@ -1708,7 +1706,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         const mx = clamp((clientX - rect.left) / rect.width, 0, 1);
-        const my = 1 - clamp((clientY - rect.top) / rect.height, 0, 1);
+        const my = clamp((clientY - rect.top) / rect.height, 0, 1);
         const cx = Math.floor(mx * cols);
         const cy = Math.floor(my * rows);
 
@@ -1891,12 +1889,29 @@ document.addEventListener("DOMContentLoaded", () => {
         ]
     };
 
-    // Optional: allow overlap (important)
+    // Preload all audio
     for (const type in waveSounds) {
         waveSounds[type].forEach(a => {
             a.preload = "auto";
         });
     }
+
+    // iOS Safari won't decode audio until the AudioContext is unlocked by a
+    // user gesture. On first touch we silently play+pause every clip so the
+    // browser pre-buffers them — eliminating the ~1s delay on subsequent taps.
+    function warmUpAudio() {
+        for (const type in waveSounds) {
+            waveSounds[type].forEach(a => {
+                const s = a.cloneNode();
+                s.volume = 0;
+                s.play().then(() => s.pause()).catch(() => { });
+            });
+        }
+        document.removeEventListener("touchstart", warmUpAudio);
+        document.removeEventListener("pointerdown", warmUpAudio);
+    }
+    document.addEventListener("touchstart", warmUpAudio, { once: true, passive: true });
+    document.addEventListener("pointerdown", warmUpAudio, { once: true, passive: true });
 
     function playWaveSound(type, familyIndex) {
         const base = waveSounds[type][familyIndex];
@@ -2759,7 +2774,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 soundToggle.classList.add("sound-on", "selected");
                 if (iconOff) iconOff.style.display = "none";
                 if (iconOn) iconOn.style.display = "";
-                if (introAudio) { introAudio.volume = 0.85; introAudio.play().catch(() => { }); }
+                if (introAudio) { introAudio.loop = true; introAudio.volume = 0.85; introAudio.play().catch(() => { }); }
             } else {
                 soundToggle.classList.remove("sound-on", "selected");
                 if (iconOff) iconOff.style.display = "";
