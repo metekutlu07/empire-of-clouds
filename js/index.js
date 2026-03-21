@@ -178,7 +178,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // ---------- Intro emergence ----------
-    const INTRO_STAGGER_MS = 1500;   // random start delay per cell
+    const INTRO_STAGGER_MS = 1000;   // random start delay per cell
     const INTRO_RISE_MS = 250;      // fade-in time per cell
     const INTRO_BLACK_MS = 0;        // no black pause — cells appear immediately
     const INTRO_DONE_MS = INTRO_STAGGER_MS + INTRO_RISE_MS + 250;
@@ -785,7 +785,22 @@ document.addEventListener("DOMContentLoaded", () => {
         playWaveSound("right", famIndex);
     }
 
+    // Timer IDs for the deferred show-sequence inside showMainUI().
+    // Stored so the exit-button click handlers can cancel them before navigation,
+    // preventing a pending timer from adding "show" back to elements after the
+    // user has already clicked away.
+    let _mainUITimers = [];
+    window._cancelMainUI = function () {
+        _mainUITimers.forEach(clearTimeout);
+        _mainUITimers = [];
+    };
+
     function showMainUI() {
+        // Cancel any pending show-timers from a previous call so we never have
+        // two concurrent sequences racing each other.
+        _mainUITimers.forEach(clearTimeout);
+        _mainUITimers = [];
+
         // ── Invariant: preludeLayer must NEVER receive pointer events once the
         // main UI is live. Enforce it here regardless of which call site got us here.
         if (preludeLayer) preludeLayer.style.pointerEvents = "none";
@@ -815,16 +830,16 @@ document.addEventListener("DOMContentLoaded", () => {
         // Force a reflow so the transition:none is committed before we re-enable it.
         if (toHide[0]) void toHide[0].getBoundingClientRect();
         toHide.forEach(el => { el.style.transition = ""; });
-        const GLYPH_WAIT = INTRO_DONE_MS + 800;
-        setTimeout(() => {
+        const GLYPH_WAIT = INTRO_DONE_MS + 300;
+        _mainUITimers.push(setTimeout(() => {
             if (titleBlock) titleBlock.classList.add("show");
             const glow = document.getElementById("titleGlow");
             if (glow) glow.style.opacity = "1";
-        }, GLYPH_WAIT);
-        setTimeout(() => { if (nebula) nebula.classList.add("show"); }, GLYPH_WAIT + 900);
-        setTimeout(() => { if (books) books.classList.add("show"); }, GLYPH_WAIT + 900);
-        setTimeout(() => { if (instr) instr.classList.add("show"); }, GLYPH_WAIT + 1300);
-        setTimeout(() => { if (mobileInstr) mobileInstr.classList.add("show"); }, GLYPH_WAIT + 900);
+        }, GLYPH_WAIT));
+        _mainUITimers.push(setTimeout(() => { if (nebula) nebula.classList.add("show"); }, GLYPH_WAIT + 900));
+        _mainUITimers.push(setTimeout(() => { if (books) books.classList.add("show"); }, GLYPH_WAIT + 900));
+        _mainUITimers.push(setTimeout(() => { if (instr) instr.classList.add("show"); }, GLYPH_WAIT + 1300));
+        _mainUITimers.push(setTimeout(() => { if (mobileInstr) mobileInstr.classList.add("show"); }, GLYPH_WAIT + 900));
     }
 
     function unlockArchive() {
@@ -2970,6 +2985,10 @@ if (nebulaLink) {
 
         e.preventDefault();
 
+        // Cancel any pending showMainUI timers so a mid-sequence "show" callback
+        // can't fire and re-add "show" to elements between now and navigation.
+        if (window._cancelMainUI) window._cancelMainUI();
+
         // 1. Fade out staged UI
         document.querySelectorAll(".glyphHero .stage").forEach(el => {
             el.classList.remove("show");
@@ -2999,7 +3018,7 @@ if (nebulaLink) {
         // 5. Navigate AFTER collapse completes
         setTimeout(() => {
             window.location.href = "introduction.html";
-        }, UI_FADE_MS + 2200);
+        }, UI_FADE_MS + 1500);
 
     });
 
@@ -3016,6 +3035,9 @@ if (booksLink) {
     booksLink.addEventListener("click", (e) => {
 
         e.preventDefault();
+
+        // Cancel any pending showMainUI timers (same guard as nebulaLink).
+        if (window._cancelMainUI) window._cancelMainUI();
 
         // 1. Fade out staged UI
         document.querySelectorAll(".glyphHero .stage").forEach(el => {
@@ -3046,7 +3068,7 @@ if (booksLink) {
         // 5. Navigate AFTER collapse completes
         setTimeout(() => {
             window.location.href = "books.html";
-        }, UI_FADE_MS + 2200);
+        }, UI_FADE_MS + 1500);
 
     });
 
