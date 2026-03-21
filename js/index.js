@@ -973,6 +973,20 @@ document.addEventListener("DOMContentLoaded", () => {
         "Enter only if you are prepared to remember."
     ];
 
+    // Mobile: shorter lines so the design feels intentional on narrow screens
+    const TRANSMISSION_LINES_MOBILE = [
+        "You are about to enter",
+        "a forbidden archive.",
+        "Here survives knowledge",
+        "erased from official records.",
+        "Here linger unheard memories",
+        "and forgotten dreams.",
+        "Here rules no government",
+        "and no institution.",
+        "Enter only if you are",
+        "prepared to remember.",
+    ];
+
     function openTransmissionWindow() {
         const win = document.getElementById("transmissionWindow");
         const text = document.getElementById("transmissionText");
@@ -980,12 +994,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
         win.classList.add("open");
 
+        // Choose line set based on viewport width
+        const _isMobileView = window.innerWidth <= 640;
+        const _activeLines = _isMobileView ? TRANSMISSION_LINES_MOBILE : TRANSMISSION_LINES;
+
         // Type each line sequentially after window opens
         const tStart = setTimeout(() => {
             let lineIdx = 0;
 
             function typeNextLine() {
-                if (lineIdx >= TRANSMISSION_LINES.length) {
+                if (lineIdx >= _activeLines.length) {
                     // All lines done — type footer invite, then enable override
                     const tFooter = setTimeout(() => {
                         const footer = document.getElementById("transmissionFooter");
@@ -993,17 +1011,28 @@ document.addEventListener("DOMContentLoaded", () => {
                         const isMobile = window.innerWidth <= 640;
                         if (isMobile && footerMobile) {
                             footerMobile.style.display = "block";
-                            footerMobile.style.marginTop = "40px";
+                            footerMobile.style.marginTop = "32px";
                             footerMobile.style.textAlign = "center";
                             footerMobile.style.color = "rgba(255,255,255,0.32)";
                             footerMobile.style.fontSize = "13px";
                             footerMobile.style.letterSpacing = "0.14em";
                             footerMobile.style.lineHeight = "1.8";
-                            typeIntoElement(footerMobile, "LONG PRESS ANYWHERE FOR FULL SYSTEM OVERRIDE", {
+                            // Two short lines matching the compact mobile layout
+                            const fLine1 = document.createElement("div");
+                            const fLine2 = document.createElement("div");
+                            footerMobile.appendChild(fLine1);
+                            footerMobile.appendChild(fLine2);
+                            typeIntoElement(fLine1, "Long press anywhere", {
                                 speed: 40,
                                 holdCursor: false,
                                 onDone: () => {
-                                    prelude.mode = "override";
+                                    typeIntoElement(fLine2, "for system override", {
+                                        speed: 40,
+                                        holdCursor: false,
+                                        onDone: () => {
+                                            prelude.mode = "override";
+                                        }
+                                    });
                                 }
                             });
                         } else if (footer) {
@@ -1022,7 +1051,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     return;
                 }
 
-                const lineText = TRANSMISSION_LINES[lineIdx];
+                const lineText = _activeLines[lineIdx];
                 lineIdx++;
 
                 // Each line is a <p> appended to the text div
@@ -1593,6 +1622,10 @@ document.addEventListener("DOMContentLoaded", () => {
     let hasPointer = false;
 
     function onPointerMove(e) {
+        // Hover trail and prelude-hover tooltip are mouse-only affordances.
+        // Finger drags on touch generate pointermove events too — skip them
+        // so neither the "Backdoor" label nor the glyph trail appears on mobile.
+        if (e.pointerType === "touch") return;
 
         const rect = glCanvas.getBoundingClientRect();
 
@@ -1906,19 +1939,36 @@ document.addEventListener("DOMContentLoaded", () => {
         ]
     };
 
-    // Preload all audio
+    // Pre-create 2 copies of every clip so rapid overlapping taps never stall.
+    // Using a pool avoids the per-play cloneNode() + decode step that adds
+    // ~100-300 ms of latency on iOS Safari.
+    const WAVE_POOL = 2;
+    const wavePools = {};
+    const wavePoolRR = {};
     for (const type in waveSounds) {
-        waveSounds[type].forEach(a => {
-            a.preload = "auto";
+        wavePools[type] = waveSounds[type].map(base => {
+            base.preload = "auto";
+            base.volume = 0.4;
+            const pool = [base];
+            for (let i = 1; i < WAVE_POOL; i++) {
+                const a = new Audio(base.src);
+                a.preload = "auto";
+                a.volume = 0.4;
+                pool.push(a);
+            }
+            return pool;
         });
+        wavePoolRR[type] = waveSounds[type].map(() => 0);
     }
 
     function playWaveSound(type, familyIndex) {
-        const base = waveSounds[type][familyIndex];
-        if (!base) return;
-
-        // clone node so rapid clicks overlap
-        const s = base.cloneNode();
+        const pool = wavePools[type]?.[familyIndex];
+        if (!pool) return;
+        // Round-robin through pool slots so rapid taps can overlap
+        const i = wavePoolRR[type][familyIndex];
+        wavePoolRR[type][familyIndex] = (i + 1) % pool.length;
+        const s = pool[i];
+        s.currentTime = 0;
         s.volume = 0.4;
         s.play().catch(() => { });
     }
@@ -2710,16 +2760,15 @@ document.addEventListener("DOMContentLoaded", () => {
         const el = document.getElementById("mysticLoader");
         if (!el) { onDone(); return; }
 
-        let interval = setInterval(() => {
-            const g = ALL_LOADER_GLYPHS[Math.floor(Math.random() * ALL_LOADER_GLYPHS.length)];
-            const c = LOADER_COLORS[Math.floor(Math.random() * LOADER_COLORS.length)];
-            el.textContent = g;
-            el.style.color = c;
-        }, LOADER_CYCLE_MS);
-
-        // Seed first glyph immediately
-        el.textContent = ALL_LOADER_GLYPHS[0];
-        el.style.color = LOADER_COLORS[0];
+        // Shared tick so both the immediate seed and the interval use identical
+        // random logic — prevents the fixed index-0 glyph from appearing "stuck"
+        // before cycling begins.
+        function loaderTick() {
+            el.textContent = ALL_LOADER_GLYPHS[Math.floor(Math.random() * ALL_LOADER_GLYPHS.length)];
+            el.style.color   = LOADER_COLORS[Math.floor(Math.random() * LOADER_COLORS.length)];
+        }
+        loaderTick(); // seed a random glyph immediately
+        let interval = setInterval(loaderTick, LOADER_CYCLE_MS);
 
         setTimeout(() => {
             clearInterval(interval);
@@ -2785,6 +2834,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Confirm — fade out entry screen, then start boot
         function confirm() {
+            // Prime the iOS audio pipeline on this user gesture.
+            // One play+immediate-pause is enough to unlock HTMLMediaElement
+            // audio for the whole page, removing the ~300 ms first-tap delay.
+            // We do it here (not on touchstart) so it only fires once, cleanly.
+            const _wakeClip = waveSounds.left[0];
+            if (_wakeClip) {
+                _wakeClip.play().then(() => {
+                    _wakeClip.pause();
+                    _wakeClip.currentTime = 0;
+                }).catch(() => { });
+            }
+
             if (entryScreen) entryScreen.classList.add("fade-out");
             if (preludeLayer) preludeLayer.style.pointerEvents = "none";
             document.documentElement.dataset.lang = selectedLang;

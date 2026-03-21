@@ -2216,12 +2216,15 @@ body.archive-unsealed #preludeLayer::before {
 @media (max-width: 640px) {
 
     /* ── Title block — flex centered ────────────────────────── */
+    /* Use flex centering so the gap above "Empire of Clouds" and the gap
+       below "Open the Books" are equal, making the scene look balanced. */
 
     .glyphHero .titleBlock {
-        display: block;
-        padding-top: 15vh;
-        padding-left: 5vw;
-        padding-right: 5vw;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        padding: 0 5vw !important;
         text-align: center;
     }
 
@@ -2244,8 +2247,8 @@ body.archive-unsealed #preludeLayer::before {
         inset: auto !important;
         transform: none !important;
         align-items: center !important;
-        gap: 36px !important;
-        margin-top: 4rem !important;
+        gap: 20px !important;
+        margin-top: 2.5rem !important;
         width: 100% !important;
         pointer-events: none !important;
         z-index: auto !important;
@@ -2329,6 +2332,7 @@ body.archive-unsealed #preludeLayer::before {
         height: 58vh !important;
         padding: 32px 24px 28px !important;
         overflow: hidden !important;
+        background: #000 !important;
     }
 
     #transmissionWarning {
