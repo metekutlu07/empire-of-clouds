@@ -348,7 +348,7 @@ body.intro-ui-visible.is-exiting .topnav {
     font-weight: 500;
     letter-spacing: .18em;
     text-transform: uppercase;
-    color: rgba(255, 255, 255, .50);
+    color: hsla(318, 100%, 77%, 0.90);
     margin: 48px 0 14px;
 }
 
@@ -452,7 +452,7 @@ body.intro-ui-visible.is-exiting .topnav {
     margin: 0 0 18px;
     font-size: 16px;
     line-height: 1.55;
-    color: rgba(255, 255, 255, .62);
+    color: hsla(137, 100%, 73%, 0.82);
     font-style: normal;
     letter-spacing: 0;
     text-transform: none;
@@ -464,7 +464,7 @@ body.intro-ui-visible.is-exiting .topnav {
     margin-top: 6px;
     font-size: 17px;
     line-height: 1.45;
-    color: rgba(255, 255, 255, .62);
+    color: hsla(137, 100%, 73%, 0.82);
     font-style: italic;
     letter-spacing: 0;
     text-transform: none;
@@ -651,7 +651,7 @@ body.intro-ui-visible.is-exiting .topnav {
     line-height: 1.6;
     letter-spacing: .04em;
     text-transform: none;
-    color: rgba(255, 255, 255, .62);
+    color: hsla(137, 100%, 73%, 0.82);
 }
 
 .plate:hover img {
@@ -756,6 +756,23 @@ body.intro-ui-visible.is-exiting .topnav {
 
 .lightboxClose:hover span {
     opacity: 0.7;
+}
+
+/* ===================== MOBILE / DESKTOP VISIBILITY HELPERS ===================== */
+
+/* <br class="mobile-break"> is hidden on desktop; display:inline on mobile restores the line break */
+.mobile-break {
+    display: none;
+}
+
+/* .meta-dot wraps the " · " separator in hero-meta; hidden on mobile where we use a line break instead */
+.meta-dot {
+    /* visible on desktop */
+}
+
+/* .desktop-only elements (e.g. "Click to enlarge" hint) are hidden on mobile */
+.desktop-only {
+    /* visible on desktop */
 }
 
 /* ===================== 3D SCROLL STAGE ===================== */
@@ -932,7 +949,7 @@ figure.image-tall figcaption {
     font-family: "IBM Plex Mono", monospace;
     font-size: 14px;
     line-height: 1.6;
-    color: rgba(255, 255, 255, .6);
+    color: hsla(137, 100%, 73%, 0.82);
 }
 
 /* Landscape image — wide viewport width (70vw) */
@@ -959,7 +976,7 @@ figure.image-wide figcaption {
     font-family: "IBM Plex Mono", monospace;
     font-size: 14px;
     line-height: 1.6;
-    color: rgba(255, 255, 255, .6);
+    color: hsla(137, 100%, 73%, 0.82);
 }
 
 /* Landscape/comparison image — fills full wrap width, preserves natural aspect ratio */
@@ -982,7 +999,7 @@ figure.image-landscape figcaption {
     font-family: "IBM Plex Mono", monospace;
     font-size: 14px;
     line-height: 1.6;
-    color: rgba(255, 255, 255, .6);
+    color: hsla(137, 100%, 73%, 0.82);
 }
 
 /* Hero image — 80vw centred, breaks out of wrap constraints */
@@ -1007,7 +1024,7 @@ figure.image-hero figcaption {
     font-family: "IBM Plex Mono", monospace;
     font-size: 14px;
     line-height: 1.6;
-    color: rgba(255, 255, 255, .6);
+    color: hsla(137, 100%, 73%, 0.82);
 }
 
 /* Bold/strong text inside captions inherits the muted caption colour,
@@ -1131,10 +1148,11 @@ figcaption b {
 }
 
 .glyphAudio .audioRow {
-    display: grid;
-    grid-template-columns: 44px 1fr auto;
-    gap: 12px;
+    display: flex;
+    flex-direction: column;
     align-items: center;
+    gap: 14px;
+    width: 100%;
 }
 
 .glyphAudio .playBtn {
@@ -1204,12 +1222,14 @@ figcaption b {
     text-transform: uppercase;
     font-size: 12px;
     opacity: 0.78;
+    text-align: center;
     white-space: nowrap;
 }
 
 .glyphAudio .barWrap {
     display: flex;
     align-items: center;
+    width: 100%;
     min-width: 0;
 }
 
@@ -1590,20 +1610,32 @@ footer {
         width: 100%;
         touch-action: none;
     }
-}
 
-@media (max-width: 520px) {
-    .glyphAudio .audioRow {
-        grid-template-columns: 44px 1fr;
-        grid-auto-rows: auto;
+    /* Mobile-only line breaks — activate the hidden <br class="mobile-break"> */
+    .mobile-break {
+        display: inline;
     }
 
-    .glyphAudio .time {
-        grid-column: 1 / -1;
-        justify-self: end;
-        margin-top: 8px;
+    /* Hide the " · " dot separator in hero-meta on mobile (line break used instead) */
+    .meta-dot {
+        display: none;
+    }
+
+    /* Hero-meta: two uppercase lines on mobile */
+    .hero-meta {
+        text-transform: uppercase;
+        letter-spacing: .10em;
+        font-size: clamp(11px, 3vw, 14px);
+        line-height: 1.6;
+    }
+
+    /* Hide desktop-only elements (e.g. "Click to enlarge" in mosaic intro) */
+    .desktop-only {
+        display: none;
     }
 }
+
+/* audioRow is already flex-column centered — no 520px override needed */
 
 /* ===================== DIAGRAM ===================== */
 
@@ -1627,7 +1659,7 @@ figure.image-full figcaption {
     text-align: left;
     font-family: "IBM Plex Mono", monospace;
     font-size: 14px;
-    color: rgba(255, 255, 255, .6);
+    color: hsla(137, 100%, 73%, 0.82);
 }
 
 .image-full-thin {
@@ -1660,7 +1692,7 @@ figure.image-full figcaption {
     font-size: 14px;
     line-height: 1.6;
     letter-spacing: .04em;
-    color: rgba(255, 255, 255, .62);
+    color: hsla(137, 100%, 73%, 0.82);
 
 }
 
@@ -1785,7 +1817,7 @@ canvas[id^="model3dCanvas-"] {
     font-size: 14px;
     line-height: 1.6;
     letter-spacing: 0.03em;
-    color: rgba(255, 255, 255, .6);
+    color: hsla(137, 100%, 73%, 0.82);
     text-align: left;
 }
 
@@ -1814,7 +1846,7 @@ figure.image-compare figcaption {
     font-family: "IBM Plex Mono", monospace;
     font-size: 14px;
     line-height: 1.6;
-    color: rgba(255, 255, 255, .6);
+    color: hsla(137, 100%, 73%, 0.82);
 }
 
 .compareStage {
@@ -2060,7 +2092,7 @@ figure.image-centered figcaption {
     font-family: "IBM Plex Mono", monospace;
     font-size: 14px;
     line-height: 1.5;
-    color: rgba(255, 255, 255, .6);
+    color: hsla(137, 100%, 73%, 0.82);
     text-align: center;
 }
 

@@ -137,6 +137,28 @@ document.getElementById("year").textContent = new Date().getFullYear();
         }
     }
 
+    // In AR / object-viewer mode the real-world environment lighting makes the
+    // glossy material appear washed-out and pale. Revert to natural roughness
+    // when AR starts and restore the canvas settings when it ends.
+    model.addEventListener('ar-status', (evt) => {
+        const entering = evt.detail.status === 'session-started';
+        try {
+            const mvModel = model.model;
+            if (!mvModel || !mvModel.materials) return;
+            for (const mat of mvModel.materials) {
+                const pbr = mat.pbrMetallicRoughness;
+                if (!pbr) continue;
+                if (entering) {
+                    pbr.setRoughnessFactor(0.7);
+                    pbr.setMetallicFactor(0.0);
+                } else {
+                    pbr.setRoughnessFactor(0.2);
+                    pbr.setMetallicFactor(0.1);
+                }
+            }
+        } catch (e) { /* fail silently */ }
+    });
+
     function computeStageBounds() {
         const rect = stage.getBoundingClientRect();
         const pageY = window.scrollY || window.pageYOffset || 0;

@@ -75,6 +75,17 @@ document.addEventListener("DOMContentLoaded", () => {
             e.preventDefault();
             const dest = this.href;
 
+            // Close the mobile nav panel immediately (no transition) so it
+            // doesn't flash through the veil during the page-exit animation.
+            const navPanel = document.getElementById("navPanel");
+            if (navPanel && navPanel.classList.contains("is-open")) {
+                navPanel.style.transition = "none";
+                navPanel.style.opacity = "0";
+                navPanel.style.pointerEvents = "none";
+                navPanel.classList.remove("is-open");
+                document.body.style.overflow = "";
+            }
+
             document.body.classList.add("is-exiting");
 
             const veil = document.createElement("div");
