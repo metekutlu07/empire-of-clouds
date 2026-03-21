@@ -1196,16 +1196,20 @@ document.addEventListener('click', function (e) {
 window.addEventListener('pageshow', function (e) {
     if (!e.persisted) return;
 
-    // Ensure veil is covering the page while we reset (remove page-ready
-    // and is-exiting so the #pageVeil CSS default opacity:1 applies)
+    // Snap the veil to black instantly (disable transition so there is no
+    // 320ms window where stale page state bleeds through the fading veil)
+    var veil = document.getElementById('pageVeil');
+    if (veil) veil.style.transition = 'none';
+
+    // Remove classes so the default #pageVeil { opacity:1 } rule applies
     document.body.classList.remove('page-ready');
     document.body.classList.remove('is-exiting');
 
-    // Reset the swipe hint (hide immediately, re-show after reveal)
+    // Reset the swipe hint
     var hint = document.querySelector('.hint');
     if (hint) hint.classList.remove('show');
 
-    // Close the nav panel
+    // Close the nav panel (it may have been left open)
     var panel = document.getElementById('navPanel');
     if (panel) {
         panel.style.transition = 'none';
@@ -1216,10 +1220,11 @@ window.addEventListener('pageshow', function (e) {
         if (toggle) toggle.setAttribute('aria-expanded', 'false');
     }
 
-    // Reveal: fade veil out, restore panel transitions, re-show hint
+    // Re-enable transitions, then trigger the fade-in
     requestAnimationFrame(function () {
+        if (veil) veil.style.transition = '';
+        if (panel) panel.style.transition = '';
         requestAnimationFrame(function () {
-            if (panel) panel.style.transition = '';
             document.body.classList.add('page-ready');
             if (hint) setTimeout(function () { hint.classList.add('show'); }, 700);
         });

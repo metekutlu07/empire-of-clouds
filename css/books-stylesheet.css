@@ -2059,7 +2059,7 @@ figure.image-compare figcaption {
     background: #000;
     opacity: 1;            /* covers page during load — prevents any flash */
     pointer-events: auto;
-    z-index: 90;
+    z-index: 1003;
     transition: opacity 320ms ease;
 }
 
