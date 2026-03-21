@@ -36,12 +36,17 @@ html {
     }
 }
 
+html {
+    overflow-x: hidden;
+}
+
 body {
     margin: 0;
     background: var(--bg);
     color: var(--fg);
     font-family: "Space Grotesk", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
     overflow-x: hidden;
+    max-width: 100%;
     text-rendering: optimizeLegibility;
 }
 
@@ -993,6 +998,13 @@ figure.image-hero figcaption {
     color: rgba(255, 255, 255, .6);
 }
 
+/* Bold/strong text inside captions inherits the muted caption colour,
+   not the full-white body colour */
+figcaption strong,
+figcaption b {
+    color: inherit;
+}
+
 /* ===================== PROSE LEFT (left-aligned body text) ===================== */
 
 .prose-left {
@@ -1530,6 +1542,39 @@ footer {
         gap: 4px;
         padding: 24px 0 0 0;
         column-count: 1;
+    }
+
+    /* ── 3D scroll stage: use dynamic viewport height so the book is
+       correctly centred even when the iOS URL bar is visible ── */
+    .stickyCenter {
+        height: 100dvh;
+    }
+
+    .enterRig,
+    .hoverRig {
+        height: 100dvh;
+    }
+
+    /* ── 3D model-viewer: square canvas on mobile so the book fills
+       the frame instead of sitting tiny inside a tall portrait viewport ── */
+    #stage model-viewer {
+        height: min(100vw, 70vh);
+        max-height: min(100vw, 70vh);
+    }
+
+    /* ── image-full inside .wrap: strip the figure's own padding the same
+       way image-tall already does, so both have identical side gutters ── */
+    .wrap figure.image-full,
+    .wrapNarrow figure.image-full {
+        padding: 0;
+    }
+
+    /* ── Compare slider: fill available width (prevents fit-content from
+       expanding to the image's natural pixel width and causing overflow).
+       touch-action: none blocks iOS page-scroll while dragging the slider ── */
+    .compareStage {
+        width: 100%;
+        touch-action: none;
     }
 }
 

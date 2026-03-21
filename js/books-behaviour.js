@@ -70,6 +70,18 @@ document.getElementById("year").textContent = new Date().getFullYear();
     const enterRig = document.querySelector(".enterRig");
     const hint = document.querySelector(".hint");
 
+    // On mobile: bring the camera closer so the book fills more of the square canvas
+    if (model && window.matchMedia("(max-width: 640px)").matches) {
+        ["camera-orbit", "min-camera-orbit", "max-camera-orbit"].forEach(attr => {
+            const val = model.getAttribute(attr);
+            if (!val) return;
+            const parts = val.split(" ");
+            // radius is the third token (e.g. "0.85m") — scale it down by 40%
+            parts[2] = (parseFloat(parts[2]) * 0.6).toFixed(2) + "m";
+            model.setAttribute(attr, parts.join(" "));
+        });
+    }
+
     let duration = 0;
     let hasAnimation = false;
     let rafId = null;
@@ -967,9 +979,12 @@ document.addEventListener('click', function (e) {
             dragging = false;
         });
 
-        // Touch
-        handle.addEventListener('touchstart', function (e) {
+        // Touch — start drag anywhere on the stage (not just the handle) so
+        // the full image area is a grab target. CSS touch-action:none on the
+        // stage blocks page scroll for the duration of the touch sequence.
+        stage.addEventListener('touchstart', function (e) {
             dragging = true;
+            setPosition(e.touches[0].clientX, e.touches[0].clientY);
         }, { passive: true });
         document.addEventListener('touchmove', function (e) {
             if (!dragging) return;
