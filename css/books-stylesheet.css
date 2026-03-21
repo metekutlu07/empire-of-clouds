@@ -761,14 +761,15 @@ body.intro-ui-visible.is-exiting .topnav {
 /* ===================== 3D SCROLL STAGE ===================== */
 
 .scrollStage {
-    min-height: 484vh;
+    /* svh = small viewport height = bars-visible height, never changes mid-scroll */
+    min-height: 484svh;
     position: relative;
 }
 
 .stickyCenter {
     position: sticky;
     top: 0;
-    height: 100vh;
+    height: 100svh;
     display: grid;
     place-items: center;
     /* Own compositor layer ensures the browser tracks the sticky offset correctly
@@ -780,7 +781,7 @@ body.intro-ui-visible.is-exiting .topnav {
     width: 1400px;
     height: 1400px;
     max-width: 100vw;
-    max-height: 100vh;
+    max-height: 100svh;
     background: transparent;
     outline: none;
     display: block;
@@ -826,10 +827,14 @@ body.intro-ui-visible.is-exiting .topnav {
 
 .enterRig {
     width: 100vw;
-    height: 100vh;
+    height: 100svh;
     display: grid;
     place-items: center;
-    transform: translateY(0);
+    /* Offset by the nav height so the book is centred in the visible area
+       below the topnav, not in the full viewport (top portion of which is
+       hidden behind the fixed nav bar). enterRise only animates opacity so
+       this transform is never overwritten by the animation. */
+    transform: translateY(var(--navH));
     opacity: 0;
     will-change: opacity;
 }
@@ -850,7 +855,7 @@ body.intro-ui-visible.is-exiting .topnav {
 
 .hoverRig {
     width: 100vw;
-    height: 100vh;
+    height: 100svh;
     display: grid;
     place-items: center;
     will-change: transform;
@@ -1551,25 +1556,24 @@ footer {
         column-count: 1;
     }
 
-    /* ── 3D scroll stage: use dynamic viewport height so the book is
-       correctly centred even when the iOS URL bar is visible ── */
+    /* ── 3D scroll stage: lock all heights to svh (small viewport height =
+       viewport with browser bars fully visible). svh never changes as bars
+       show/hide, so the canvas, sticky zone and scroll-stage all stay the
+       same size during the book animation — no visual jump when Chrome or
+       Safari hides its address/toolbar. ── */
     .stickyCenter {
-        height: 100dvh;
+        height: 100svh;
     }
 
     .enterRig,
     .hoverRig {
-        height: 100dvh;
+        height: 100svh;
     }
 
-    /* ── 3D model-viewer: full-height canvas on mobile.
-       Using 100dvh instead of the previous square (min(100vw,70vh)) gives the
-       book enough vertical room to be fully visible even with the camera
-       brought closer. Width stays 100vw so nothing bleeds off screen. ── */
     #stage model-viewer {
         width: 100vw;
-        height: 100dvh;
-        max-height: 100dvh;
+        height: 100svh;
+        max-height: 100svh;
     }
 
     /* ── image-full inside .wrap: strip the figure's own padding the same

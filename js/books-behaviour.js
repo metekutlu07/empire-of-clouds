@@ -91,6 +91,11 @@ document.getElementById("year").textContent = new Date().getFullYear();
     let stageStart = 0;
     let stageEnd = 0;
     let viewportH = window.innerHeight;
+    // Only update viewportH when the WIDTH changes — browser bar show/hide only
+    // changes height, not width. Real layout events (orientation flip, desktop
+    // window resize) change the width. This keeps animation bounds stable while
+    // Chrome/Safari's address bar slides in and out.
+    let lastResizeW = window.innerWidth;
 
     function clamp01(x) {
         return Math.max(0, Math.min(1, x));
@@ -181,7 +186,14 @@ document.getElementById("year").textContent = new Date().getFullYear();
     function onResize() {
         clearTimeout(resizeTimer);
         resizeTimer = setTimeout(() => {
-            viewportH = window.innerHeight;
+            const newW = window.innerWidth;
+            if (newW !== lastResizeW) {
+                // Width changed → real layout event (orientation / window resize).
+                // Update viewportH so the scroll range stays correct.
+                lastResizeW = newW;
+                viewportH = window.innerHeight;
+            }
+            // Always recompute stage position (it may have reflowed).
             computeStageBounds();
             requestTick();
         }, 100);
