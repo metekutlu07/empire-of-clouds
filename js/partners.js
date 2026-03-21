@@ -918,7 +918,7 @@ function playWaveSound(type, familyIndex) {
 
     // clone node so rapid clicks overlap
     const s = base.cloneNode();
-    s.volume = 0.8;
+    s.volume = 0.4;
     s.play().catch(() => { });
 }
 
@@ -1690,7 +1690,7 @@ countryButtons.forEach(btn => {
         btn.classList.add("is-active");
         const key = btn.dataset.country;
         const sound = countrySounds[key];
-        if (sound) { const s = sound.cloneNode(); s.volume = 0.3; s.play().catch(() => { }); }
+        if (sound) { const s = sound.cloneNode(); s.volume = 0.15; s.play().catch(() => { }); }
         updateContent(key);
         if (!introHidden) {
             intro.classList.add("is-hidden");
@@ -1784,7 +1784,7 @@ document.querySelectorAll(".navLinks a, .navPanelLinks a, .brand").forEach(link 
 
             const key = btn.dataset.country;
             const sound = countrySounds[key];
-            if (sound) { const s = sound.cloneNode(); s.volume = 0.3; s.play().catch(() => { }); }
+            if (sound) { const s = sound.cloneNode(); s.volume = 0.15; s.play().catch(() => { }); }
             updateContent(key);
             if (!introHidden) {
                 intro.classList.add("is-hidden");

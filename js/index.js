@@ -1974,12 +1974,12 @@ document.addEventListener("DOMContentLoaded", () => {
     for (const type in waveSounds) {
         wavePools[type] = waveSounds[type].map(base => {
             base.preload = "auto";
-            base.volume = 0.2;
+            base.volume = 0.1;
             const pool = [base];
             for (let i = 1; i < WAVE_POOL; i++) {
                 const a = new Audio(base.src);
                 a.preload = "auto";
-                a.volume = 0.2;
+                a.volume = 0.1;
                 pool.push(a);
             }
             return pool;
@@ -1995,7 +1995,7 @@ document.addEventListener("DOMContentLoaded", () => {
         wavePoolRR[type][familyIndex] = (i + 1) % pool.length;
         const s = pool[i];
         s.currentTime = 0;
-        s.volume = 0.2;
+        s.volume = 0.1;
         s.play().catch(() => { });
     }
 

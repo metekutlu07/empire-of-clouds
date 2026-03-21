@@ -309,7 +309,7 @@
         const base = waveSounds[type][famIdx];
         if (!base) return;
         const s = base.cloneNode();
-        s.volume = 0.8;
+        s.volume = 0.4;
         s.play().catch(() => { });
     }
 
@@ -901,7 +901,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const clickSound = new Audio("audio/waitlist/waitlist4.mp3");
     clickSound.preload = "auto";
-    clickSound.volume = 0.6;
+    clickSound.volume = 0.3;
 
     let locked = false;
 
