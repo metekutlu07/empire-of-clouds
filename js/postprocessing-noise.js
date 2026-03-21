@@ -50,8 +50,6 @@ export default class PostProcessing {
       this.canvas.width  = w;
       this.canvas.height = h;
     }
-    this.canvas.style.width  = widthCssPx  + "px";
-    this.canvas.style.height = heightCssPx + "px";
     gl.viewport(0, 0, w, h);
     gl.useProgram(this.prog);
     gl.uniform2f(this.uResolution, w, h);

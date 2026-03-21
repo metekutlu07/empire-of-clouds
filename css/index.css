@@ -2408,6 +2408,8 @@ body.archive-unsealed #preludeLayer::before {
         overflow: hidden !important;
         height: 100% !important;
         position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
         width: 100% !important;
     }
 

@@ -1913,23 +1913,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // iOS Safari won't decode audio until the AudioContext is unlocked by a
-    // user gesture. On first touch we silently play+pause every clip so the
-    // browser pre-buffers them — eliminating the ~1s delay on subsequent taps.
-    function warmUpAudio() {
-        for (const type in waveSounds) {
-            waveSounds[type].forEach(a => {
-                const s = a.cloneNode();
-                s.volume = 0;
-                s.play().then(() => s.pause()).catch(() => { });
-            });
-        }
-        document.removeEventListener("touchstart", warmUpAudio);
-        document.removeEventListener("pointerdown", warmUpAudio);
-    }
-    document.addEventListener("touchstart", warmUpAudio, { once: true, passive: true });
-    document.addEventListener("pointerdown", warmUpAudio, { once: true, passive: true });
-
     function playWaveSound(type, familyIndex) {
         const base = waveSounds[type][familyIndex];
         if (!base) return;
