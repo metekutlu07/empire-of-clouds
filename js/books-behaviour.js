@@ -97,6 +97,10 @@ document.getElementById("year").textContent = new Date().getFullYear();
     // Chrome/Safari's address bar slides in and out.
     let lastResizeW = window.innerWidth;
 
+    // True while a touch gesture is actively driving the animation.
+    // Guards the scroll-based tick so the two paths don't race.
+    let touchControlling = false;
+
     function clamp01(x) {
         return Math.max(0, Math.min(1, x));
     }
@@ -145,19 +149,22 @@ document.getElementById("year").textContent = new Date().getFullYear();
         return clamp01((y - stageStart) / total);
     }
 
-    function applyAnimationFromScroll() {
+    // Apply animation at an explicit 0..1 progress value.
+    // Used by both the scroll path and the touch path.
+    function applyAnimationAtProgress(p) {
         if (!hasAnimation || !duration) return;
-
-        const p = getScrollProgress();
         model.currentTime = Math.min(p * duration, duration - 0.001);
+        if (hint) hint.classList.toggle("hide", p > 0.88);
+    }
 
-        if (hint) {
-            hint.classList.toggle("hide", p > 0.88);
-        }
+    function applyAnimationFromScroll() {
+        applyAnimationAtProgress(getScrollProgress());
     }
 
     function tick() {
         rafId = null;
+        // Skip scroll-based update while touch is in control to avoid racing.
+        if (touchControlling) return;
         applyAnimationFromScroll();
     }
 
@@ -199,6 +206,84 @@ document.getElementById("year").textContent = new Date().getFullYear();
         }, 100);
     }
 
+    // ── Touch-driven animation (mobile only) ─────────────────────────────────
+    // On touch devices we intercept touchmove with preventDefault().
+    // This has two benefits over the scroll-driven path:
+    //   1. No actual page scroll occurs → browser bars (Chrome top bar,
+    //      Safari bottom toolbar) never hide, so the layout never jumps.
+    //   2. Animation is driven directly from raw finger coordinates → perfectly
+    //      1-to-1 with the finger, no momentum phase after lift, no jitter.
+    //
+    // A full upward swipe of SWIPE_RANGE_PX = 55% of screen height completes
+    // the animation. Multiple swipes accumulate naturally: each touchstart
+    // anchors to the current progress, so you can pause mid-swipe and continue.
+    //
+    // When animation reaches 1.0 (book fully open) we do a single programmatic
+    // scrollTo(stageEnd) so the sticky element releases and the book content
+    // below is reachable. We also re-enable interception when the user scrolls
+    // back to the top.
+    // ─────────────────────────────────────────────────────────────────────────
+    function setupTouchAnimation() {
+        if (!('ontouchstart' in window)) return; // desktop: use scroll path
+
+        // How many px of upward drag = full 0→1 animation.
+        const SWIPE_RANGE = Math.max(240, Math.floor(viewportH * 0.55));
+
+        let intercepting = true;  // false after animation completes once
+        let touchStartY = 0;
+        let touchStartProgress = 0;
+        let lastProgress = 0;     // survives across gesture cycles
+
+        function onTouchStart(e) {
+            if (!intercepting) return;
+            touchControlling = true;
+            touchStartY = e.touches[0].clientY;
+            touchStartProgress = lastProgress;
+        }
+
+        function onTouchMove(e) {
+            if (!intercepting) return;
+            // Prevent the browser from scrolling the page — this is what stops
+            // the address / toolbar from hiding and eliminates momentum jitter.
+            e.preventDefault();
+
+            const dy = touchStartY - e.touches[0].clientY; // positive = swipe up
+            const p = clamp01(touchStartProgress + dy / SWIPE_RANGE);
+            lastProgress = p;
+            applyAnimationAtProgress(p);
+
+            if (p >= 1.0) {
+                // Animation done. Release interception and jump real scrollY to
+                // the end of the stage so the sticky element releases and the
+                // book content below is immediately accessible.
+                intercepting = false;
+                touchControlling = false;
+                window.scrollTo({ top: Math.max(0, stageEnd) });
+            }
+        }
+
+        function onTouchEnd() {
+            touchControlling = false;
+            // lastProgress is intentionally kept so the next touchstart
+            // resumes from wherever the finger stopped.
+        }
+
+        document.addEventListener('touchstart', onTouchStart, { passive: true });
+        document.addEventListener('touchmove', onTouchMove, { passive: false });
+        document.addEventListener('touchend', onTouchEnd, { passive: true });
+
+        // Re-arm interception if the user scrolls back to the top
+        // (e.g. after using the back button or a nav anchor).
+        window.addEventListener('scroll', () => {
+            const y = window.scrollY || window.pageYOffset || 0;
+            if (!intercepting && y <= stageStart + 20) {
+                intercepting = true;
+                lastProgress = 0;
+                applyAnimationAtProgress(0);
+            }
+        }, { passive: true });
+    }
+
     model.addEventListener("load", () => {
         model.pause();
         model.loop = false;
@@ -221,6 +306,7 @@ document.getElementById("year").textContent = new Date().getFullYear();
         requestAnimationFrame(() => {
             applyAnimationFromScroll();
             markReady();
+            setupTouchAnimation();
         });
     });
 
