@@ -82,6 +82,8 @@ document.getElementById("year").textContent = new Date().getFullYear();
             parts[2] = (parseFloat(parts[2]) * 0.72).toFixed(2) + "m";
             model.setAttribute(attr, parts.join(" "));
         });
+        // Swap hint text to match the touch gesture on mobile
+        if (hint) hint.textContent = 'Swipe up and down to open the book';
     }
 
     let duration = 0;
@@ -276,7 +278,10 @@ document.getElementById("year").textContent = new Date().getFullYear();
                 draining = true;
                 intercepting = false;
                 touchControlling = false;
-                window.scrollTo({ top: Math.max(0, stageEnd) });
+                // behavior:'instant' is critical — without it, scroll-behavior:smooth
+                // (set on <html>) animates the scroll over dozens of frames, firing
+                // intermediate scroll events that replay the animation as a flash.
+                window.scrollTo({ top: Math.max(0, stageEnd), behavior: 'instant' });
             }
         }
 
