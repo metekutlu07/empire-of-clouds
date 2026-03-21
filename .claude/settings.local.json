@@ -2,7 +2,13 @@
   "permissions": {
     "allow": [
       "WebFetch(domain:codepen.io)",
-      "Bash(xargs -I{} git show {} --stat)"
+      "Bash(xargs -I{} git show {} --stat)",
+      "Bash(for f:*)",
+      "Bash(do echo:*)",
+      "Bash(do)",
+      "Bash(echo \"=== $f ===\")",
+      "Read(//Users/pesto/Desktop/website-empire/**)",
+      "Bash(done)"
     ]
   }
 }
