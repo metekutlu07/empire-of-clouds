@@ -107,6 +107,10 @@ document.getElementById("year").textContent = new Date().getFullYear();
         return Math.max(0, Math.min(1, x));
     }
 
+    // Original material roughness/metallic values from the .glb, saved before
+    // applyGlossyCover() overwrites them so AR mode can revert to them.
+    const _origMatProps = new Map();
+
     function applyGlossyCover() {
         try {
             const mvModel = model.model;
@@ -129,6 +133,14 @@ document.getElementById("year").textContent = new Date().getFullYear();
                 const pbr = mat.pbrMetallicRoughness;
                 if (!pbr) continue;
 
+                // Save original values before first override
+                if (!_origMatProps.has(mat.name)) {
+                    _origMatProps.set(mat.name, {
+                        roughness: pbr.roughnessFactor,
+                        metallic:  pbr.metallicFactor
+                    });
+                }
+
                 pbr.setRoughnessFactor(0.2);
                 pbr.setMetallicFactor(0.1);
             }
@@ -137,26 +149,28 @@ document.getElementById("year").textContent = new Date().getFullYear();
         }
     }
 
-    // In AR / object-viewer mode the real-world environment lighting makes the
-    // glossy material appear washed-out and pale. Revert to natural roughness
-    // when AR starts and restore the canvas settings when it ends.
+    // In AR mode real-world lighting makes the studio-glossy material appear
+    // pale/washed-out. Restore the .glb's original material values when
+    // entering AR, and re-apply the glossy finish when returning to canvas.
     model.addEventListener('ar-status', (evt) => {
         const entering = evt.detail.status === 'session-started';
-        try {
-            const mvModel = model.model;
-            if (!mvModel || !mvModel.materials) return;
-            for (const mat of mvModel.materials) {
-                const pbr = mat.pbrMetallicRoughness;
-                if (!pbr) continue;
-                if (entering) {
-                    pbr.setRoughnessFactor(0.7);
-                    pbr.setMetallicFactor(0.0);
-                } else {
-                    pbr.setRoughnessFactor(0.2);
-                    pbr.setMetallicFactor(0.1);
+        if (entering) {
+            // Restore original .glb material values
+            try {
+                const mvModel = model.model;
+                if (!mvModel || !mvModel.materials) return;
+                for (const mat of mvModel.materials) {
+                    const pbr = mat.pbrMetallicRoughness;
+                    if (!pbr) continue;
+                    const orig = _origMatProps.get(mat.name);
+                    pbr.setRoughnessFactor(orig ? orig.roughness : 1.0);
+                    pbr.setMetallicFactor(orig  ? orig.metallic  : 0.0);
                 }
-            }
-        } catch (e) { /* fail silently */ }
+            } catch (e) { /* fail silently */ }
+        } else {
+            // Back in canvas — re-apply glossy finish
+            applyGlossyCover();
+        }
     });
 
     function computeStageBounds() {
@@ -1168,3 +1182,34 @@ document.addEventListener('click', function (e) {
 
     document.querySelectorAll('.compareStage').forEach(initCompare);
 })();
+
+/* ============================================================
+   9. BFCACHE FLASH FIX
+   When navigating back via bfcache the page is restored in its
+   last-seen state (hint visible, navPanel open). Reset both.
+   ============================================================ */
+
+window.addEventListener('pageshow', function (e) {
+    if (!e.persisted) return;
+
+    // Reset the swipe hint
+    var hint = document.querySelector('.hint');
+    if (hint) {
+        hint.classList.remove('show');
+        setTimeout(function () { hint.classList.add('show'); }, 700);
+    }
+
+    // Close the nav panel if it was left open
+    var panel = document.getElementById('navPanel');
+    if (panel && panel.classList.contains('is-open')) {
+        panel.style.transition = 'none';
+        panel.classList.remove('is-open');
+        panel.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+        var toggle = document.getElementById('menuToggle');
+        if (toggle) toggle.setAttribute('aria-expanded', 'false');
+        requestAnimationFrame(function () {
+            requestAnimationFrame(function () { panel.style.transition = ''; });
+        });
+    }
+});

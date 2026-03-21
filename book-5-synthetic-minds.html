@@ -113,8 +113,23 @@
         <a href="https://www.dreampixels.cloud" target="_blank" rel="noopener">Dream Pixels</a>
         <a href="waitlist.html">Waitlist</a>
       </nav>
+      <button class="menuToggle" id="menuToggle" aria-label="Open navigation" aria-expanded="false"
+        aria-controls="navPanel">Menu</button>
     </div>
   </header>
+
+  <!-- ── Mobile nav panel ── -->
+  <nav class="navPanel" id="navPanel" aria-label="Mobile navigation" aria-hidden="true">
+    <button class="navPanelClose" id="navPanelClose" aria-label="Close navigation">Close</button>
+    <div class="navPanelLinks">
+      <a href="about.html">About</a>
+      <a href="author.html">Author</a>
+      <a class="is-active" href="books.html">Books</a>
+      <a href="partners.html">Partners</a>
+      <a href="https://www.dreampixels.cloud" target="_blank" rel="noopener">Dream Pixels</a>
+      <a href="waitlist.html">Waitlist</a>
+    </div>
+  </nav>
 
   <!-- 3D Intro: scroll to open the book -->
   <div class="scrollStage" id="stage" aria-label="3D book intro">
@@ -426,9 +441,10 @@
 
         <div class="audioCardWrap">
           <div class="audioCard" role="group" aria-label="Audio player">
-            <div class="audioTitle">Listen to a chapter excerpt</div>
+            <div class="audioTitle">Listen to an excerpt</div>
             <div class="audioSub">
-              <span class="chapter-label">A short reading from Chapter 26</span>
+              <span class="chapter-label">A short reading from</span>
+              <span class="chapter-label">Chapter 26</span>
               <span class="chapter-title">A Cloud Atlas</span>
             </div>
 
@@ -599,7 +615,7 @@
       <div class="platesIntro centerIntro">
         <h2 class="sectionTitle reveal">A Look inside the Book</h2>
         <div class="prose reveal" style="max-width: 72ch;">
-          Selected spreads from the printed prototype. Click to enlarge.
+          Selected spreads from the printed prototype.
         </div>
       </div>
     </div>

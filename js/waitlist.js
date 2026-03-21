@@ -426,8 +426,8 @@
         const cx = (cols - 1) / 2, cy = (rows - 1) / 2;
         const base = Math.min(cols, rows);
         const isMobile = window.innerWidth <= 640;
-        _holeCircleR     = base * (isMobile ? 0.50 : 0.60);
-        _holeStarRadBase = base * (isMobile ? 0.50 : 0.60);
+        _holeCircleR     = base * (isMobile ? 0.50 : 0.30);
+        _holeStarRadBase = base * (isMobile ? 0.50 : 0.30);
         const spikes = 5;
         const innerRatio = 0.55;
         _holeCellLen = new Float32Array(N);
@@ -767,7 +767,7 @@
         lastPX = mousePX; lastPY = mousePY;
         vNorm += (clamp(Math.sqrt(dx * dx + dy * dy) / 28, 0, 1) - vNorm) * 0.22;
         const mx = clamp(mousePX / Math.max(1, hostW), 0, 0.999999);
-        const my = 1 - clamp(mousePY / Math.max(1, window.innerHeight), 0, 0.999999);
+        const my = clamp(mousePY / Math.max(1, window.innerHeight), 0, 0.999999);
         const cx = Math.floor(mx * cols), cy = Math.floor(my * rows);
         if (cx >= 0 && cx < cols && cy >= 0 && cy < rows) {
             const idx = cy * cols + cx;
@@ -788,7 +788,7 @@
         onPointerMove(e);
         const rect = getRect();
         const mx = clamp((e.clientX - rect.left) / rect.width, 0, 0.999999);
-        const my = 1 - clamp((e.clientY - rect.top) / rect.height, 0, 1);
+        const my = clamp((e.clientY - rect.top) / rect.height, 0, 1);
         const family = glyphFamilies[currentFamilyIndex];
         waves.push({
             cx: Math.floor(mx * cols), cy: Math.floor(my * rows),
@@ -809,7 +809,7 @@
         if (e.button !== 2) return;
         const rect = getRect();
         const mx = clamp((e.clientX - rect.left) / rect.width, 0, 1);
-        const my = 1 - clamp((e.clientY - rect.top) / rect.height, 0, 1);
+        const my = clamp((e.clientY - rect.top) / rect.height, 0, 1);
         const famIndex = currentFamilyIndex;
         const fam = glyphFamilies[famIndex];
         const seed = Math.random() * 1000;

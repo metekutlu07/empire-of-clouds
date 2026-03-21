@@ -348,7 +348,7 @@ body.intro-ui-visible.is-exiting .topnav {
     font-weight: 500;
     letter-spacing: .18em;
     text-transform: uppercase;
-    color: hsla(318, 100%, 77%, 0.90);
+    color: rgba(255, 255, 255, .50);
     margin: 48px 0 14px;
 }
 
@@ -452,7 +452,7 @@ body.intro-ui-visible.is-exiting .topnav {
     margin: 0 0 18px;
     font-size: 16px;
     line-height: 1.55;
-    color: hsla(137, 100%, 73%, 0.82);
+    color: rgba(255, 255, 255, .62);
     font-style: normal;
     letter-spacing: 0;
     text-transform: none;
@@ -464,7 +464,7 @@ body.intro-ui-visible.is-exiting .topnav {
     margin-top: 6px;
     font-size: 17px;
     line-height: 1.45;
-    color: hsla(137, 100%, 73%, 0.82);
+    color: rgba(255, 255, 255, .62);
     font-style: italic;
     letter-spacing: 0;
     text-transform: none;
@@ -651,7 +651,7 @@ body.intro-ui-visible.is-exiting .topnav {
     line-height: 1.6;
     letter-spacing: .04em;
     text-transform: none;
-    color: hsla(137, 100%, 73%, 0.82);
+    color: rgba(255, 255, 255, .62);
 }
 
 .plate:hover img {
@@ -949,7 +949,7 @@ figure.image-tall figcaption {
     font-family: "IBM Plex Mono", monospace;
     font-size: 14px;
     line-height: 1.6;
-    color: hsla(137, 100%, 73%, 0.82);
+    color: rgba(255, 255, 255, .6);
 }
 
 /* Landscape image — wide viewport width (70vw) */
@@ -976,7 +976,7 @@ figure.image-wide figcaption {
     font-family: "IBM Plex Mono", monospace;
     font-size: 14px;
     line-height: 1.6;
-    color: hsla(137, 100%, 73%, 0.82);
+    color: rgba(255, 255, 255, .6);
 }
 
 /* Landscape/comparison image — fills full wrap width, preserves natural aspect ratio */
@@ -999,7 +999,7 @@ figure.image-landscape figcaption {
     font-family: "IBM Plex Mono", monospace;
     font-size: 14px;
     line-height: 1.6;
-    color: hsla(137, 100%, 73%, 0.82);
+    color: rgba(255, 255, 255, .6);
 }
 
 /* Hero image — 80vw centred, breaks out of wrap constraints */
@@ -1024,7 +1024,7 @@ figure.image-hero figcaption {
     font-family: "IBM Plex Mono", monospace;
     font-size: 14px;
     line-height: 1.6;
-    color: hsla(137, 100%, 73%, 0.82);
+    color: rgba(255, 255, 255, .6);
 }
 
 /* Bold/strong text inside captions inherits the muted caption colour,
@@ -1659,7 +1659,7 @@ figure.image-full figcaption {
     text-align: left;
     font-family: "IBM Plex Mono", monospace;
     font-size: 14px;
-    color: hsla(137, 100%, 73%, 0.82);
+    color: rgba(255, 255, 255, .6);
 }
 
 .image-full-thin {
@@ -1692,7 +1692,7 @@ figure.image-full figcaption {
     font-size: 14px;
     line-height: 1.6;
     letter-spacing: .04em;
-    color: hsla(137, 100%, 73%, 0.82);
+    color: rgba(255, 255, 255, .62);
 
 }
 
@@ -1817,7 +1817,7 @@ canvas[id^="model3dCanvas-"] {
     font-size: 14px;
     line-height: 1.6;
     letter-spacing: 0.03em;
-    color: hsla(137, 100%, 73%, 0.82);
+    color: rgba(255, 255, 255, .6);
     text-align: left;
 }
 
@@ -1846,7 +1846,7 @@ figure.image-compare figcaption {
     font-family: "IBM Plex Mono", monospace;
     font-size: 14px;
     line-height: 1.6;
-    color: hsla(137, 100%, 73%, 0.82);
+    color: rgba(255, 255, 255, .6);
 }
 
 .compareStage {
@@ -1862,7 +1862,8 @@ figure.image-compare figcaption {
 
 .compareImgBase {
     display: block;
-    height: 90vh;
+    max-height: 90vh;
+    height: auto;
     width: auto;
     max-width: 100%;
     pointer-events: none;
@@ -1881,8 +1882,6 @@ figure.image-compare figcaption {
     display: block;
     width: 100%;
     height: auto;
-    object-fit: cover;
-    object-position: top left;
     pointer-events: none;
 }
 
@@ -2092,7 +2091,7 @@ figure.image-centered figcaption {
     font-family: "IBM Plex Mono", monospace;
     font-size: 14px;
     line-height: 1.5;
-    color: hsla(137, 100%, 73%, 0.82);
+    color: rgba(255, 255, 255, .6);
     text-align: center;
 }
 

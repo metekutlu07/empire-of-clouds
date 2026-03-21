@@ -53,18 +53,22 @@ let noiseTickCount = 0;
 function buildNoiseFrames(w, h) {
     noiseFrames = [];
     for (let f = 0; f < NOISE_FRAMES; f++) {
-        const oc = document.createElement("canvas");
-        oc.width = w; oc.height = h;
-        const ox = oc.getContext("2d");
-        const id = ox.createImageData(w, h);
-        const d = id.data;
-        for (let i = 0; i < d.length; i += 4) {
-            const v = Math.random() * 255 | 0;
-            d[i] = v; d[i + 1] = v; d[i + 2] = v; d[i + 3] = 255;
+        const oc   = document.createElement("canvas");
+        oc.width   = w; oc.height = h;
+        const ox   = oc.getContext("2d");
+        const idata = ox.createImageData(w, h);
+        const buf  = new Uint32Array(idata.data.buffer);
+        for (let i = 0; i < buf.length; i++) {
+            if      (Math.random() < 0.05) buf[i] = 0x080000ff; // red,   alpha 8
+            else if (Math.random() < 0.10) buf[i] = 0x0800ff00; // green, alpha 8
+            else if (Math.random() < 0.15) buf[i] = 0x08ff0000; // blue,  alpha 8
+            else if (Math.random() < 0.20) buf[i] = 0xccdddddd; // gray,  alpha 204
         }
-        ox.putImageData(id, 0, 0);
+        ox.putImageData(idata, 0, 0);
         noiseFrames.push(oc);
     }
+    noiseFrameIdx  = 0;
+    noiseTickCount = 0;
 }
 
 // const GLYPHS = [
@@ -530,7 +534,7 @@ glCanvas.addEventListener("pointerdown", (e) => {
         const rect = glCanvas.getBoundingClientRect();
 
         const mx = clamp((e.clientX - rect.left) / rect.width, 0, 1);
-        const my = 1 - clamp((e.clientY - rect.top) / rect.height, 0, 1);
+        const my = clamp((e.clientY - rect.top) / rect.height, 0, 1);
 
         const cx = Math.floor(mx * cols);
         const cy = Math.floor(my * rows);
@@ -705,7 +709,7 @@ function onPointerMove(e) {
 
     // ---------- Hover trail stamping ----------
     const mx = clamp(mousePX / Math.max(1, hostW), 0, 0.999999);
-    const my = 1 - clamp(mousePY / Math.max(1, window.innerHeight), 0, 0.999999);
+    const my = clamp(mousePY / Math.max(1, window.innerHeight), 0, 0.999999);
 
     const cx = Math.floor(mx * cols);
     const cy = Math.floor(my * rows);
@@ -736,7 +740,7 @@ function onPointerDown(e) {
     const rect = glCanvas.getBoundingClientRect();
 
     const mx = clamp((e.clientX - rect.left) / rect.width, 0, 0.999999);
-    const my = 1 - clamp((e.clientY - rect.top) / rect.height, 0, 1);
+    const my = clamp((e.clientY - rect.top) / rect.height, 0, 1);
 
     const cellX = Math.floor(mx * cols);
     const cellY = Math.floor(my * rows);
@@ -1082,7 +1086,7 @@ function seedGrid() {
 function seedHoles(progress = 1) {
 
     const cx = (cols - 1) / 2;
-    const mobileOffset = window.innerWidth <= 640 ? 3.1 : 0;
+    const mobileOffset = window.innerWidth <= 640 ? -3 : 0;
     const cy = (rows - 1) / 2 + mobileOffset;
     const base = Math.min(cols, rows);
     const radius = base * currentScale;
@@ -1439,7 +1443,7 @@ function updateSweep(now) {
     }
 
     const cx = (cols - 1) / 2;
-    const mobileOffset = window.innerWidth <= 640 ? 3.75 : 0;
+    const mobileOffset = window.innerWidth <= 640 ? -3 : 0;
     const cy = (rows - 1) / 2 + mobileOffset;
 
     const maxRadius = Math.sqrt(cx * cx + cy * cy);
@@ -1621,9 +1625,9 @@ const countries = {
         ]
     },
     japan: { shape: "circle", scale: 0.40, partners: ["Tokyo University of Science"] },
-    korea: { label: "SOUTH KOREA", shape: "star10", scale: 0.34, partners: ["Hanyang University"] },
     kyrgyzstan: { shape: "diamondStar", scale: 0.30, partners: ["French Institute of Studies on Central Asia"] },
     lebanon: { shape: "radialBurst", scale: 1, partners: ["ALBA \u2013 Academy of Fine Arts"] },
+    korea: { label: "SOUTH KOREA", shape: "star10", scale: 0.34, partners: ["Hanyang University"] },
     tunisia: {
         shape: "noiseBurst", scale: 0.37,
         partners: ["Tunisian Ministry of Culture", "National Institute of Heritage", "Municipality of Carthage", "Bardo Museum"]

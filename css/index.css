@@ -1118,13 +1118,14 @@ section[model3d-d] {
     filter: blur(10px);
     transform: translateY(14px);
     transition: opacity 1.2s ease, filter 1.2s ease, transform 1.2s ease;
-    transition-delay: var(--d, 0ms);
+    transition-delay: calc(520ms - var(--d, 0ms)); /* fade-out: author → subtitle → title */
 }
 
 .glyphHero .titleBlock.show .titleLine {
     opacity: 1;
     filter: blur(0px);
     transform: translateY(0px);
+    transition-delay: var(--d, 0ms); /* fade-in: title → subtitle → author */
 }
 
 .glyphHero .titleMain {

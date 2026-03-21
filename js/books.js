@@ -75,10 +75,10 @@ document.addEventListener("DOMContentLoaded", () => {
             e.preventDefault();
             const dest = this.href;
 
-            // Close the mobile nav panel immediately (no transition) so it
-            // doesn't flash through the veil during the page-exit animation.
+            // Suppress the mobile nav panel unconditionally — it may be
+            // transitioning-closed (not yet fully hidden) when a card is tapped.
             const navPanel = document.getElementById("navPanel");
-            if (navPanel && navPanel.classList.contains("is-open")) {
+            if (navPanel) {
                 navPanel.style.transition = "none";
                 navPanel.style.opacity = "0";
                 navPanel.style.pointerEvents = "none";

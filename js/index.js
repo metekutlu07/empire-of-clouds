@@ -418,7 +418,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function scheduleHint(mode) {
         clearTimeout(hintTimer);
         hintTimer = setTimeout(() => {
-            if (prelude.mode === mode) showPreludeInstruction("Click the code");
+            if (prelude.mode === mode) showPreludeInstruction(window.innerWidth <= 640 ? "Tap the code field" : "Click the code");
         }, 1000);
     }
 
@@ -838,7 +838,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }, GLYPH_WAIT));
         _mainUITimers.push(setTimeout(() => { if (nebula) nebula.classList.add("show"); }, GLYPH_WAIT + 900));
         _mainUITimers.push(setTimeout(() => { if (books) books.classList.add("show"); }, GLYPH_WAIT + 900));
-        _mainUITimers.push(setTimeout(() => { if (instr) instr.classList.add("show"); }, GLYPH_WAIT + 1300));
+        _mainUITimers.push(setTimeout(() => { if (instr) instr.classList.add("show"); }, GLYPH_WAIT + 900));
         _mainUITimers.push(setTimeout(() => { if (mobileInstr) mobileInstr.classList.add("show"); }, GLYPH_WAIT + 900));
     }
 
@@ -2321,8 +2321,9 @@ document.addEventListener("DOMContentLoaded", () => {
             // else: mid-crystallization — restart from seeds (acceptable edge case)
         }
 
+        const _wasIntroDone = introDone;
         resetIntro(N);
-        introDone = true;
+        if (prelude.active || _wasIntroDone) introDone = true;
 
         // Set once — drawCell and drawTrailOverlay rely on these being stable
         const fontPx = Math.floor(CELL * FONT_SCALE);
