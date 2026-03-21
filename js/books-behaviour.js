@@ -227,14 +227,21 @@ document.getElementById("year").textContent = new Date().getFullYear();
         if (!('ontouchstart' in window)) return; // desktop: use scroll path
 
         // How many px of upward drag = full 0→1 animation.
-        const SWIPE_RANGE = Math.max(240, Math.floor(viewportH * 0.55));
+        // Doubled from the initial value so a casual rapid swipe only opens
+        // the book partway — users need a deliberate, longer gesture.
+        const SWIPE_RANGE = Math.max(480, Math.floor(viewportH * 1.1));
 
         let intercepting = true;  // false after animation completes once
+        let draining = false;     // true for the tail of a gesture that just
+                                  // finished the animation — we still call
+                                  // preventDefault() to block the scroll race
+                                  // but no longer drive animation progress
         let touchStartY = 0;
         let touchStartProgress = 0;
         let lastProgress = 0;     // survives across gesture cycles
 
         function onTouchStart(e) {
+            draining = false; // new finger contact — clear any leftover drain state
             if (!intercepting) return;
             touchControlling = true;
             touchStartY = e.touches[0].clientY;
@@ -242,6 +249,15 @@ document.getElementById("year").textContent = new Date().getFullYear();
         }
 
         function onTouchMove(e) {
+            // Drain phase: animation just finished but the finger is still moving.
+            // Keep calling preventDefault() so the browser doesn't process these
+            // remaining events as a scroll from scrollY=0, which would fire
+            // intermediate scroll events and flash the animation.
+            if (draining) {
+                e.preventDefault();
+                return;
+            }
+
             if (!intercepting) return;
             // Prevent the browser from scrolling the page — this is what stops
             // the address / toolbar from hiding and eliminates momentum jitter.
@@ -253,9 +269,11 @@ document.getElementById("year").textContent = new Date().getFullYear();
             applyAnimationAtProgress(p);
 
             if (p >= 1.0) {
-                // Animation done. Release interception and jump real scrollY to
-                // the end of the stage so the sticky element releases and the
+                // Animation done. Enter drain mode for the remainder of this
+                // gesture, release interception, and jump real scrollY to the
+                // end of the stage so the sticky element releases and the
                 // book content below is immediately accessible.
+                draining = true;
                 intercepting = false;
                 touchControlling = false;
                 window.scrollTo({ top: Math.max(0, stageEnd) });
@@ -263,6 +281,7 @@ document.getElementById("year").textContent = new Date().getFullYear();
         }
 
         function onTouchEnd() {
+            draining = false;       // gesture ended — next swipe scrolls freely
             touchControlling = false;
             // lastProgress is intentionally kept so the next touchstart
             // resumes from wherever the finger stopped.
