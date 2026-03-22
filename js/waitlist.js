@@ -993,8 +993,8 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         try {
-            await fetch(ENDPOINT, { method: "POST", body });
-        } catch (_) { /* fire-and-forget — Apps Script CORS is opaque */ }
+            await fetch(ENDPOINT, { method: "POST", body, mode: "no-cors", redirect: "follow" });
+        } catch (_) { /* response is opaque — data still reaches Apps Script */ }
 
         waitlistForm.closest(".waitlistBox").innerHTML = `
             <h2>You're on the list</h2>
@@ -1027,8 +1027,8 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         try {
-            await fetch(ENDPOINT, { method: "POST", body });
-        } catch (_) { /* fire-and-forget */ }
+            await fetch(ENDPOINT, { method: "POST", body, mode: "no-cors", redirect: "follow" });
+        } catch (_) { /* response is opaque — data still reaches Apps Script */ }
 
         contactForm.closest(".contactBox").innerHTML = `
             <h2>Message Sent</h2>
