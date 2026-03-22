@@ -2327,7 +2327,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Set once — drawCell and drawTrailOverlay rely on these being stable
         const fontPx = Math.floor(CELL * FONT_SCALE);
-        ctx.font = `${fontPx}px ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace`;
+        ctx.font = `${fontPx}px "IBM Plex Mono", "Noto Sans Symbols 2", "Noto Sans Symbols", "Noto Sans Khojki", "Noto Sans Kaithi", "Noto Sans Sharada", "Noto Sans Khudawadi", "Noto Sans Grantha", "Noto Sans Mahajani", "Noto Sans Zanabazar Square", "Noto Sans Siddham", ui-monospace, monospace`;
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
 
@@ -2733,8 +2733,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }, { threshold: 0.20 });
     heroObs.observe(host);
 
-    resize();
-    rafId = requestAnimationFrame(frame);
+    document.fonts.ready.then(() => {
+        resize();
+        rafId = requestAnimationFrame(frame);
+    });
 
     // ── Responsive resize ─────────────────────────────────────────────────
     let _resizeTimer;

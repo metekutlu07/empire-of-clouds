@@ -964,28 +964,77 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // ─────────────────────────────────────────────────────────────────────────────
-//  WAITLIST FORM SUBMISSION
+//  FORM SUBMISSION — waitlist + contact
+//  Backend: Google Apps Script web app (see apps-script/backend.gs)
+//  Update ENDPOINT below after deploying the Apps Script.
 // ─────────────────────────────────────────────────────────────────────────────
 
 document.addEventListener("DOMContentLoaded", () => {
-    const form = document.getElementById("waitlistForm");
-    const input = document.getElementById("waitlistEmail");
     const ENDPOINT = "https://script.google.com/macros/s/AKfycbwPaa6YiLf29X9hy8kpwamUuh61415-8_9_ejy0bGFNjF1m6guIW-Q9CcBBlJR0PYFW/exec";
 
-    form.addEventListener("submit", async (e) => {
+    // ── Waitlist form ──────────────────────────────────────────────────────
+    const waitlistForm  = document.getElementById("waitlistForm");
+    const waitlistInput = document.getElementById("waitlistEmail");
+
+    waitlistForm?.addEventListener("submit", async (e) => {
         e.preventDefault();
-        const email = input.value.trim();
-        if (!email || !email.includes("@")) { alert("Please enter a valid email."); return; }
-        const formData = new URLSearchParams();
-        formData.append("email", email);
+        const email = waitlistInput.value.trim();
+        if (!email) return;
+
+        const btn = waitlistForm.querySelector("button");
+        btn.textContent = "Sending…";
+        btn.disabled = true;
+
+        const body = new URLSearchParams({
+            type:     "waitlist",
+            email,
+            timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+            locale:   navigator.language || "",
+        });
+
         try {
-            await fetch(ENDPOINT, { method: "POST", body: formData });
-            input.value = "";
-            alert("You are now on the waitlist.");
-        } catch (err) {
-            console.error(err);
-            alert("Connection error.");
-        }
+            await fetch(ENDPOINT, { method: "POST", body });
+        } catch (_) { /* fire-and-forget — Apps Script CORS is opaque */ }
+
+        waitlistForm.closest(".waitlistBox").innerHTML = `
+            <h2>You're on the list</h2>
+            <p>A confirmation has been sent to <strong>${email}</strong>.<br>
+            You'll hear from us soon.</p>
+        `;
+    });
+
+    // ── Contact form ───────────────────────────────────────────────────────
+    const contactForm = document.getElementById("contactForm");
+
+    contactForm?.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const name    = document.getElementById("contactName").value.trim();
+        const email   = document.getElementById("contactEmail").value.trim();
+        const message = document.getElementById("contactMessage").value.trim();
+        if (!name || !email || !message) return;
+
+        const btn = contactForm.querySelector("button");
+        btn.textContent = "Sending…";
+        btn.disabled = true;
+
+        const body = new URLSearchParams({
+            type:     "contact",
+            name,
+            email,
+            message,
+            timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+            locale:   navigator.language || "",
+        });
+
+        try {
+            await fetch(ENDPOINT, { method: "POST", body });
+        } catch (_) { /* fire-and-forget */ }
+
+        contactForm.closest(".contactBox").innerHTML = `
+            <h2>Message Sent</h2>
+            <p>Thank you, ${name}.<br>Your message has been received and a confirmation
+            has been sent to <strong>${email}</strong>.</p>
+        `;
     });
 });
 

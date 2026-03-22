@@ -13,7 +13,21 @@
       "Bash(echo \"$f done\")",
       "Bash(sed -i '' '/<div id=\"\"pageVeil\"\"><\\\\/div>/d' \"$f\")",
       "Bash(echo \"$f cleaned\")",
-      "Bash(head -5 grep -n \"pagehide\\\\|pageshow\" /Users/pesto/Desktop/website-empire/js/books-behaviour.js)"
+      "Bash(head -5 grep -n \"pagehide\\\\|pageshow\" /Users/pesto/Desktop/website-empire/js/books-behaviour.js)",
+      "Bash(python3 /tmp/download_fonts.py)",
+      "Bash(curl -s -A \"Mozilla/5.0 \\(Macintosh; Intel Mac OS X 10_15_7\\) AppleWebKit/537.36 \\(KHTML, like Gecko\\) Chrome/120.0.0.0 Safari/537.36\" \"https://fonts.googleapis.com/css2?family=Asimovian&display=swap\")",
+      "Bash(sed -n '44,65p' /Users/pesto/Desktop/website-empire/index.html)",
+      "Bash(sed -n '44,55p' /Users/pesto/Desktop/website-empire/about.html)",
+      "Bash(sed -n '17,26p' /Users/pesto/Desktop/website-empire/books.html)",
+      "Bash(sed -n '67,76p' /Users/pesto/Desktop/website-empire/book-1-eastern-winds.html)",
+      "Bash(grep -rn \"^[ \\\\t]*<link$\\\\|^    <link$\" /Users/pesto/Desktop/website-empire/*.html)",
+      "Bash(grep -rn \"^  <link$\\\\|^   <link$\\\\|^    <link$\" /Users/pesto/Desktop/website-empire/*.html)",
+      "Bash(grep -Pn \"^\\\\s*<link\\\\s*$\" /Users/pesto/Desktop/website-empire/*.html)",
+      "Bash(grep -l \"fonts.css\" /Users/pesto/Desktop/website-empire/*.html)",
+      "Bash(grep -rn \"fonts\\\\.googleapis\\\\|fonts\\\\.gstatic\" /Users/pesto/Desktop/website-empire/*.html)",
+      "Bash(do grep:*)",
+      "Bash(done echo:*)",
+      "Bash(find /Users/pesto/Desktop/website-empire/fonts -name *.woff2)"
     ]
   }
 }
