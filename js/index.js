@@ -2807,21 +2807,33 @@ document.addEventListener("DOMContentLoaded", () => {
         const el = document.getElementById("mysticLoader");
         if (!el) { onDone(); return; }
 
-        // Shared tick so both the immediate seed and the interval use identical
-        // random logic — prevents the fixed index-0 glyph from appearing "stuck"
-        // before cycling begins.
-        function loaderTick() {
-            el.textContent = ALL_LOADER_GLYPHS[Math.floor(Math.random() * ALL_LOADER_GLYPHS.length)];
-            el.style.color   = LOADER_COLORS[Math.floor(Math.random() * LOADER_COLORS.length)];
-        }
-        loaderTick(); // seed a random glyph immediately
-        let interval = setInterval(loaderTick, LOADER_CYCLE_MS);
+        function startLoaderCycle() {
+            // Shared tick so both the immediate seed and the interval use identical
+            // random logic — prevents the fixed index-0 glyph from appearing "stuck"
+            // before cycling begins.
+            function loaderTick() {
+                el.textContent = ALL_LOADER_GLYPHS[Math.floor(Math.random() * ALL_LOADER_GLYPHS.length)];
+                el.style.color   = LOADER_COLORS[Math.floor(Math.random() * LOADER_COLORS.length)];
+            }
+            loaderTick(); // seed a random glyph immediately
+            let interval = setInterval(loaderTick, LOADER_CYCLE_MS);
 
-        setTimeout(() => {
-            clearInterval(interval);
-            el.classList.add("hide");
-            setTimeout(onDone, 650); // wait for fade-out transition
-        }, LOADER_DURATION_MS);
+            setTimeout(() => {
+                clearInterval(interval);
+                el.classList.add("hide");
+                setTimeout(onDone, 650); // wait for fade-out transition
+            }, LOADER_DURATION_MS);
+        }
+
+        // Pre-load the fonts used by loader glyphs before cycling begins.
+        // Without this, special-script characters (Khojki 𑈀, Symbols 2 ⸜)
+        // render as rectangles on slow connections because the font file hasn't
+        // arrived yet. The matrix does the same Promise.all trick for its canvas.
+        // We use a fixed 100px hint — font files are not size-specific once cached.
+        Promise.all([
+            document.fonts.load('100px "Noto Sans Symbols 2"', "⸜✳"),
+            document.fonts.load('100px "Noto Sans Khojki"',    "𑈀𑈁"),
+        ]).then(startLoaderCycle, startLoaderCycle); // start regardless of load outcome
     }
 
     // ── Entry selection screen (language + sound) ─────────────────────────────
