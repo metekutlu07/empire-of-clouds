@@ -2856,11 +2856,22 @@ document.addEventListener("DOMContentLoaded", () => {
             ja: { language: "言語", sound: "サウンド", enter: "入る" },
         };
 
+        // Preserve the original English labels before this screen mutates them.
+        const entryLabels = document.querySelectorAll(".entryLabel");
+        if (entryLabels[0] && entryLabels[0].dataset.i18nDefault == null) {
+            entryLabels[0].dataset.i18nDefault = "LANGUAGE";
+        }
+        if (entryLabels[1] && entryLabels[1].dataset.i18nDefault == null) {
+            entryLabels[1].dataset.i18nDefault = "SOUND";
+        }
+        if (confirmBtn && confirmBtn.dataset.i18nDefault == null) {
+            confirmBtn.dataset.i18nDefault = "ENTER";
+        }
+
         function applyLang(lang) {
             const s = UI_STRINGS[lang] || UI_STRINGS.en;
-            const labels = document.querySelectorAll(".entryLabel");
-            if (labels[0]) labels[0].textContent = s.language;
-            if (labels[1]) labels[1].textContent = s.sound;
+            if (entryLabels[0]) entryLabels[0].textContent = s.language;
+            if (entryLabels[1]) entryLabels[1].textContent = s.sound;
             if (confirmBtn) confirmBtn.textContent = s.enter;
         }
 
