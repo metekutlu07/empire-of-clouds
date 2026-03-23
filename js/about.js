@@ -116,7 +116,8 @@ document.addEventListener("DOMContentLoaded", () => {
 (() => {
     const flow = document.getElementById("statsFlow");
     if (!flow) return;
-    const statsLines = [
+    const keys = Array.from({ length: 12 }, (_, i) => `about.statsLine${i + 1}`);
+    const fallbacks = [
         "6 years of research along the medieval Silk Road",
         "5 books - 2,613 pages - 1,000 images",
         "42 supporting institutions",
@@ -130,17 +131,24 @@ document.addEventListener("DOMContentLoaded", () => {
         "2 immersive websites",
         "7 interactive platforms"
     ];
-    const block = document.createElement("div");
-    block.className = "statsBlock left reveal";
-    const frag = document.createDocumentFragment();
-    statsLines.forEach(line => {
-        const p = document.createElement("div");
-        p.className = "sline";
-        p.textContent = line;
-        frag.appendChild(p);
-    });
-    block.appendChild(frag);
-    flow.appendChild(block);
+
+    function renderStats() {
+        const block = document.createElement("div");
+        block.className = "statsBlock left reveal";
+        const frag = document.createDocumentFragment();
+        keys.forEach((key, index) => {
+            const p = document.createElement("div");
+            p.className = "sline";
+            p.textContent = window.i18n?.get(key) || fallbacks[index];
+            frag.appendChild(p);
+        });
+        block.appendChild(frag);
+        flow.innerHTML = "";
+        flow.appendChild(block);
+    }
+
+    renderStats();
+    window.addEventListener("i18n:updated", renderStats);
 })();
 
 // ── Footer year ───────────────────────────────────────────────────────

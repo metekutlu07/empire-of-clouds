@@ -1607,6 +1607,21 @@ let introHidden = false;
 const countryButtons = document.querySelectorAll(".countryIndex button");
 const countryTitle = document.getElementById("countryTitle");
 const partnerList = document.getElementById("partnerList");
+const countryLabelKeys = {
+    china: "partners.countryChina",
+    france: "partners.countryFrance",
+    germany: "partners.countryGermany",
+    italy: "partners.countryItaly",
+    japan: "partners.countryJapan",
+    kyrgyzstan: "partners.countryKyrgyzstan",
+    lebanon: "partners.countryLebanon",
+    korea: "partners.countryKorea",
+    tunisia: "partners.countryTunisia",
+    turkey: "partners.countryTurkey",
+    uk: "partners.countryUk",
+    usa: "partners.countryUsa",
+    uzbekistan: "partners.countryUzbekistan"
+};
 
 const countries = {
     china: {
@@ -1661,8 +1676,9 @@ const countries = {
 function updateContent(countryKey, animate = true) {
     const data = countries[countryKey];
     const content = document.getElementById("countryContent");
+    const label = window.i18n?.get(countryLabelKeys[countryKey]) || data.label || countryKey.toUpperCase();
     if (!animate) {
-        countryTitle.textContent = data.label || countryKey.toUpperCase();
+        countryTitle.textContent = label;
         partnerList.innerHTML = "";
         data.partners.forEach(p => {
             const li = document.createElement("li");
@@ -1672,7 +1688,7 @@ function updateContent(countryKey, animate = true) {
     } else {
         content.classList.add("is-hidden");
         setTimeout(() => {
-            countryTitle.textContent = data.label || countryKey.toUpperCase();
+            countryTitle.textContent = label;
             partnerList.innerHTML = "";
             data.partners.forEach(p => {
                 const li = document.createElement("li");
@@ -1721,6 +1737,11 @@ if (firstButton) {
         updateContent(firstButton.dataset.country, false);
     };
 }
+
+window.addEventListener("i18n:updated", () => {
+    const activeButton = document.querySelector(".countryIndex button.is-active, .mobileCountryGrid button.is-active");
+    if (activeButton) updateContent(activeButton.dataset.country, false);
+});
 
 setTimeout(() => { layout.classList.add("is-active"); }, 4500);
 

@@ -1049,11 +1049,11 @@ document.addEventListener("DOMContentLoaded", () => {
                             const fLine2 = document.createElement("div");
                             footerMobile.appendChild(fLine1);
                             footerMobile.appendChild(fLine2);
-                            typeIntoElement(fLine1, "Long press anywhere", {
+                            typeIntoElement(fLine1, window.i18n?.get('index.overrideMobileLine1') || "Long press anywhere", {
                                 speed: 40,
                                 holdCursor: false,
                                 onDone: () => {
-                                    typeIntoElement(fLine2, "for system override", {
+                                    typeIntoElement(fLine2, window.i18n?.get('index.overrideMobileLine2') || "for system override", {
                                         speed: 40,
                                         holdCursor: false,
                                         onDone: () => {
@@ -1063,7 +1063,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 }
                             });
                         } else if (footer) {
-                            typeIntoElement(footer, "RIGHT CLICK ANYWHERE FOR FULL SYSTEM OVERRIDE", {
+                            typeIntoElement(footer, window.i18n?.get('index.overrideDesktop') || "RIGHT CLICK ANYWHERE FOR FULL SYSTEM OVERRIDE", {
                                 speed: 40,
                                 holdCursor: false,
                                 onDone: () => {

@@ -919,13 +919,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let locked = false;
 
+    function contactLabel() {
+        return window.i18n?.get("waitlist.contactBtn") || "Contact the Author";
+    }
+
+    function backLabel() {
+        return window.i18n?.get("waitlist.backBtn") || "Back to Waitlist";
+    }
+
+    function syncToggleLabel() {
+        text.textContent = contact.classList.contains("is-active") ? backLabel() : contactLabel();
+    }
+
     btn.addEventListener("click", () => {
         if (locked) return;
         locked = true;
 
         setTimeout(() => { clickSound.currentTime = 0; clickSound.play().catch(() => { }); }, 520);
 
-        const goingToContact = text.textContent === "Contact the Author";
+        const goingToContact = text.textContent === contactLabel();
 
         setTimeout(() => {
             (goingToContact ? waitlist : contact).classList.remove("is-active");
@@ -934,11 +946,14 @@ document.addEventListener("DOMContentLoaded", () => {
         setTimeout(() => { if (window.toggleMaskShape) window.toggleMaskShape(); }, DELAY_MORPH);
 
         setTimeout(() => {
-            text.textContent = goingToContact ? "Back to Waitlist" : "Contact the Author";
+            text.textContent = goingToContact ? backLabel() : contactLabel();
             (goingToContact ? contact : waitlist).classList.add("is-active");
             locked = false;
         }, DELAY_FORM_IN);
     });
+
+    document.addEventListener("i18n:updated", syncToggleLabel);
+    syncToggleLabel();
 });
 
 // ─────────────────────────────────────────────────────────────────────────────
