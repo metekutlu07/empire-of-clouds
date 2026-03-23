@@ -18,7 +18,9 @@
     "nextBook3": "Suivant : Livre III →",
     "nextBook4": "Suivant : Livre IV →",
     "nextBook5": "Suivant : Livre V →",
-    "nextWaitlist": "Suivant : Liste d’attente →"
+    "nextWaitlist": "Suivant : Liste d’attente →",
+    "brand": "Empire des nuages",
+    "tagline": "Codes, couleurs et cosmos"
   },
   "index": {
     "pageTitle": "Accueil · Empire des nuages",
@@ -105,7 +107,7 @@
     "roadmapProse": "La structure de cette thèse suit une trajectoire spiralaire.<br>Nous commençons par un mouvement d’Est en Ouest,<br>en partant du Japon et en traversant l’Asie centrale<br>jusqu’à Constantinople.<br>De là, nous sautons vers Paris et Carthage,<br>les points les plus occidentaux de cette recherche,<br>avant de repartir vers l’Est pour arriver à Séoul, en Corée du Sud.",
     "roadmapCaption": "La feuille de route montre l’organisation des chapitres selon les méridiens. Le\n            diagramme reflète aussi une progression conceptuelle : la première moitié de la spirale met l’accent sur l’histoire de l’art et\n            les cosmologies prémodernes, tandis que la seconde se tourne vers les technologies numériques et les systèmes\n            visuels contemporains. Graphique par Mete Kutlu, 2025.",
     "contentsTitle": "Sommaire",
-    "contentsIntro": "Le contenu complet des cinq volumes qui composent <em>Empire of Clouds: Codes, Colors and Cosmos</em>.",
+    "contentsIntro": "Le contenu complet des cinq volumes qui composent <em>Empire des nuages : Codes, couleurs et cosmos</em>.",
     "contentsVignetteNebula": "Nébuleuse",
     "contentsVignetteAstral": "Tourbillon astral",
     "contentsVignetteSpiral": "Galaxie spirale",

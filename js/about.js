@@ -115,7 +115,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // ── Stats block — build into fragment, one DOM write ─────────────────
 (() => {
     const flow = document.getElementById("statsFlow");
-    if (!flow) return;
+    if (!flow || flow.children.length) return;
     const keys = Array.from({ length: 12 }, (_, i) => `about.statsLine${i + 1}`);
     const fallbacks = [
         "6 years of research along the medieval Silk Road",

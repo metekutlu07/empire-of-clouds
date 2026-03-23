@@ -69,6 +69,19 @@
   }
   </script>
 
+  <script>
+    try {
+      if ((localStorage.getItem('lang') || 'en') !== 'en') {
+        document.documentElement.classList.add('i18n-pending');
+      }
+    } catch (e) {}
+  </script>
+  <style>
+    html.i18n-pending body {
+      visibility: hidden;
+    }
+  </style>
+
 </head>
 
 <body>
@@ -180,8 +193,13 @@
   </section>
 
   <!-- ── Scripts ─────────────────────────────────── -->
-  <script type="module" src="/js/author.js"></script>
   <script src="/js/i18n.js"></script>
+  <script>
+    window.i18nReady?.finally(() => {
+      document.documentElement.classList.remove('i18n-pending');
+    });
+  </script>
+  <script type="module" src="/js/author.js"></script>
 
 </body>
 
