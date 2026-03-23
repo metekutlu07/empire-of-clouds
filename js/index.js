@@ -2906,8 +2906,9 @@ document.addEventListener("DOMContentLoaded", () => {
             if (preludeLayer) preludeLayer.style.pointerEvents = "none";
             document.documentElement.dataset.lang = selectedLang;
             document.documentElement.dataset.soundEnabled = soundEnabled ? "1" : "0";
-            setTimeout(() => {
+            setTimeout(async () => {
                 if (entryScreen) entryScreen.style.display = "none";
+                await window.i18nReady;
                 startBootSequence();
             }, 520);
         }

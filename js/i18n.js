@@ -9,7 +9,8 @@
  *    on entry-screen confirm) and persists the choice to localStorage.
  * 5. Pre-selects the correct language button on the entry screen.
  */
-(async function () {
+// Expose a promise that resolves when translations are ready
+window.i18nReady = (async function () {
   const SUPPORTED = ['en', 'fr', 'tr', 'zh', 'ja'];
   const DEFAULT   = 'en';
 
@@ -114,4 +115,6 @@
   } else {
     apply(translations);
   }
+
+  return true; // Signal that i18n is ready
 })();
