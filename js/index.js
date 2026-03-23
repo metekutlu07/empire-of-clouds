@@ -2733,7 +2733,22 @@ document.addEventListener("DOMContentLoaded", () => {
     }, { threshold: 0.20 });
     heroObs.observe(host);
 
-    document.fonts.ready.then(() => {
+    // Explicitly load every font used by the canvas.
+    // document.fonts.ready alone is insufficient on iOS Safari — it resolves
+    // immediately if no DOM text has already triggered these @font-face downloads.
+    const _fPx = Math.round(CELL * FONT_SCALE);
+    Promise.all([
+        document.fonts.load(`${_fPx}px "Noto Sans Symbols 2"`,            "⟐⧖"),
+        document.fonts.load(`${_fPx}px "Noto Sans Symbols"`,              "⟐⧖"),
+        document.fonts.load(`${_fPx}px "Noto Sans Khojki"`,               "𑈀𑈁"),
+        document.fonts.load(`${_fPx}px "Noto Sans Kaithi"`,               String.fromCodePoint(0x11083)),
+        document.fonts.load(`${_fPx}px "Noto Sans Sharada"`,              String.fromCodePoint(0x11183)),
+        document.fonts.load(`${_fPx}px "Noto Sans Khudawadi"`,            String.fromCodePoint(0x112B8)),
+        document.fonts.load(`${_fPx}px "Noto Sans Grantha"`,              String.fromCodePoint(0x11305)),
+        document.fonts.load(`${_fPx}px "Noto Sans Mahajani"`,             String.fromCodePoint(0x11155)),
+        document.fonts.load(`${_fPx}px "Noto Sans Zanabazar Square"`,     String.fromCodePoint(0x11A00)),
+        document.fonts.load(`${_fPx}px "Noto Sans Siddham"`,              String.fromCodePoint(0x11580)),
+    ]).then(() => {
         resize();
         rafId = requestAnimationFrame(frame);
     });

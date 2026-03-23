@@ -655,7 +655,7 @@ document.getElementById("year").textContent = new Date().getFullYear();
         cachedFgDim = root.getPropertyValue("--fgDim").trim() || "#7a7a7a";
         cachedBg = root.getPropertyValue("--bg").trim() || "#000";
         const fontPx = Math.floor(CELL * FONT_SCALE);
-        cachedFontStr = `${fontPx}px ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace`;
+        cachedFontStr = `${fontPx}px "IBM Plex Mono", "Noto Sans Symbols 2", "Noto Sans Symbols", ui-monospace, monospace`;
     }
 
     function randInt(n) { return (Math.random() * n) | 0; }
