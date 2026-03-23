@@ -281,7 +281,7 @@ import PostProcessing from "./postprocessing-noise.js";
 
     // ── Drawing ───────────────────────────────────────────────────────────
     const fontPx = Math.floor(CELL * FONT_SCALE);
-    const CELL_FONT = `${fontPx}px ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace`;
+    const CELL_FONT = `${fontPx}px "IBM Plex Mono", "Noto Sans Symbols 2", "Noto Sans Symbols", "Noto Sans Khojki", "Noto Sans Kaithi", "Noto Sans Sharada", "Noto Sans Khudawadi", "Noto Sans Grantha", "Noto Sans Mahajani", "Noto Sans Zanabazar Square", "Noto Sans Siddham", ui-monospace, monospace`;
 
     function drawCell(i) {
         const c = i % cols, r = (i / cols) | 0;
@@ -684,8 +684,19 @@ import PostProcessing from "./postprocessing-noise.js";
         requestAnimationFrame(frame);
     }
 
-    resize();
-    requestAnimationFrame(frame);
+    const _fPx = Math.round(CELL * FONT_SCALE);
+    Promise.all([
+        document.fonts.load(`${_fPx}px "Noto Sans Symbols 2"`,        "⟐⧖"),
+        document.fonts.load(`${_fPx}px "Noto Sans Symbols"`,          "⟐⧖"),
+        document.fonts.load(`${_fPx}px "Noto Sans Khojki"`,           "𑈀𑈁"),
+        document.fonts.load(`${_fPx}px "Noto Sans Kaithi"`,           String.fromCodePoint(0x11083)),
+        document.fonts.load(`${_fPx}px "Noto Sans Sharada"`,          String.fromCodePoint(0x11183)),
+        document.fonts.load(`${_fPx}px "Noto Sans Siddham"`,          String.fromCodePoint(0x11580)),
+        document.fonts.load(`${_fPx}px "Noto Sans Grantha"`,          String.fromCodePoint(0x11305)),
+    ]).then(() => {
+        resize();
+        requestAnimationFrame(frame);
+    });
 
     // ── Responsive resize ─────────────────────────────────────────────────
     let _resizeTimer;
