@@ -134,7 +134,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function renderStats() {
         const block = document.createElement("div");
-        block.className = "statsBlock left reveal";
+        block.className = "statsBlock left reveal in-view";
         const frag = document.createDocumentFragment();
         keys.forEach((key, index) => {
             const p = document.createElement("div");

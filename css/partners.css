@@ -301,7 +301,8 @@ body.intro-ui-visible.is-exiting .topnav {
 .partnersIntroLine {
     font-size: 33px;
     font-weight: 600;
-    line-height: 2;
+    line-height: 1.5;
+    white-space: normal;
 }
 
 /* =========================================================

@@ -373,6 +373,9 @@ body.intro-ui-visible.is-exiting .topnav {
     line-height: 1.5;
     opacity: 0.75;
     margin-bottom: 20px;
+    max-width: 58ch;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .contactBox input,
