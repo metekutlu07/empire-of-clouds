@@ -1383,6 +1383,10 @@ section[model3d-d] {
     left: 50%;
     transform: translate(-50%, -50%);
     font-size: clamp(72px, 12vw, 140px);
+    /* Explicit Noto Sans chain so special-script glyphs (Khojki 𑈀, Symbols 2 ⸜)
+       are rendered correctly on Windows/Linux where system fonts lack coverage. */
+    font-family: "Noto Sans Symbols 2", "Noto Sans Symbols", "Noto Sans Khojki",
+                 ui-sans-serif, sans-serif;
     line-height: 1;
     opacity: 1;
     transition: opacity 600ms ease;
