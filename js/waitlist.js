@@ -970,7 +970,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // ─────────────────────────────────────────────────────────────────────────────
 
 document.addEventListener("DOMContentLoaded", () => {
-    const ENDPOINT = "https://script.google.com/macros/s/AKfycbxQvU3iFKAfFJSaRjlwoJ7kOu-hL9uHXX3ayYsgIrcTstD4zv5b5e41M6CHcFUKeU6T/exec";
+    const ENDPOINT = "https://script.google.com/macros/s/AKfycby6rYAHpGS_kUR4Z2L3KOvwUzoCSSdACphduO4geiHj2fmRBjuBhB2MGSWySeMpnq2A/exec";
 
     // ── Waitlist form ──────────────────────────────────────────────────────
     const waitlistForm  = document.getElementById("waitlistForm");
