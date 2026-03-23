@@ -394,13 +394,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const preludeInstructionEl = document.getElementById("preludeInstruction");
     const preludeHoverEl = document.getElementById("preludeHover");
 
-    const PRELUDE_LINES = [
-        "You are approaching a forbidden archive.",
-        "Beyond this threshold lie histories not curated by institutions.",
-        "Here survive worlds, dreams and histories erased from the official record.",
-        "This domain belongs to no government, no technocrat, no winner of history."
-    ];
-
     const prelude = {
         active: true,
         mode: "hidden",
@@ -418,7 +411,12 @@ document.addEventListener("DOMContentLoaded", () => {
     function scheduleHint(mode) {
         clearTimeout(hintTimer);
         hintTimer = setTimeout(() => {
-            if (prelude.mode === mode) showPreludeInstruction(window.innerWidth <= 640 ? "Tap the code field" : "Click the code");
+            if (prelude.mode === mode) {
+                const hintText = window.innerWidth <= 640
+                    ? (window.i18n?.get('index.hintMobile') || "Tap the code field")
+                    : (window.i18n?.get('index.hintDesktop') || "Click the code");
+                showPreludeInstruction(hintText);
+            }
         }, 1000);
     }
 
@@ -712,8 +710,8 @@ document.addEventListener("DOMContentLoaded", () => {
         glCanvas.classList.add("patch-hover");
 
         const text = prelude.mode === "patch1"
-            ? "Backdoor"
-            : "Firewall";
+            ? (window.i18n?.get('index.hoverBackdoor') || "Backdoor")
+            : (window.i18n?.get('index.hoverFirewall') || "Firewall");
 
         setPreludeHover(text, px, py);
     }
@@ -868,7 +866,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 // narrow keeps the bar compact — no opacity manipulation, only clip-path
                 statusEl.className = "show narrow";
                 statusEl.innerHTML = "";
-                typeIntoElement(statusEl, "Archive unsealed", {
+                typeIntoElement(statusEl, window.i18n?.get('index.archiveUnsealed') || "Archive unsealed", {
                     speed: 40,
                     className: "show narrow",
                     holdCursor: true,
@@ -988,30 +986,33 @@ document.addEventListener("DOMContentLoaded", () => {
     // Typing speed for the transmission lines (ms per character)
     const TRANSMISSION_SPEED_MS = 49;
 
-    // Short punchy sentences typed one per line, centered
-    const TRANSMISSION_LINES = [
-        "You are about to enter a forbidden archive.",
-        "",
-        "Here survives knowledge erased from official records.",
-        "Here linger unheard memories and forgotten dreams.",
-        "Here rules no government and no institution.",
-        "",
-        "Enter only if you are prepared to remember."
-    ];
-
-    // Mobile: shorter lines so the design feels intentional on narrow screens
-    const TRANSMISSION_LINES_MOBILE = [
-        "You are about to enter",
-        "a forbidden archive.",
-        "Here survives knowledge",
-        "erased from official records.",
-        "Here linger unheard memories",
-        "and forgotten dreams.",
-        "Here rules no government",
-        "and no institution.",
-        "Enter only if you are",
-        "prepared to remember.",
-    ];
+    // Helper: get transmission lines (desktop or mobile) with i18n translations
+    function getTransmissionLines(isMobile) {
+        if (isMobile) {
+            return [
+                window.i18n?.get('index.transmissionLineMobile1') || "You are about to enter",
+                window.i18n?.get('index.transmissionLineMobile2') || "a forbidden archive.",
+                window.i18n?.get('index.transmissionLineMobile3') || "Here survives knowledge",
+                window.i18n?.get('index.transmissionLineMobile4') || "erased from official records.",
+                window.i18n?.get('index.transmissionLineMobile5') || "Here linger unheard memories",
+                window.i18n?.get('index.transmissionLineMobile6') || "and forgotten dreams.",
+                window.i18n?.get('index.transmissionLineMobile7') || "Here rules no government",
+                window.i18n?.get('index.transmissionLineMobile8') || "and no institution.",
+                window.i18n?.get('index.transmissionLineMobile9') || "Enter only if you are",
+                window.i18n?.get('index.transmissionLineMobile10') || "prepared to remember."
+            ];
+        } else {
+            return [
+                window.i18n?.get('index.transmissionLine1') || "You are about to enter a forbidden archive.",
+                window.i18n?.get('index.transmissionLine2') || "",
+                window.i18n?.get('index.transmissionLine3') || "Here survives knowledge erased from official records.",
+                window.i18n?.get('index.transmissionLine4') || "Here linger unheard memories and forgotten dreams.",
+                window.i18n?.get('index.transmissionLine5') || "Here rules no government and no institution.",
+                window.i18n?.get('index.transmissionLine6') || "",
+                window.i18n?.get('index.transmissionLine7') || "Enter only if you are prepared to remember."
+            ];
+        }
+    }
 
     function openTransmissionWindow() {
         const win = document.getElementById("transmissionWindow");
@@ -1022,7 +1023,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Choose line set based on viewport width
         const _isMobileView = window.innerWidth <= 640;
-        const _activeLines = _isMobileView ? TRANSMISSION_LINES_MOBILE : TRANSMISSION_LINES;
+        const _activeLines = getTransmissionLines(_isMobileView);
 
         // Type each line sequentially after window opens
         const tStart = setTimeout(() => {
@@ -1164,11 +1165,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Show "Archive perimeter breached" ~1s after click (not waiting for shrink)
         const tText1 = setTimeout(() => {
-            setPreludeStatus("Archive perimeter breached");
+            setPreludeStatus(window.i18n?.get('index.archivePerimeterBreached') || "Archive perimeter breached");
             const tFD = setTimeout(() => {
-                setPreludeStatus("Firewall detected");
+                setPreludeStatus(window.i18n?.get('index.firewallDetected') || "Firewall detected");
                 const tIS = setTimeout(() => {
-                    setPreludeStatus("Installing spyware");
+                    setPreludeStatus(window.i18n?.get('index.installSpyware') || "Installing spyware");
                     // Patch2 spawns exactly when "Installing spyware" appears
                     const tPatch = setTimeout(() => {
                         prelude.patchIndex = 1;
@@ -1223,7 +1224,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Show "Hacking into the matrix" ~1s after click (not waiting for shrink)
         const tText2 = setTimeout(() => {
-            setPreludeStatus("Hacking into the matrix");
+            setPreludeStatus(window.i18n?.get('index.hackingIntoTheMatrix') || "Hacking into the matrix");
         }, 1000);
         prelude.transmissionTimers.push(tText2);
 
@@ -1237,11 +1238,11 @@ document.addEventListener("DOMContentLoaded", () => {
             const tA = setTimeout(() => {
                 // Show "Fatal error_" in red
                 triggerFatalDistortion();
-                setPreludeStatus("Fatal error", {
+                setPreludeStatus(window.i18n?.get('index.fatalError') || "Fatal error", {
                     red: true, onDone: () => {
                         const tPA = setTimeout(() => {
                             // "Protocol Apocalypse activated_" in red
-                            setPreludeStatus("Protocol Apocalypse activated", {
+                            setPreludeStatus(window.i18n?.get('index.protocolApocalypse') || "Protocol Apocalypse activated", {
                                 red: true, onDone: () => {
                                     // Stay 3.5s, then clear and start shield
                                     const tShield = setTimeout(() => {
@@ -1379,9 +1380,9 @@ document.addEventListener("DOMContentLoaded", () => {
     //   idleMs — how long the idle cursor flickers before text begins
     //   speed  — optional per-step typing speed (ms/char); falls back to default 55
     const INTRO_SEQUENCE = [
-        { text: "Analyzing security system", stay: 2700, idle: true, idleMs: 900, speed: 40 },
-        { text: "Backdoor identified", stay: 2000, idle: false },
-        { text: "Initiating quantum decryption", stay: 2000, idle: false, speed: 60 }
+        { text: window.i18n?.get('index.introText1') || "Analyzing security system", stay: 2700, idle: true, idleMs: 900, speed: 40 },
+        { text: window.i18n?.get('index.introText2') || "Backdoor identified", stay: 2000, idle: false },
+        { text: window.i18n?.get('index.introText3') || "Initiating quantum decryption", stay: 2000, idle: false, speed: 60 }
     ];
 
     function runIntroSequence(steps, onComplete) {
@@ -1446,8 +1447,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const BOOT_SEQUENCE = [
-        { text: "Connecting to planetary intelligence", stay: 3000 },
-        { text: "Infiltrating the grid", stay: 2000 }
+        { key: 'index.bootText1', text: window.i18n?.get('index.bootText1') || "Connecting to planetary intelligence", stay: 3000 },
+        { key: 'index.bootText2', text: window.i18n?.get('index.bootText2') || "Infiltrating the grid", stay: 2000 }
     ];
 
     function startBootSequence() {
@@ -1471,13 +1472,13 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             const step = BOOT_SEQUENCE[cursor++];
-            if (step.text === "Infiltrating the grid") {
+            if (step.key === 'index.bootText2') {
                 if (preludeStatusEl) preludeStatusEl.classList.add("narrow");
             }
             setPreludeStatus(step.text, {
                 speed: 50,
                 onDone: () => {
-                    if (step.text === "Infiltrating the grid") {
+                    if (step.key === 'index.bootText2') {
                         const tGrid = setTimeout(() => { startGridCrystallization(); }, 500);
                         prelude.transmissionTimers.push(tGrid);
                     }
