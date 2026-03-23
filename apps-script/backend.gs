@@ -17,15 +17,16 @@ function doPost(e) {
   try {
     const type     = (e.parameter.type     || "").trim();
     const email    = (e.parameter.email    || "").trim();
+    const place    = (e.parameter.place    || "").trim();
     const timezone = (e.parameter.timezone || "").trim();
     const locale   = (e.parameter.locale   || "").trim();
     const name     = (e.parameter.name     || "").trim();
     const message  = (e.parameter.message  || "").trim();
 
     if (type === "waitlist") {
-      _handleWaitlist(email, timezone, locale);
+      _handleWaitlist(email, place, timezone, locale);
     } else if (type === "contact") {
-      _handleContact(name, email, message, timezone, locale);
+      _handleContact(name, email, message, place, timezone, locale);
     }
 
     return _ok();
@@ -39,7 +40,7 @@ function doGet() {
 }
 
 // ── Waitlist ──────────────────────────────────────────────────────────────────
-function _handleWaitlist(email, timezone, locale) {
+function _handleWaitlist(email, place, timezone, locale) {
   if (!email || !email.includes("@")) throw new Error("Invalid email");
 
   const ss    = SpreadsheetApp.openById(SPREADSHEET_ID);
@@ -54,26 +55,30 @@ function _handleWaitlist(email, timezone, locale) {
   sheet.appendRow([
     _formatDate(new Date()),
     email,
-    _formatLocation(timezone, locale),
+    place || _formatLocation(timezone, locale),
   ]);
 
   GmailApp.sendEmail(
     email,
     "A signal received — Empire of Clouds",
-    "EMPIRE OF CLOUDS\n" +
+    "You have entered the spiral.\n\n" +
+    "Clouds once carried gods,\n" +
+    "then painters,\n" +
+    "then signals,\n" +
+    "then data,\n" +
+    "and now artificial life.\n\n" +
+    "From pigment to pixel,\n" +
+    "from constellations to circuits,\n" +
+    "the atmosphere has always been the raw material of our dreams.\n\n" +
+    "You will receive future updates about the research, forthcoming publications, and related events.\n\n" +
+    "────────────────────────────────────\n\n" +
+    "Mete Kutlu\n" +
+    "Creative technologist · artist · architect\n" +
+    "Associate researcher, IPRAUS\n" +
+    "Lecturer, ENSA Paris-Belleville\n\n" +
+    "Empire of Clouds\n" +
     "Codes · Colors · Cosmos\n" +
-    "────────────────────────────────────\n\n" +
-    "The clouds have always been computational.\n\n" +
-    "You have joined a gathering that traces the deep history of this entanglement —\n" +
-    "from Silk Road miniature painters who encoded the cosmos in pigment,\n" +
-    "to the algorithms that render the sky in pixels today.\n\n" +
-    "Six years · Twenty-five cities · Thirteen countries\n" +
-    "Five volumes · Two thousand six hundred pages\n\n" +
-    "You will be among the first to receive news of new publications,\n" +
-    "exhibitions, and transmissions from the field.\n\n" +
-    "────────────────────────────────────\n\n" +
-    "— Mete Kutlu\n" +
-    "Empire of Clouds: Codes, Colors and Cosmos",
+    "www.empireofclouds.com",
     {
       name:     "Empire of Clouds",
       htmlBody: _waitlistEmailHtml(),
@@ -82,10 +87,10 @@ function _handleWaitlist(email, timezone, locale) {
 }
 
 // ── Contact ───────────────────────────────────────────────────────────────────
-function _handleContact(name, email, message, timezone, locale) {
+function _handleContact(name, email, message, place, timezone, locale) {
   if (!email || !email.includes("@")) throw new Error("Invalid email");
 
-  const place = _formatLocation(timezone, locale);
+  if (!place) place = _formatLocation(timezone, locale);
 
   GmailApp.sendEmail(
     OWNER_EMAIL,
@@ -127,14 +132,6 @@ function _emailShell(bodyRows) {
     '<table role="presentation" cellpadding="0" cellspacing="0" ' +
     'style="max-width:560px;width:100%;">' +
 
-    // ── Header ──
-    '<tr><td style="padding-bottom:36px;border-bottom:1px solid #1e1e1e;">' +
-    '<p style="margin:0;font-family:\'Courier New\',Courier,monospace;font-size:11px;' +
-    'letter-spacing:3px;color:#777777;text-transform:uppercase;">Empire of Clouds</p>' +
-    '<p style="margin:6px 0 0 0;font-family:\'Courier New\',Courier,monospace;font-size:9px;' +
-    'letter-spacing:2px;color:#444444;text-transform:uppercase;">Codes &nbsp;·&nbsp; Colors &nbsp;·&nbsp; Cosmos</p>' +
-    '</td></tr>' +
-
     // ── Body rows passed in ──
     bodyRows +
 
@@ -144,9 +141,23 @@ function _emailShell(bodyRows) {
     // ── Signature ──
     '<tr><td>' +
     '<p style="margin:0;font-family:\'Courier New\',Courier,monospace;font-size:13px;color:#dddddd;">' +
-    '&#8212; Mete Kutlu</p>' +
+    'Mete Kutlu</p>' +
     '<p style="margin:6px 0 0 0;font-family:\'Courier New\',Courier,monospace;font-size:9px;' +
-    'letter-spacing:1px;color:#444444;text-transform:uppercase;">Empire of Clouds</p>' +
+    'letter-spacing:1px;color:#555555;">Creative technologist &nbsp;·&nbsp; artist &nbsp;·&nbsp; architect</p>' +
+    '<p style="margin:4px 0 0 0;font-family:\'Courier New\',Courier,monospace;font-size:9px;' +
+    'letter-spacing:1px;color:#444444;">Associate researcher, IPRAUS</p>' +
+    '<p style="margin:4px 0 0 0;font-family:\'Courier New\',Courier,monospace;font-size:9px;' +
+    'letter-spacing:1px;color:#444444;">Lecturer, ENSA Paris-Belleville</p>' +
+    '</td></tr>' +
+
+    // ── Brand footer ──
+    '<tr><td style="padding-top:28px;">' +
+    '<p style="margin:0;font-family:\'Courier New\',Courier,monospace;font-size:11px;' +
+    'letter-spacing:3px;color:#777777;text-transform:uppercase;">Empire of Clouds</p>' +
+    '<p style="margin:6px 0 0 0;font-family:\'Courier New\',Courier,monospace;font-size:9px;' +
+    'letter-spacing:2px;color:#444444;text-transform:uppercase;">Codes &nbsp;·&nbsp; Colors &nbsp;·&nbsp; Cosmos</p>' +
+    '<p style="margin:6px 0 0 0;font-family:\'Courier New\',Courier,monospace;font-size:9px;' +
+    'letter-spacing:1px;color:#333333;">www.empireofclouds.com</p>' +
     '</td></tr>' +
 
     '</table></td></tr></table></body></html>'
@@ -157,25 +168,27 @@ function _waitlistEmailHtml() {
   var body =
     '<tr><td style="padding:48px 0 44px 0;">' +
 
+    '<p style="margin:0 0 32px 0;font-family:Georgia,\'Times New Roman\',serif;' +
+    'font-size:20px;line-height:1.5;color:#f0f0f0;font-style:italic;font-weight:normal;">' +
+    'You have entered the spiral.</p>' +
+
     '<p style="margin:0 0 28px 0;font-family:Georgia,\'Times New Roman\',serif;' +
-    'font-size:22px;line-height:1.5;color:#f0f0f0;font-style:italic;font-weight:normal;">' +
-    'The clouds have always been computational.</p>' +
+    'font-size:15px;line-height:2.2;color:#bbbbbb;">' +
+    'Clouds once carried gods,<br>' +
+    'then painters,<br>' +
+    'then signals,<br>' +
+    'then data,<br>' +
+    'and now artificial life.</p>' +
 
-    '<p style="margin:0 0 22px 0;font-family:Georgia,\'Times New Roman\',serif;' +
-    'font-size:15px;line-height:1.9;color:#bbbbbb;">' +
-    'You have joined a gathering that traces the deep history of this entanglement ' +
-    '&#8212; from Silk Road miniature painters who encoded the cosmos in pigment, ' +
-    'to the algorithms that render the sky in pixels today.</p>' +
-
-    '<p style="margin:0 0 24px 0;font-family:\'Courier New\',Courier,monospace;' +
-    'font-size:11px;line-height:2.4;color:#555555;">' +
-    'Six years &nbsp;·&nbsp; Twenty-five cities &nbsp;·&nbsp; Thirteen countries<br>' +
-    'Five volumes &nbsp;·&nbsp; Two thousand six hundred pages</p>' +
+    '<p style="margin:0 0 28px 0;font-family:Georgia,\'Times New Roman\',serif;' +
+    'font-size:15px;line-height:2.2;color:#bbbbbb;">' +
+    'From pigment to pixel,<br>' +
+    'from constellations to circuits,<br>' +
+    'the atmosphere has always been the raw material of our dreams.</p>' +
 
     '<p style="margin:0;font-family:Georgia,\'Times New Roman\',serif;' +
     'font-size:15px;line-height:1.9;color:#bbbbbb;">' +
-    'You will be among the first to receive news of new publications, ' +
-    'exhibitions, and transmissions from the field.</p>' +
+    'You will receive future updates about the research, forthcoming publications, and related events.</p>' +
 
     '</td></tr>';
 

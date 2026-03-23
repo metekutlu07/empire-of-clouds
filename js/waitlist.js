@@ -986,6 +986,20 @@ document.addEventListener("DOMContentLoaded", () => {
 document.addEventListener("DOMContentLoaded", () => {
     const ENDPOINT = "https://script.google.com/macros/s/AKfycbyDsD7VRchxtzGtm8YOaEcrg5o4QfH9RMC9u6TS2UtNeMknmB4a1sewVrMPYbMwM6np/exec";
 
+    // ── IP geolocation (city-level, no permission needed) ──────────────────
+    let detectedPlace = "";
+    fetch("https://ipapi.co/json/")
+        .then(r => r.json())
+        .then(d => {
+            const city    = d.city    || "";
+            const country = d.country_name || "";
+            if (city && country)       detectedPlace = city + " / " + country;
+            else if (city || country)  detectedPlace = city || country;
+        })
+        .catch(() => {
+            // fall back to timezone-derived location on the backend
+        });
+
     // ── Waitlist form ──────────────────────────────────────────────────────
     const waitlistForm  = document.getElementById("waitlistForm");
     const waitlistInput = document.getElementById("waitlistEmail");
@@ -1002,6 +1016,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const body = new URLSearchParams({
             type:     "waitlist",
             email,
+            place:    detectedPlace,
             timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
             locale:   navigator.language || "",
         });
@@ -1036,6 +1051,7 @@ document.addEventListener("DOMContentLoaded", () => {
             name,
             email,
             message,
+            place:    detectedPlace,
             timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
             locale:   navigator.language || "",
         });

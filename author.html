@@ -6,7 +6,7 @@
   <!-- ── Meta ─────────────────────────────────────────────────────────── -->
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Author · Mete Kutlu</title>
+  <title data-i18n="author.pageTitle">Author · Mete Kutlu</title>
 
   <meta name="author" content="Mete Kutlu">
   <meta name="copyright" content="© 2026 Mete Kutlu. All rights reserved.">
@@ -78,28 +78,28 @@
     <div class="navInner">
       <a class="brand" href="index.html?skip=1" aria-label="Empire of Clouds home">Empire of Clouds</a>
       <nav class="navLinks" aria-label="Site">
-        <a href="about.html">About</a>
-        <a href="author.html">Author</a>
-        <a href="books.html">Books</a>
-        <a href="partners.html">Partners</a>
+        <a href="about.html" data-i18n="nav.about">About</a>
+        <a href="author.html" data-i18n="nav.author">Author</a>
+        <a href="books.html" data-i18n="nav.books">Books</a>
+        <a href="partners.html" data-i18n="nav.partners">Partners</a>
         <a href="https://www.dreampixels.cloud" target="_blank" rel="noopener">Dream Pixels</a>
-        <a href="waitlist.html">Waitlist</a>
+        <a href="waitlist.html" data-i18n="nav.waitlist">Waitlist</a>
       </nav>
       <button class="menuToggle" id="menuToggle" aria-label="Open navigation" aria-expanded="false"
-        aria-controls="navPanel">Menu</button>
+        aria-controls="navPanel" data-i18n="nav.menu">Menu</button>
     </div>
   </header>
 
   <!-- ── Mobile nav panel ── -->
   <nav class="navPanel" id="navPanel" aria-label="Mobile navigation" aria-hidden="true">
-    <button class="navPanelClose" id="navPanelClose" aria-label="Close navigation">Close</button>
+    <button class="navPanelClose" id="navPanelClose" aria-label="Close navigation" data-i18n="nav.close">Close</button>
     <div class="navPanelLinks">
-      <a href="about.html">About</a>
-      <a href="author.html" class="is-active">Author</a>
-      <a href="books.html">Books</a>
-      <a href="partners.html">Partners</a>
+      <a href="about.html" data-i18n="nav.about">About</a>
+      <a href="author.html" class="is-active" data-i18n="nav.author">Author</a>
+      <a href="books.html" data-i18n="nav.books">Books</a>
+      <a href="partners.html" data-i18n="nav.partners">Partners</a>
       <a href="https://www.dreampixels.cloud" target="_blank" rel="noopener">Dream Pixels</a>
-      <a href="waitlist.html">Waitlist</a>
+      <a href="waitlist.html" data-i18n="nav.waitlist">Waitlist</a>
     </div>
   </nav>
 
@@ -134,20 +134,20 @@
         <div class="bioScrollWrap" id="bioScrollWrap">
           <div class="bioBox">
             <h2 class="authorName">Mete Kutlu</h2>
-            <p class="contactIntro">Mete Kutlu is a creative technologist, new media artist, and researcher based in
+            <p class="contactIntro" data-i18n="author.bio1">Mete Kutlu is a creative technologist, new media artist, and researcher based in
               Paris. Trained as an architect at ENSA Paris-Malaquais, he graduated in 2016 and subsequently worked
               across Japan, China, and South Korea with architects including Kazuyo Sejima, Kengo Kuma, and Wang Shu.
               Since 2019, he has been teaching Cities in Mirror, an experimental and artistic approach to mapping urban
               space, at ENSA Paris-Belleville, where he is also an associate researcher at the IPRAUS laboratory.</p>
             <div class="bioGlyphDivider" aria-hidden="true"></div>
-            <p class="contactIntro">His work operates at the intersection of premodern metaphysics and contemporary
+            <p class="contactIntro" data-i18n="author.bio2">His work operates at the intersection of premodern metaphysics and contemporary
               computation. Focusing on the medieval Silk Road, he identifies an algorithmic tradition of art and a
               computational cosmology that resonates with today's cloud-based infrastructures. Through a series of
               research residencies across this historical corridor, he develops a method grounded in the confrontation
               between historical artistic traditions and contemporary digital media, including photogrammetry,
               augmented reality, and machine learning.</p>
             <div class="bioGlyphDivider" aria-hidden="true"></div>
-            <p class="contactIntro">He was awarded the Daniel Arasse Prize by the Académie française and the École
+            <p class="contactIntro" data-i18n="author.bio3">He was awarded the Daniel Arasse Prize by the Académie française and the École
               française de Rome. He has conducted research at the Villa Medici in Rome, the Monastery of San Giorgio
               Maggiore in Venice, and the French Palace in Istanbul. His investigations into patterned and
               cosmological visual systems have led to archival work at the Vatican Apostolic Archive, the Topkapı
@@ -158,7 +158,7 @@
               Botanique, an immersive botanical project developed in partnership with the Château de
               Chaumont-sur-Loire.</p>
             <div class="bioGlyphDivider" aria-hidden="true"></div>
-            <p class="contactIntro">His work unfolds between ancient myth and science-fictional narratives. It
+            <p class="contactIntro" data-i18n="author.bio4">His work unfolds between ancient myth and science-fictional narratives. It
               advances a non-anthropocentric vision of culture, a cosmic perspective on technology, and a
               non-Eurocentric history of civilization. The world is understood as a computational system of symbols,
               a cosmopolitan and inclusive ecology of intelligence. His experimental methods of design and research
@@ -170,7 +170,7 @@
               civilization in which metaphor and analogy replace rational description. Vibrant colors and patterns
               become the medium of these alternative narratives, revealing imaginary worlds embedded within both
               historical and technological systems.</p>
-            <p class="bioLocation">Paris, 2026.</p>
+            <p class="bioLocation" data-i18n="author.location">Paris, 2026.</p>
           </div>
         </div>
       </div><!-- /.splitRight -->
@@ -181,6 +181,7 @@
 
   <!-- ── Scripts ─────────────────────────────────── -->
   <script type="module" src="/js/author.js"></script>
+  <script src="/js/i18n.js"></script>
 
 </body>
 

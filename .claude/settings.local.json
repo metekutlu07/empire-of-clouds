@@ -27,7 +27,15 @@
       "Bash(grep -rn \"fonts\\\\.googleapis\\\\|fonts\\\\.gstatic\" /Users/pesto/Desktop/website-empire/*.html)",
       "Bash(do grep:*)",
       "Bash(done echo:*)",
-      "Bash(find /Users/pesto/Desktop/website-empire/fonts -name *.woff2)"
+      "Bash(find /Users/pesto/Desktop/website-empire/fonts -name *.woff2)",
+      "Bash(git -C /Users/pesto/Desktop/website-empire log --oneline --all)",
+      "Bash(git -C /Users/pesto/Desktop/website-empire show claude/design-waitlist-email-owQnK:apps-script/backend.gs)",
+      "Bash(git -C /Users/pesto/Desktop/website-empire log --all --grep=\"spiral\\\\|email\" --oneline)",
+      "Bash(git -C /Users/pesto/Desktop/website-empire log --all --format=\"%H %s\")",
+      "Bash(git -C /Users/pesto/Desktop/website-empire show c3485f5b439ee7342ebaadfa7c244e98615dde84 --stat)",
+      "Bash(git -C /Users/pesto/Desktop/website-empire show c3485f5b439ee7342ebaadfa7c244e98615dde84)",
+      "Bash(grep -l \"i18n.js\" /Users/pesto/Desktop/website-empire/*.html)",
+      "Bash(grep -l i18n /Users/pesto/Desktop/website-empire/js/*.js)"
     ]
   }
 }

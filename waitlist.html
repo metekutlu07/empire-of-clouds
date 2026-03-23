@@ -6,7 +6,7 @@
   <!-- ── Meta ─────────────────────────────────────────────────────────── -->
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Waitlist · Empire of Clouds</title>
+  <title data-i18n="waitlist.pageTitle">Waitlist · Empire of Clouds</title>
 
   <meta name="author" content="Mete Kutlu">
   <meta name="copyright" content="© 2026 Mete Kutlu. All rights reserved.">
@@ -64,28 +64,28 @@
     <div class="navInner">
       <a class="brand" href="index.html?skip=1" aria-label="Empire of Clouds home">Empire of Clouds</a>
       <nav class="navLinks" aria-label="Site">
-        <a href="about.html">About</a>
-        <a href="author.html">Author</a>
-        <a href="books.html">Books</a>
-        <a href="partners.html">Partners</a>
+        <a href="about.html" data-i18n="nav.about">About</a>
+        <a href="author.html" data-i18n="nav.author">Author</a>
+        <a href="books.html" data-i18n="nav.books">Books</a>
+        <a href="partners.html" data-i18n="nav.partners">Partners</a>
         <a href="https://www.dreampixels.cloud" target="_blank" rel="noopener">Dream Pixels</a>
-        <a href="waitlist.html">Waitlist</a>
+        <a href="waitlist.html" data-i18n="nav.waitlist">Waitlist</a>
       </nav>
       <button class="menuToggle" id="menuToggle" aria-label="Open navigation" aria-expanded="false"
-        aria-controls="navPanel">Menu</button>
+        aria-controls="navPanel" data-i18n="nav.menu">Menu</button>
     </div>
   </header>
 
   <!-- ── Mobile nav panel ── -->
   <nav class="navPanel" id="navPanel" aria-label="Mobile navigation" aria-hidden="true">
-    <button class="navPanelClose" id="navPanelClose" aria-label="Close navigation">Close</button>
+    <button class="navPanelClose" id="navPanelClose" aria-label="Close navigation" data-i18n="nav.close">Close</button>
     <div class="navPanelLinks">
-      <a href="about.html">About</a>
-      <a href="author.html">Author</a>
-      <a href="books.html">Books</a>
-      <a href="partners.html">Partners</a>
+      <a href="about.html" data-i18n="nav.about">About</a>
+      <a href="author.html" data-i18n="nav.author">Author</a>
+      <a href="books.html" data-i18n="nav.books">Books</a>
+      <a href="partners.html" data-i18n="nav.partners">Partners</a>
       <a href="https://www.dreampixels.cloud" target="_blank" rel="noopener">Dream Pixels</a>
-      <a href="waitlist.html" class="is-active">Waitlist</a>
+      <a href="waitlist.html" class="is-active" data-i18n="nav.waitlist">Waitlist</a>
     </div>
   </nav>
 
@@ -101,11 +101,11 @@
           <!-- WAITLIST PANEL -->
           <div id="waitlistHero" class="heroPanel is-active">
             <div class="waitlistBox">
-              <h2>Join the Waitlist</h2>
-              <p>Become part of the journey and get notified about the publications.</p>
+              <h2 data-i18n="waitlist.title">Join the Waitlist</h2>
+              <p data-i18n="waitlist.desc">Become part of the journey and get notified about the publications.</p>
               <form id="waitlistForm">
-                <input type="email" id="waitlistEmail" placeholder="Your email address" required />
-                <button type="submit">Submit</button>
+                <input type="email" id="waitlistEmail" placeholder="Your email address" data-i18n-placeholder="waitlist.emailPlaceholder" required />
+                <button type="submit" data-i18n="waitlist.submit">Submit</button>
               </form>
               <p class="mobileContact">Contact the author: <a href="mailto:metekutlu@gmail.com">metekutlu@gmail.com</a>
               </p>
@@ -115,16 +115,16 @@
           <!-- CONTACT PANEL -->
           <div id="contactHero" class="heroPanel">
             <div class="contactBox">
-              <h2>Contact</h2>
-              <p class="contactIntro">
+              <h2 data-i18n="waitlist.contactTitle">Contact</h2>
+              <p class="contactIntro" data-i18n="waitlist.contactIntro">
                 For institutional collaborations, exhibitions, lectures,<br>
                 or press inquiries, you may write below.
               </p>
               <form id="contactForm">
-                <input type="text" id="contactName" placeholder="Name" required />
-                <input type="email" id="contactEmail" placeholder="Email" required />
-                <textarea id="contactMessage" placeholder="Message" rows="10" required></textarea>
-                <button type="submit">Send</button>
+                <input type="text" id="contactName" placeholder="Name" data-i18n-placeholder="waitlist.namePlaceholder" required />
+                <input type="email" id="contactEmail" placeholder="Email" data-i18n-placeholder="waitlist.emailContactPlaceholder" required />
+                <textarea id="contactMessage" placeholder="Message" data-i18n-placeholder="waitlist.messagePlaceholder" rows="10" required></textarea>
+                <button type="submit" data-i18n="waitlist.send">Send</button>
               </form>
             </div>
           </div>
