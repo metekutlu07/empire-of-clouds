@@ -2,8 +2,8 @@
  * i18n.js — Empire of Clouds
  *
  * 1. On page load, fetches the stored language (localStorage 'lang').
- * 2. On entry-screen confirm, index.js sets dataset.lang on <html>.
- *    We watch this, re-fetch the chosen language, and re-apply to DOM.
+ * 2. On entry-screen confirm, index.js calls window.i18n.load(lang)
+ *    which re-fetches the chosen language and re-applies to DOM.
  * 3. window.i18nReady is a Promise that resolves when translations load.
  *    index.js awaits this before starting animation sequences.
  * 4. window.i18n.get(key) returns the translation or null — never the
@@ -89,31 +89,22 @@
     return true;
   }
 
-  // ── Expose early so callers don't need to guard against undefined ─
-  window.i18n = { get: () => null };
+  // ── Expose early — with a load() method index.js calls on confirm ─
+  window.i18n = {
+    get: () => null,
+    load: function (lang) {
+      if (SUPPORTED.includes(lang)) {
+        localStorage.setItem('lang', lang);
+        document.documentElement.lang = lang === 'zh' ? 'zh-Hans' : lang;
+        window.i18nReady = loadLang(lang);
+      }
+      return window.i18nReady;
+    }
+  };
 
   // ── Initial page load ─────────────────────────────────────────────
   const initialLang = storedLang();
   document.documentElement.lang = initialLang === 'zh' ? 'zh-Hans' : initialLang;
   window.i18nReady = loadLang(initialLang);
-
-  // ── Watch for entry-screen confirm (index.js sets dataset.lang) ───
-  // On confirm, re-fetch the newly chosen language and re-apply to DOM.
-  // window.i18nReady is updated so index.js can await it.
-  new MutationObserver(mutations => {
-    for (const m of mutations) {
-      if (m.attributeName === 'data-lang') {
-        const chosen = document.documentElement.dataset.lang;
-        if (chosen && SUPPORTED.includes(chosen)) {
-          localStorage.setItem('lang', chosen);
-          document.documentElement.lang = chosen === 'zh' ? 'zh-Hans' : chosen;
-          window.i18nReady = loadLang(chosen);
-        }
-      }
-    }
-  }).observe(document.documentElement, {
-    attributes: true,
-    attributeFilter: ['data-lang']
-  });
 
 })();

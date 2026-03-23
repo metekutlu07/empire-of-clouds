@@ -2904,8 +2904,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (entryScreen) entryScreen.classList.add("fade-out");
             if (preludeLayer) preludeLayer.style.pointerEvents = "none";
-            document.documentElement.dataset.lang = selectedLang;
             document.documentElement.dataset.soundEnabled = soundEnabled ? "1" : "0";
+            // Kick off the language fetch immediately so it's ready before sequences start
+            window.i18n.load(selectedLang);
             setTimeout(async () => {
                 if (entryScreen) entryScreen.style.display = "none";
                 await window.i18nReady;
