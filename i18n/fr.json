@@ -51,7 +51,24 @@
     "hoverBackdoor": "Porte dérobée",
     "hoverFirewall": "Pare-feu",
     "hintMobile": "Touchez le champ de code",
-    "hintDesktop": "Cliquez sur le code"
+    "hintDesktop": "Cliquez sur le code",
+    "transmissionLine1": "Vous êtes sur le point d'entrer dans une archive interdite.",
+    "transmissionLine2": "",
+    "transmissionLine3": "Ici survit un savoir effacé des archives officielles.",
+    "transmissionLine4": "Ici demeurent des mémoires jamais entendues et des rêves oubliés.",
+    "transmissionLine5": "Ici ne règnent ni gouvernement ni institution.",
+    "transmissionLine6": "",
+    "transmissionLine7": "N'entrez que si vous êtes prêt à vous souvenir.",
+    "transmissionLineMobile1": "Vous êtes sur le point d'entrer",
+    "transmissionLineMobile2": "dans une archive interdite.",
+    "transmissionLineMobile3": "Ici survit un savoir",
+    "transmissionLineMobile4": "effacé des archives officielles.",
+    "transmissionLineMobile5": "Ici demeurent des mémoires jamais entendues",
+    "transmissionLineMobile6": "et des rêves oubliés.",
+    "transmissionLineMobile7": "Ici ne règnent ni gouvernement",
+    "transmissionLineMobile8": "ni institution.",
+    "transmissionLineMobile9": "N'entrez que si vous êtes",
+    "transmissionLineMobile10": "prêt à vous souvenir."
   },
 
   "about": {

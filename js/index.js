@@ -394,13 +394,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const preludeInstructionEl = document.getElementById("preludeInstruction");
     const preludeHoverEl = document.getElementById("preludeHover");
 
-    const PRELUDE_LINES = [
-        "You are approaching a forbidden archive.",
-        "Beyond this threshold lie histories not curated by institutions.",
-        "Here survive worlds, dreams and histories erased from the official record.",
-        "This domain belongs to no government, no technocrat, no winner of history."
-    ];
-
     const prelude = {
         active: true,
         mode: "hidden",
@@ -993,30 +986,33 @@ document.addEventListener("DOMContentLoaded", () => {
     // Typing speed for the transmission lines (ms per character)
     const TRANSMISSION_SPEED_MS = 49;
 
-    // Short punchy sentences typed one per line, centered
-    const TRANSMISSION_LINES = [
-        "You are about to enter a forbidden archive.",
-        "",
-        "Here survives knowledge erased from official records.",
-        "Here linger unheard memories and forgotten dreams.",
-        "Here rules no government and no institution.",
-        "",
-        "Enter only if you are prepared to remember."
-    ];
-
-    // Mobile: shorter lines so the design feels intentional on narrow screens
-    const TRANSMISSION_LINES_MOBILE = [
-        "You are about to enter",
-        "a forbidden archive.",
-        "Here survives knowledge",
-        "erased from official records.",
-        "Here linger unheard memories",
-        "and forgotten dreams.",
-        "Here rules no government",
-        "and no institution.",
-        "Enter only if you are",
-        "prepared to remember.",
-    ];
+    // Helper: get transmission lines (desktop or mobile) with i18n translations
+    function getTransmissionLines(isMobile) {
+        if (isMobile) {
+            return [
+                window.i18n?.get('index.transmissionLineMobile1') || "You are about to enter",
+                window.i18n?.get('index.transmissionLineMobile2') || "a forbidden archive.",
+                window.i18n?.get('index.transmissionLineMobile3') || "Here survives knowledge",
+                window.i18n?.get('index.transmissionLineMobile4') || "erased from official records.",
+                window.i18n?.get('index.transmissionLineMobile5') || "Here linger unheard memories",
+                window.i18n?.get('index.transmissionLineMobile6') || "and forgotten dreams.",
+                window.i18n?.get('index.transmissionLineMobile7') || "Here rules no government",
+                window.i18n?.get('index.transmissionLineMobile8') || "and no institution.",
+                window.i18n?.get('index.transmissionLineMobile9') || "Enter only if you are",
+                window.i18n?.get('index.transmissionLineMobile10') || "prepared to remember."
+            ];
+        } else {
+            return [
+                window.i18n?.get('index.transmissionLine1') || "You are about to enter a forbidden archive.",
+                window.i18n?.get('index.transmissionLine2') || "",
+                window.i18n?.get('index.transmissionLine3') || "Here survives knowledge erased from official records.",
+                window.i18n?.get('index.transmissionLine4') || "Here linger unheard memories and forgotten dreams.",
+                window.i18n?.get('index.transmissionLine5') || "Here rules no government and no institution.",
+                window.i18n?.get('index.transmissionLine6') || "",
+                window.i18n?.get('index.transmissionLine7') || "Enter only if you are prepared to remember."
+            ];
+        }
+    }
 
     function openTransmissionWindow() {
         const win = document.getElementById("transmissionWindow");
@@ -1027,7 +1023,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Choose line set based on viewport width
         const _isMobileView = window.innerWidth <= 640;
-        const _activeLines = _isMobileView ? TRANSMISSION_LINES_MOBILE : TRANSMISSION_LINES;
+        const _activeLines = getTransmissionLines(_isMobileView);
 
         // Type each line sequentially after window opens
         const tStart = setTimeout(() => {
