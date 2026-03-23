@@ -21,6 +21,31 @@
     return key.split('.').reduce((o, k) => (o != null ? o[k] : undefined), t);
   }
 
+  function captureDefaults() {
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      if (el.dataset.i18nDefault == null) {
+        el.dataset.i18nDefault = el.innerHTML;
+      }
+    });
+
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+      if (el.dataset.i18nPlaceholderDefault == null) {
+        el.dataset.i18nPlaceholderDefault = el.getAttribute('placeholder') || '';
+      }
+    });
+
+    document.querySelectorAll('[data-i18n-aria]').forEach(el => {
+      if (el.dataset.i18nAriaDefault == null) {
+        el.dataset.i18nAriaDefault = el.getAttribute('aria-label') || '';
+      }
+    });
+
+    const titleEl = document.querySelector('title[data-i18n]');
+    if (titleEl && titleEl.dataset.i18nDefault == null) {
+      titleEl.dataset.i18nDefault = titleEl.textContent || '';
+    }
+  }
+
   function applyToDOM(t) {
     document.querySelectorAll('[data-i18n]').forEach(el => {
       const v = t ? resolve(t, el.dataset.i18n) : null;
@@ -84,10 +109,12 @@
 
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', () => {
+        captureDefaults();
         applyToDOM(translations);
         preselectLangBtn();
       }, { once: true });
     } else {
+      captureDefaults();
       applyToDOM(translations);
       preselectLangBtn();
     }
