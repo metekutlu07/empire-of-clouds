@@ -2738,7 +2738,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // immediately if no DOM text has already triggered these @font-face downloads.
     const _fPx = Math.round(CELL * FONT_SCALE);
     Promise.all([
-        document.fonts.load(`${_fPx}px "Noto Sans Symbols 2"`,            "⟐⧖⸜Ⳁ꙳"),
+        document.fonts.load(`${_fPx}px "Noto Sans Symbols 2"`,            "∴⍜※⸜"),
         document.fonts.load(`${_fPx}px "Noto Sans Symbols"`,              "⟐⧖"),
         document.fonts.load(`${_fPx}px "Noto Sans Khojki"`,               "𑈀𑈁"),
         document.fonts.load(`${_fPx}px "Noto Sans Kaithi"`,               String.fromCodePoint(0x11083)),
