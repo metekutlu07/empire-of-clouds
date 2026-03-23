@@ -2844,6 +2844,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const soundToggle = document.getElementById("entrySoundToggle");
         const confirmBtn = document.getElementById("entryConfirm");
         const introAudio = document.getElementById("introAudio");
+        const SUPPORTED_LANGS = ["en", "fr", "tr", "zh", "ja"];
 
         let selectedLang = "en";
 
@@ -2862,15 +2863,29 @@ document.addEventListener("DOMContentLoaded", () => {
             if (labels[1]) labels[1].textContent = s.sound;
             if (confirmBtn) confirmBtn.textContent = s.enter;
         }
+
+        function getStoredLang() {
+            const stored = localStorage.getItem("lang");
+            return SUPPORTED_LANGS.includes(stored) ? stored : "en";
+        }
+
+        function updateSelectedLangUI(lang) {
+            langBtns.forEach(btn => {
+                btn.classList.toggle("selected", btn.dataset.lang === lang);
+            });
+            applyLang(lang);
+        }
         let soundEnabled = false;
+
+        selectedLang = window.i18n?.current?.() || getStoredLang();
+        updateSelectedLangUI(selectedLang);
 
         // Language selection
         langBtns.forEach(btn => {
-            btn.addEventListener("click", () => {
-                langBtns.forEach(b => b.classList.remove("selected"));
-                btn.classList.add("selected");
+            btn.addEventListener("click", async () => {
                 selectedLang = btn.dataset.lang;
-                applyLang(selectedLang);
+                updateSelectedLangUI(selectedLang);
+                await window.i18n?.load?.(selectedLang);
             });
         });
 
@@ -2893,7 +2908,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         // Confirm — fade out entry screen, then start boot
-        function confirm() {
+        async function confirm() {
             // Prime the iOS audio pipeline on this user gesture.
             // One play+immediate-pause is enough to unlock HTMLMediaElement
             // audio for the whole page, removing the ~300 ms first-tap delay.
@@ -2905,8 +2920,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (entryScreen) entryScreen.classList.add("fade-out");
             if (preludeLayer) preludeLayer.style.pointerEvents = "none";
             document.documentElement.dataset.soundEnabled = soundEnabled ? "1" : "0";
-            // Kick off the language fetch immediately so it's ready before sequences start
-            window.i18n.load(selectedLang);
+            await window.i18n?.load?.(selectedLang);
             setTimeout(async () => {
                 if (entryScreen) entryScreen.style.display = "none";
                 await window.i18nReady;
