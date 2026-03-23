@@ -1,46 +1,50 @@
 /**
  * i18n.js — Empire of Clouds
  *
- * 1. Reads the selected language from localStorage('lang').
- * 2. Fetches /i18n/{lang}.json when lang !== 'en'.
- * 3. Replaces innerHTML / placeholder / aria-label on every
- *    [data-i18n], [data-i18n-placeholder], [data-i18n-aria] element.
- * 4. Watches document.documentElement.dataset.lang (set by index.js
- *    on entry-screen confirm) and persists the choice to localStorage.
- * 5. Pre-selects the correct language button on the entry screen.
+ * 1. On page load, fetches the stored language (localStorage 'lang').
+ * 2. On entry-screen confirm, index.js sets dataset.lang on <html>.
+ *    We watch this, re-fetch the chosen language, and re-apply to DOM.
+ * 3. window.i18nReady is a Promise that resolves when translations load.
+ *    index.js awaits this before starting animation sequences.
+ * 4. window.i18n.get(key) returns the translation or null — never the
+ *    raw key string, so index.js fallbacks ("|| English text") work.
  */
-// Expose a promise that resolves when translations are ready
-window.i18nReady = (async function () {
+(function () {
   const SUPPORTED = ['en', 'fr', 'tr', 'zh', 'ja'];
   const DEFAULT   = 'en';
+  let translations = null;
 
-  // ── Resolve current language ──────────────────────────────────────
+  // ── Helpers ───────────────────────────────────────────────────────
   function storedLang() {
     const s = localStorage.getItem('lang');
     return SUPPORTED.includes(s) ? s : DEFAULT;
   }
 
-  const lang = storedLang();
-  document.documentElement.lang = lang === 'zh' ? 'zh-Hans' : lang;
+  function resolve(t, key) {
+    return key.split('.').reduce((o, k) => (o != null ? o[k] : undefined), t);
+  }
 
-  // ── Watch for entry-screen language selection (index.html) ────────
-  // index.js sets document.documentElement.dataset.lang on confirm.
-  // We intercept that mutation and save the choice to localStorage.
-  new MutationObserver(mutations => {
-    for (const m of mutations) {
-      if (m.attributeName === 'data-lang') {
-        const chosen = document.documentElement.dataset.lang;
-        if (chosen && SUPPORTED.includes(chosen)) {
-          localStorage.setItem('lang', chosen);
-        }
-      }
+  function applyToDOM(t) {
+    if (!t) return;
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const v = resolve(t, el.dataset.i18n);
+      if (v != null) el.innerHTML = v;
+    });
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+      const v = resolve(t, el.dataset.i18nPlaceholder);
+      if (v != null) el.placeholder = v;
+    });
+    document.querySelectorAll('[data-i18n-aria]').forEach(el => {
+      const v = resolve(t, el.dataset.i18nAria);
+      if (v != null) el.setAttribute('aria-label', v);
+    });
+    const titleEl = document.querySelector('title[data-i18n]');
+    if (titleEl) {
+      const v = resolve(t, titleEl.dataset.i18n);
+      if (v != null) document.title = v;
     }
-  }).observe(document.documentElement, {
-    attributes: true,
-    attributeFilter: ['data-lang']
-  });
+  }
 
-  // ── Pre-select the stored language button on the entry screen ─────
   function preselectLangBtn() {
     const btns = document.querySelectorAll('.entryOption[data-lang]');
     if (!btns.length) return;
@@ -50,71 +54,66 @@ window.i18nReady = (async function () {
     );
   }
 
-  // ── Key resolver (dot-notation) ───────────────────────────────────
-  function get(t, key) {
-    return key.split('.').reduce(
-      (o, k) => (o != null ? o[k] : undefined),
-      t
-    );
-  }
-
-  // ── Apply translations to DOM ─────────────────────────────────────
-  function apply(t) {
-    if (t) {
-      // innerHTML (supports embedded HTML tags)
-      document.querySelectorAll('[data-i18n]').forEach(el => {
-        const v = get(t, el.dataset.i18n);
-        if (v != null) el.innerHTML = v;
-      });
-
-      // placeholder attributes (form inputs)
-      document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-        const v = get(t, el.dataset.i18nPlaceholder);
-        if (v != null) el.placeholder = v;
-      });
-
-      // aria-label attributes
-      document.querySelectorAll('[data-i18n-aria]').forEach(el => {
-        const v = get(t, el.dataset.i18nAria);
-        if (v != null) el.setAttribute('aria-label', v);
-      });
-
-      // <title> element
-      const titleEl = document.querySelector('title[data-i18n]');
-      if (titleEl) {
-        const v = get(t, titleEl.dataset.i18n);
-        if (v != null) document.title = v;
+  // ── Load a language (fetch JSON, update translations, apply to DOM) ─
+  async function loadLang(lang) {
+    translations = null;
+    if (lang !== DEFAULT) {
+      try {
+        const res = await fetch(`/i18n/${lang}.json`);
+        if (res.ok) translations = await res.json();
+        else console.warn('[i18n] HTTP', res.status, 'for', lang);
+      } catch (e) {
+        console.warn('[i18n] fetch failed:', e);
       }
     }
 
-    preselectLangBtn();
-  }
+    // Refresh the global getter with the new translations
+    window.i18n = {
+      get: function (key) {
+        const val = resolve(translations, key);
+        return val != null ? val : null; // null, not key — so || fallbacks in callers work
+      }
+    };
 
-  // ── Fetch translations (only when non-English) ────────────────────
-  let translations = null;
-  if (lang !== DEFAULT) {
-    try {
-      const res = await fetch(`/i18n/${lang}.json`);
-      if (res.ok) translations = await res.json();
-      else console.warn('[i18n] HTTP', res.status, 'for', lang);
-    } catch (e) {
-      console.warn('[i18n] fetch failed:', e);
+    // Apply to DOM
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => {
+        applyToDOM(translations);
+        preselectLangBtn();
+      });
+    } else {
+      applyToDOM(translations);
+      preselectLangBtn();
     }
+
+    return true;
   }
 
-  // ── Expose a global getter for accessing translations ────────────────
-  window.i18n = {
-    get: function(key) {
-      return get(translations, key) || key;
+  // ── Expose early so callers don't need to guard against undefined ─
+  window.i18n = { get: () => null };
+
+  // ── Initial page load ─────────────────────────────────────────────
+  const initialLang = storedLang();
+  document.documentElement.lang = initialLang === 'zh' ? 'zh-Hans' : initialLang;
+  window.i18nReady = loadLang(initialLang);
+
+  // ── Watch for entry-screen confirm (index.js sets dataset.lang) ───
+  // On confirm, re-fetch the newly chosen language and re-apply to DOM.
+  // window.i18nReady is updated so index.js can await it.
+  new MutationObserver(mutations => {
+    for (const m of mutations) {
+      if (m.attributeName === 'data-lang') {
+        const chosen = document.documentElement.dataset.lang;
+        if (chosen && SUPPORTED.includes(chosen)) {
+          localStorage.setItem('lang', chosen);
+          document.documentElement.lang = chosen === 'zh' ? 'zh-Hans' : chosen;
+          window.i18nReady = loadLang(chosen);
+        }
+      }
     }
-  };
+  }).observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ['data-lang']
+  });
 
-  // ── Run after DOM is ready ────────────────────────────────────────
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => apply(translations));
-  } else {
-    apply(translations);
-  }
-
-  return true; // Signal that i18n is ready
 })();
