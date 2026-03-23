@@ -111,17 +111,20 @@ function _formatDate(date) {
   return Utilities.formatDate(date, "UTC", "yyyy-MM-dd HH:mm");
 }
 
-// "Europe/Paris" + "fr-FR"  →  "Paris / France"
+// "Europe/Paris"  →  "Paris / France"
+// City comes from the timezone string; country from the TZ_COUNTRY lookup.
+// Locale is only a fallback when the timezone isn't in the table.
 function _formatLocation(timezone, locale) {
   let city    = "";
   let country = "";
 
   if (timezone && timezone.includes("/")) {
-    // Last segment of tz string, underscores → spaces
-    city = timezone.split("/").pop().replace(/_/g, " ");
+    city    = timezone.split("/").pop().replace(/_/g, " ");
+    country = TZ_COUNTRY[timezone] || "";
   }
 
-  if (locale && locale.includes("-")) {
+  // Fallback: derive country from browser locale (e.g. "en-GB" → "United Kingdom")
+  if (!country && locale && locale.includes("-")) {
     const code = locale.split("-").pop().toUpperCase();
     country = COUNTRY_CODES[code] || code;
   }
@@ -129,6 +132,89 @@ function _formatLocation(timezone, locale) {
   if (city && country) return city + " / " + country;
   return city || country || "—";
 }
+
+// ── Timezone → Country ────────────────────────────────────────────────────────
+const TZ_COUNTRY = {
+  // Europe
+  "Europe/Paris":"France","Europe/London":"United Kingdom","Europe/Berlin":"Germany",
+  "Europe/Madrid":"Spain","Europe/Rome":"Italy","Europe/Amsterdam":"Netherlands",
+  "Europe/Brussels":"Belgium","Europe/Vienna":"Austria","Europe/Zurich":"Switzerland",
+  "Europe/Stockholm":"Sweden","Europe/Oslo":"Norway","Europe/Copenhagen":"Denmark",
+  "Europe/Helsinki":"Finland","Europe/Warsaw":"Poland","Europe/Prague":"Czech Republic",
+  "Europe/Budapest":"Hungary","Europe/Bucharest":"Romania","Europe/Sofia":"Bulgaria",
+  "Europe/Athens":"Greece","Europe/Istanbul":"Turkey","Europe/Moscow":"Russia",
+  "Europe/Kiev":"Ukraine","Europe/Kyiv":"Ukraine","Europe/Minsk":"Belarus",
+  "Europe/Lisbon":"Portugal","Europe/Dublin":"Ireland","Europe/Riga":"Latvia",
+  "Europe/Tallinn":"Estonia","Europe/Vilnius":"Lithuania","Europe/Belgrade":"Serbia",
+  "Europe/Zagreb":"Croatia","Europe/Sarajevo":"Bosnia","Europe/Skopje":"North Macedonia",
+  "Europe/Ljubljana":"Slovenia","Europe/Bratislava":"Slovakia",
+  "Europe/Luxembourg":"Luxembourg","Europe/Nicosia":"Cyprus","Europe/Valletta":"Malta",
+  "Europe/Tirane":"Albania","Europe/Podgorica":"Montenegro","Europe/Chisinau":"Moldova",
+  "Europe/Kaliningrad":"Russia","Europe/Samara":"Russia","Europe/Ulyanovsk":"Russia",
+  "Europe/Volgograd":"Russia","Europe/Astrakhan":"Russia","Europe/Saratov":"Russia",
+  // Americas
+  "America/New_York":"United States","America/Chicago":"United States",
+  "America/Denver":"United States","America/Los_Angeles":"United States",
+  "America/Phoenix":"United States","America/Anchorage":"United States",
+  "America/Honolulu":"United States","America/Detroit":"United States",
+  "America/Indiana/Indianapolis":"United States","America/Kentucky/Louisville":"United States",
+  "America/Toronto":"Canada","America/Vancouver":"Canada","America/Montreal":"Canada",
+  "America/Calgary":"Canada","America/Winnipeg":"Canada","America/Halifax":"Canada",
+  "America/St_Johns":"Canada","America/Edmonton":"Canada",
+  "America/Mexico_City":"Mexico","America/Monterrey":"Mexico","America/Tijuana":"Mexico",
+  "America/Sao_Paulo":"Brazil","America/Manaus":"Brazil","America/Belem":"Brazil",
+  "America/Buenos_Aires":"Argentina","America/Argentina/Buenos_Aires":"Argentina",
+  "America/Bogota":"Colombia","America/Lima":"Peru","America/Santiago":"Chile",
+  "America/Caracas":"Venezuela","America/Montevideo":"Uruguay",
+  "America/La_Paz":"Bolivia","America/Asuncion":"Paraguay","America/Guayaquil":"Ecuador",
+  "America/Panama":"Panama","America/Costa_Rica":"Costa Rica","America/Guatemala":"Guatemala",
+  "America/Havana":"Cuba","America/Santo_Domingo":"Dominican Republic",
+  "America/Port-au-Prince":"Haiti","America/Jamaica":"Jamaica",
+  "America/Tegucigalpa":"Honduras","America/Managua":"Nicaragua","America/El_Salvador":"El Salvador",
+  "America/Barbados":"Barbados","America/Trinidad":"Trinidad and Tobago",
+  // Asia
+  "Asia/Tokyo":"Japan","Asia/Shanghai":"China","Asia/Beijing":"China",
+  "Asia/Hong_Kong":"Hong Kong","Asia/Macau":"Macau","Asia/Singapore":"Singapore",
+  "Asia/Seoul":"South Korea","Asia/Taipei":"Taiwan","Asia/Bangkok":"Thailand",
+  "Asia/Jakarta":"Indonesia","Asia/Makassar":"Indonesia","Asia/Jayapura":"Indonesia",
+  "Asia/Kolkata":"India","Asia/Calcutta":"India","Asia/Mumbai":"India",
+  "Asia/Karachi":"Pakistan","Asia/Lahore":"Pakistan","Asia/Dhaka":"Bangladesh",
+  "Asia/Colombo":"Sri Lanka","Asia/Kathmandu":"Nepal","Asia/Kabul":"Afghanistan",
+  "Asia/Tehran":"Iran","Asia/Baghdad":"Iraq","Asia/Riyadh":"Saudi Arabia",
+  "Asia/Jeddah":"Saudi Arabia","Asia/Dubai":"United Arab Emirates",
+  "Asia/Abu_Dhabi":"United Arab Emirates","Asia/Kuwait":"Kuwait",
+  "Asia/Qatar":"Qatar","Asia/Bahrain":"Bahrain","Asia/Muscat":"Oman",
+  "Asia/Beirut":"Lebanon","Asia/Damascus":"Syria","Asia/Amman":"Jordan",
+  "Asia/Jerusalem":"Israel","Asia/Tel_Aviv":"Israel",
+  "Asia/Tbilisi":"Georgia","Asia/Yerevan":"Armenia","Asia/Baku":"Azerbaijan",
+  "Asia/Almaty":"Kazakhstan","Asia/Tashkent":"Uzbekistan","Asia/Ashgabat":"Turkmenistan",
+  "Asia/Dushanbe":"Tajikistan","Asia/Bishkek":"Kyrgyzstan","Asia/Ulaanbaatar":"Mongolia",
+  "Asia/Yangon":"Myanmar","Asia/Phnom_Penh":"Cambodia","Asia/Vientiane":"Laos",
+  "Asia/Ho_Chi_Minh":"Vietnam","Asia/Hanoi":"Vietnam","Asia/Saigon":"Vietnam",
+  "Asia/Kuala_Lumpur":"Malaysia","Asia/Manila":"Philippines",
+  "Asia/Pyongyang":"North Korea","Asia/Colombo":"Sri Lanka",
+  "Asia/Nicosia":"Cyprus","Asia/Aden":"Yemen","Asia/Sanaa":"Yemen",
+  // Africa
+  "Africa/Cairo":"Egypt","Africa/Lagos":"Nigeria","Africa/Nairobi":"Kenya",
+  "Africa/Johannesburg":"South Africa","Africa/Casablanca":"Morocco",
+  "Africa/Tunis":"Tunisia","Africa/Algiers":"Algeria","Africa/Accra":"Ghana",
+  "Africa/Addis_Ababa":"Ethiopia","Africa/Khartoum":"Sudan",
+  "Africa/Dar_es_Salaam":"Tanzania","Africa/Kampala":"Uganda",
+  "Africa/Lusaka":"Zambia","Africa/Harare":"Zimbabwe","Africa/Abidjan":"Ivory Coast",
+  "Africa/Dakar":"Senegal","Africa/Maputo":"Mozambique","Africa/Luanda":"Angola",
+  "Africa/Libreville":"Gabon","Africa/Kinshasa":"DR Congo","Africa/Tripoli":"Libya",
+  // Oceania
+  "Australia/Sydney":"Australia","Australia/Melbourne":"Australia",
+  "Australia/Brisbane":"Australia","Australia/Perth":"Australia",
+  "Australia/Adelaide":"Australia","Australia/Darwin":"Australia",
+  "Australia/Hobart":"Australia","Pacific/Auckland":"New Zealand",
+  "Pacific/Fiji":"Fiji","Pacific/Honolulu":"United States",
+  "Pacific/Guam":"Guam","Pacific/Port_Moresby":"Papua New Guinea",
+  // Atlantic / Other
+  "Atlantic/Reykjavik":"Iceland","Atlantic/Azores":"Portugal",
+  "Atlantic/Canary":"Spain","Atlantic/Madeira":"Portugal",
+  "Indian/Mauritius":"Mauritius","Indian/Maldives":"Maldives",
+};
 
 // ── Country code → name ───────────────────────────────────────────────────────
 const COUNTRY_CODES = {
