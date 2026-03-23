@@ -281,7 +281,7 @@ import PostProcessing from "./postprocessing-noise.js";
 
     // ── Drawing ───────────────────────────────────────────────────────────
     const fontPx = Math.floor(CELL * FONT_SCALE);
-    const CELL_FONT = `${fontPx}px "IBM Plex Mono", "Noto Sans Symbols 2", "Noto Sans Symbols", "Noto Sans Khojki", "Noto Sans Kaithi", "Noto Sans Sharada", "Noto Sans Khudawadi", "Noto Sans Grantha", "Noto Sans Mahajani", "Noto Sans Zanabazar Square", "Noto Sans Siddham", ui-monospace, monospace`;
+    const CELL_FONT = `${fontPx}px "IBM Plex Mono", "Noto Sans Symbols 2", "Noto Sans Symbols", "Noto Sans Linear A", "Noto Sans Sora Sompeng", "Noto Sans Chakma", "Noto Sans Khojki", "Noto Sans Kaithi", "Noto Sans Sharada", "Noto Sans Khudawadi", "Noto Sans Grantha", "Noto Sans Mahajani", "Noto Sans Zanabazar Square", "Noto Sans Siddham", ui-monospace, monospace`;
 
     function drawCell(i) {
         const c = i % cols, r = (i / cols) | 0;
@@ -687,7 +687,10 @@ import PostProcessing from "./postprocessing-noise.js";
     const _fPx = Math.round(CELL * FONT_SCALE);
     Promise.all([
         document.fonts.load(`${_fPx}px "Noto Sans Symbols 2"`,        "∴⍜※⸜"),
-        document.fonts.load(`${_fPx}px "Noto Sans Symbols"`,          "⟐⧖"),
+        document.fonts.load(`${_fPx}px "Noto Sans Symbols"`,          String.fromCodePoint(0x10E77) + "⟐⧖※"),
+        document.fonts.load(`${_fPx}px "Noto Sans Linear A"`,         String.fromCodePoint(0x1060A)),
+        document.fonts.load(`${_fPx}px "Noto Sans Sora Sompeng"`,     String.fromCodePoint(0x110D8)),
+        document.fonts.load(`${_fPx}px "Noto Sans Chakma"`,           String.fromCodePoint(0x11140)),
         document.fonts.load(`${_fPx}px "Noto Sans Khojki"`,           "𑈀𑈁"),
         document.fonts.load(`${_fPx}px "Noto Sans Kaithi"`,           String.fromCodePoint(0x11083)),
         document.fonts.load(`${_fPx}px "Noto Sans Sharada"`,          String.fromCodePoint(0x11183)),
