@@ -418,7 +418,12 @@ document.addEventListener("DOMContentLoaded", () => {
     function scheduleHint(mode) {
         clearTimeout(hintTimer);
         hintTimer = setTimeout(() => {
-            if (prelude.mode === mode) showPreludeInstruction(window.innerWidth <= 640 ? "Tap the code field" : "Click the code");
+            if (prelude.mode === mode) {
+                const hintText = window.innerWidth <= 640
+                    ? (window.i18n?.get('index.hintMobile') || "Tap the code field")
+                    : (window.i18n?.get('index.hintDesktop') || "Click the code");
+                showPreludeInstruction(hintText);
+            }
         }, 1000);
     }
 
@@ -712,8 +717,8 @@ document.addEventListener("DOMContentLoaded", () => {
         glCanvas.classList.add("patch-hover");
 
         const text = prelude.mode === "patch1"
-            ? "Backdoor"
-            : "Firewall";
+            ? (window.i18n?.get('index.hoverBackdoor') || "Backdoor")
+            : (window.i18n?.get('index.hoverFirewall') || "Firewall");
 
         setPreludeHover(text, px, py);
     }
@@ -868,7 +873,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 // narrow keeps the bar compact — no opacity manipulation, only clip-path
                 statusEl.className = "show narrow";
                 statusEl.innerHTML = "";
-                typeIntoElement(statusEl, "Archive unsealed", {
+                typeIntoElement(statusEl, window.i18n?.get('index.archiveUnsealed') || "Archive unsealed", {
                     speed: 40,
                     className: "show narrow",
                     holdCursor: true,
@@ -1164,11 +1169,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Show "Archive perimeter breached" ~1s after click (not waiting for shrink)
         const tText1 = setTimeout(() => {
-            setPreludeStatus("Archive perimeter breached");
+            setPreludeStatus(window.i18n?.get('index.archivePerimeterBreached') || "Archive perimeter breached");
             const tFD = setTimeout(() => {
-                setPreludeStatus("Firewall detected");
+                setPreludeStatus(window.i18n?.get('index.firewallDetected') || "Firewall detected");
                 const tIS = setTimeout(() => {
-                    setPreludeStatus("Installing spyware");
+                    setPreludeStatus(window.i18n?.get('index.installSpyware') || "Installing spyware");
                     // Patch2 spawns exactly when "Installing spyware" appears
                     const tPatch = setTimeout(() => {
                         prelude.patchIndex = 1;
@@ -1223,7 +1228,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Show "Hacking into the matrix" ~1s after click (not waiting for shrink)
         const tText2 = setTimeout(() => {
-            setPreludeStatus("Hacking into the matrix");
+            setPreludeStatus(window.i18n?.get('index.hackingIntoTheMatrix') || "Hacking into the matrix");
         }, 1000);
         prelude.transmissionTimers.push(tText2);
 
@@ -1237,11 +1242,11 @@ document.addEventListener("DOMContentLoaded", () => {
             const tA = setTimeout(() => {
                 // Show "Fatal error_" in red
                 triggerFatalDistortion();
-                setPreludeStatus("Fatal error", {
+                setPreludeStatus(window.i18n?.get('index.fatalError') || "Fatal error", {
                     red: true, onDone: () => {
                         const tPA = setTimeout(() => {
                             // "Protocol Apocalypse activated_" in red
-                            setPreludeStatus("Protocol Apocalypse activated", {
+                            setPreludeStatus(window.i18n?.get('index.protocolApocalypse') || "Protocol Apocalypse activated", {
                                 red: true, onDone: () => {
                                     // Stay 3.5s, then clear and start shield
                                     const tShield = setTimeout(() => {
@@ -1379,9 +1384,9 @@ document.addEventListener("DOMContentLoaded", () => {
     //   idleMs — how long the idle cursor flickers before text begins
     //   speed  — optional per-step typing speed (ms/char); falls back to default 55
     const INTRO_SEQUENCE = [
-        { text: "Analyzing security system", stay: 2700, idle: true, idleMs: 900, speed: 40 },
-        { text: "Backdoor identified", stay: 2000, idle: false },
-        { text: "Initiating quantum decryption", stay: 2000, idle: false, speed: 60 }
+        { text: window.i18n?.get('index.introText1') || "Analyzing security system", stay: 2700, idle: true, idleMs: 900, speed: 40 },
+        { text: window.i18n?.get('index.introText2') || "Backdoor identified", stay: 2000, idle: false },
+        { text: window.i18n?.get('index.introText3') || "Initiating quantum decryption", stay: 2000, idle: false, speed: 60 }
     ];
 
     function runIntroSequence(steps, onComplete) {
@@ -1446,8 +1451,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const BOOT_SEQUENCE = [
-        { text: "Connecting to planetary intelligence", stay: 3000 },
-        { text: "Infiltrating the grid", stay: 2000 }
+        { key: 'index.bootText1', text: window.i18n?.get('index.bootText1') || "Connecting to planetary intelligence", stay: 3000 },
+        { key: 'index.bootText2', text: window.i18n?.get('index.bootText2') || "Infiltrating the grid", stay: 2000 }
     ];
 
     function startBootSequence() {
@@ -1471,13 +1476,13 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             const step = BOOT_SEQUENCE[cursor++];
-            if (step.text === "Infiltrating the grid") {
+            if (step.key === 'index.bootText2') {
                 if (preludeStatusEl) preludeStatusEl.classList.add("narrow");
             }
             setPreludeStatus(step.text, {
                 speed: 50,
                 onDone: () => {
-                    if (step.text === "Infiltrating the grid") {
+                    if (step.key === 'index.bootText2') {
                         const tGrid = setTimeout(() => { startGridCrystallization(); }, 500);
                         prelude.transmissionTimers.push(tGrid);
                     }

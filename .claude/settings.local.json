@@ -35,7 +35,10 @@
       "Bash(git -C /Users/pesto/Desktop/website-empire show c3485f5b439ee7342ebaadfa7c244e98615dde84 --stat)",
       "Bash(git -C /Users/pesto/Desktop/website-empire show c3485f5b439ee7342ebaadfa7c244e98615dde84)",
       "Bash(grep -l \"i18n.js\" /Users/pesto/Desktop/website-empire/*.html)",
-      "Bash(grep -l i18n /Users/pesto/Desktop/website-empire/js/*.js)"
+      "Bash(grep -l i18n /Users/pesto/Desktop/website-empire/js/*.js)",
+      "Bash(grep -h \"data-i18n\" /Users/pesto/Desktop/website-empire/.claude/worktrees/stoic-jemison/*.html)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
     ]
   }
 }

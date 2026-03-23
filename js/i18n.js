@@ -101,6 +101,13 @@
     }
   }
 
+  // ── Expose a global getter for accessing translations ────────────────
+  window.i18n = {
+    get: function(key) {
+      return get(translations, key) || key;
+    }
+  };
+
   // ── Run after DOM is ready ────────────────────────────────────────
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => apply(translations));

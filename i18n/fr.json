@@ -35,7 +35,23 @@
     "instrRight": "Clic droit · Outrepasser",
     "mobileInstr1": "Appuyer · Espionner",
     "mobileInstr2": "Appui long · Réinitialiser",
-    "skip": "[ Passer ]"
+    "skip": "[ Passer ]",
+    "bootText1": "Connexion à l'intelligence planétaire",
+    "bootText2": "Infiltration de la grille",
+    "introText1": "Analyse du système de sécurité",
+    "introText2": "Porte dérobée détectée",
+    "introText3": "Initialisation du déchiffrement quantique",
+    "archivePerimeterBreached": "Périmètre d'archives violé",
+    "firewallDetected": "Détection du pare-feu",
+    "installSpyware": "Installation de l'espiologiciel",
+    "archiveUnsealed": "Archive déverrouillée",
+    "hackingIntoTheMatrix": "Piratage de la matrice",
+    "fatalError": "Erreur fatale",
+    "protocolApocalypse": "Protocole Apocalypse activé",
+    "hoverBackdoor": "Porte dérobée",
+    "hoverFirewall": "Pare-feu",
+    "hintMobile": "Touchez le champ de code",
+    "hintDesktop": "Cliquez sur le code"
   },
 
   "about": {
