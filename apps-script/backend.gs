@@ -59,16 +59,24 @@ function _handleWaitlist(email, timezone, locale) {
 
   GmailApp.sendEmail(
     email,
-    "Welcome to Empire of Clouds",
-    "Thank you for joining the Empire of Clouds waitlist.\n\n" +
-    "You will be among the first to hear about new publications and events.\n\n" +
-    "— Mete Kutlu\nEmpire of Clouds",
+    "A signal received — Empire of Clouds",
+    "EMPIRE OF CLOUDS\n" +
+    "Codes · Colors · Cosmos\n" +
+    "────────────────────────────────────\n\n" +
+    "The clouds have always been computational.\n\n" +
+    "You have joined a gathering that traces the deep history of this entanglement —\n" +
+    "from Silk Road miniature painters who encoded the cosmos in pigment,\n" +
+    "to the algorithms that render the sky in pixels today.\n\n" +
+    "Six years · Twenty-five cities · Thirteen countries\n" +
+    "Five volumes · Two thousand six hundred pages\n\n" +
+    "You will be among the first to receive news of new publications,\n" +
+    "exhibitions, and transmissions from the field.\n\n" +
+    "────────────────────────────────────\n\n" +
+    "— Mete Kutlu\n" +
+    "Empire of Clouds: Codes, Colors and Cosmos",
     {
       name:     "Empire of Clouds",
-      htmlBody:
-        "<p style='font-family:sans-serif'>Thank you for joining the <strong>Empire of Clouds</strong> waitlist.</p>" +
-        "<p style='font-family:sans-serif'>You will be among the first to hear about new publications and events along the Silk Road.</p>" +
-        "<br><p style='font-family:sans-serif'>— Mete Kutlu<br><em>Empire of Clouds</em></p>",
+      htmlBody: _waitlistEmailHtml(),
     }
   );
 }
@@ -91,17 +99,105 @@ function _handleContact(name, email, message, timezone, locale) {
   GmailApp.sendEmail(
     email,
     "Message received — Empire of Clouds",
+    "EMPIRE OF CLOUDS\n" +
+    "Codes · Colors · Cosmos\n" +
+    "────────────────────────────────────\n\n" +
     "Hello " + (name || "") + ",\n\n" +
     "Your message has been received. We will be in touch soon.\n\n" +
-    "— Mete Kutlu\nEmpire of Clouds",
+    "────────────────────────────────────\n\n" +
+    "— Mete Kutlu\n" +
+    "Empire of Clouds: Codes, Colors and Cosmos",
     {
       name:     "Empire of Clouds",
-      htmlBody:
-        "<p style='font-family:sans-serif'>Hello " + (name || "") + ",</p>" +
-        "<p style='font-family:sans-serif'>Your message has been received. We will be in touch soon.</p>" +
-        "<br><p style='font-family:sans-serif'>— Mete Kutlu<br><em>Empire of Clouds</em></p>",
+      htmlBody: _contactReplyHtml(name),
     }
   );
+}
+
+// ── Email HTML builders ───────────────────────────────────────────────────────
+
+function _emailShell(bodyRows) {
+  return (
+    '<!DOCTYPE html><html><head><meta charset="UTF-8">' +
+    '<meta name="viewport" content="width=device-width,initial-scale=1.0"></head>' +
+    '<body style="margin:0;padding:0;background-color:#000000;">' +
+    '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" ' +
+    'style="background-color:#000000;">' +
+    '<tr><td align="center" style="padding:56px 24px;">' +
+    '<table role="presentation" cellpadding="0" cellspacing="0" ' +
+    'style="max-width:560px;width:100%;">' +
+
+    // ── Header ──
+    '<tr><td style="padding-bottom:36px;border-bottom:1px solid #1e1e1e;">' +
+    '<p style="margin:0;font-family:\'Courier New\',Courier,monospace;font-size:11px;' +
+    'letter-spacing:3px;color:#777777;text-transform:uppercase;">Empire of Clouds</p>' +
+    '<p style="margin:6px 0 0 0;font-family:\'Courier New\',Courier,monospace;font-size:9px;' +
+    'letter-spacing:2px;color:#444444;text-transform:uppercase;">Codes &nbsp;·&nbsp; Colors &nbsp;·&nbsp; Cosmos</p>' +
+    '</td></tr>' +
+
+    // ── Body rows passed in ──
+    bodyRows +
+
+    // ── Divider ──
+    '<tr><td style="border-top:1px solid #1e1e1e;padding-bottom:28px;"></td></tr>' +
+
+    // ── Signature ──
+    '<tr><td>' +
+    '<p style="margin:0;font-family:\'Courier New\',Courier,monospace;font-size:13px;color:#dddddd;">' +
+    '&#8212; Mete Kutlu</p>' +
+    '<p style="margin:6px 0 0 0;font-family:\'Courier New\',Courier,monospace;font-size:9px;' +
+    'letter-spacing:1px;color:#444444;text-transform:uppercase;">Empire of Clouds</p>' +
+    '</td></tr>' +
+
+    '</table></td></tr></table></body></html>'
+  );
+}
+
+function _waitlistEmailHtml() {
+  var body =
+    '<tr><td style="padding:48px 0 44px 0;">' +
+
+    '<p style="margin:0 0 28px 0;font-family:Georgia,\'Times New Roman\',serif;' +
+    'font-size:22px;line-height:1.5;color:#f0f0f0;font-style:italic;font-weight:normal;">' +
+    'The clouds have always been computational.</p>' +
+
+    '<p style="margin:0 0 22px 0;font-family:Georgia,\'Times New Roman\',serif;' +
+    'font-size:15px;line-height:1.9;color:#bbbbbb;">' +
+    'You have joined a gathering that traces the deep history of this entanglement ' +
+    '&#8212; from Silk Road miniature painters who encoded the cosmos in pigment, ' +
+    'to the algorithms that render the sky in pixels today.</p>' +
+
+    '<p style="margin:0 0 24px 0;font-family:\'Courier New\',Courier,monospace;' +
+    'font-size:11px;line-height:2.4;color:#555555;">' +
+    'Six years &nbsp;·&nbsp; Twenty-five cities &nbsp;·&nbsp; Thirteen countries<br>' +
+    'Five volumes &nbsp;·&nbsp; Two thousand six hundred pages</p>' +
+
+    '<p style="margin:0;font-family:Georgia,\'Times New Roman\',serif;' +
+    'font-size:15px;line-height:1.9;color:#bbbbbb;">' +
+    'You will be among the first to receive news of new publications, ' +
+    'exhibitions, and transmissions from the field.</p>' +
+
+    '</td></tr>';
+
+  return _emailShell(body);
+}
+
+function _contactReplyHtml(name) {
+  var greeting = name ? ('Hello ' + name + ',') : 'Hello,';
+
+  var body =
+    '<tr><td style="padding:48px 0 44px 0;">' +
+
+    '<p style="margin:0 0 22px 0;font-family:Georgia,\'Times New Roman\',serif;' +
+    'font-size:15px;line-height:1.9;color:#bbbbbb;">' + greeting + '</p>' +
+
+    '<p style="margin:0;font-family:Georgia,\'Times New Roman\',serif;' +
+    'font-size:15px;line-height:1.9;color:#bbbbbb;">' +
+    'Your message has been received. We will be in touch soon.</p>' +
+
+    '</td></tr>';
+
+  return _emailShell(body);
 }
 
 // ── Formatting helpers ────────────────────────────────────────────────────────
