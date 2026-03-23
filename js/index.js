@@ -1380,9 +1380,9 @@ document.addEventListener("DOMContentLoaded", () => {
     //   idleMs — how long the idle cursor flickers before text begins
     //   speed  — optional per-step typing speed (ms/char); falls back to default 55
     const INTRO_SEQUENCE = [
-        { text: window.i18n?.get('index.introText1') || "Analyzing security system", stay: 2700, idle: true, idleMs: 900, speed: 40 },
-        { text: window.i18n?.get('index.introText2') || "Backdoor identified", stay: 2000, idle: false },
-        { text: window.i18n?.get('index.introText3') || "Initiating quantum decryption", stay: 2000, idle: false, speed: 60 }
+        { get text() { return window.i18n?.get('index.introText1') || "Analyzing security system"; }, stay: 2700, idle: true, idleMs: 900, speed: 40 },
+        { get text() { return window.i18n?.get('index.introText2') || "Backdoor identified"; }, stay: 2000, idle: false },
+        { get text() { return window.i18n?.get('index.introText3') || "Initiating quantum decryption"; }, stay: 2000, idle: false, speed: 60 }
     ];
 
     function runIntroSequence(steps, onComplete) {
@@ -1447,8 +1447,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const BOOT_SEQUENCE = [
-        { key: 'index.bootText1', text: window.i18n?.get('index.bootText1') || "Connecting to planetary intelligence", stay: 3000 },
-        { key: 'index.bootText2', text: window.i18n?.get('index.bootText2') || "Infiltrating the grid", stay: 2000 }
+        { key: 'index.bootText1', get text() { return window.i18n?.get('index.bootText1') || "Connecting to planetary intelligence"; }, stay: 3000 },
+        { key: 'index.bootText2', get text() { return window.i18n?.get('index.bootText2') || "Infiltrating the grid"; }, stay: 2000 }
     ];
 
     function startBootSequence() {
