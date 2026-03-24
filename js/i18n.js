@@ -11,9 +11,20 @@
   const DEFAULT = 'en';
   let translations = null;
   let currentLang = DEFAULT;
-  const scriptUrl = document.currentScript && document.currentScript.src
-    ? document.currentScript.src
-    : window.location.href;
+  function resolveScriptUrl() {
+    if (document.currentScript && document.currentScript.src) {
+      return document.currentScript.src;
+    }
+
+    const scriptEl = Array.from(document.scripts || []).find((el) =>
+      typeof el.src === 'string' && /\/js\/i18n\.js(?:[?#].*)?$/.test(el.src)
+    );
+    if (scriptEl && scriptEl.src) return scriptEl.src;
+
+    return new URL('./js/i18n.js', document.baseURI).toString();
+  }
+
+  const scriptUrl = resolveScriptUrl();
 
   function translationUrl(lang) {
     return new URL(`../i18n/${lang}.json`, scriptUrl).toString();
