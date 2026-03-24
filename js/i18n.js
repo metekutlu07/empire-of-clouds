@@ -9,6 +9,7 @@
 (function () {
   const SUPPORTED = ['en', 'fr', 'tr', 'zh', 'ja'];
   const DEFAULT = 'en';
+  const ASSET_VERSION = '20260324b';
   let translations = null;
   let currentLang = DEFAULT;
   function resolveScriptUrl() {
@@ -27,7 +28,9 @@
   const scriptUrl = resolveScriptUrl();
 
   function translationUrl(lang) {
-    return new URL(`../i18n/${lang}.json`, scriptUrl).toString();
+    const url = new URL(`../i18n/${lang}.json`, scriptUrl);
+    url.searchParams.set('v', ASSET_VERSION);
+    return url.toString();
   }
 
   function storedLang() {
