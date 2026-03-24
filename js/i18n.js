@@ -11,9 +11,12 @@
   const DEFAULT = 'en';
   let translations = null;
   let currentLang = DEFAULT;
+  const scriptUrl = document.currentScript && document.currentScript.src
+    ? document.currentScript.src
+    : window.location.href;
 
   function translationUrl(lang) {
-    return new URL(`i18n/${lang}.json`, window.location.href).toString();
+    return new URL(`../i18n/${lang}.json`, scriptUrl).toString();
   }
 
   function storedLang() {
