@@ -2831,24 +2831,19 @@ document.addEventListener("DOMContentLoaded", () => {
             confirmBtn.dataset.i18nDefault = "ENTER";
         }
 
-        function applyLang(lang) {
-            const fallback = {
-                en: { language: "LANGUAGE", sound: "SOUND", enter: "ENTER" },
-                fr: { language: "LANGUE", sound: "SON", enter: "ENTRER" },
-                tr: { language: "DIL", sound: "SES", enter: "GIRIS" },
-                zh: { language: "语言", sound: "声音", enter: "进入" },
-                ja: { language: "言語", sound: "サウンド", enter: "入る" },
-            }[lang] || { language: "LANGUAGE", sound: "SOUND", enter: "ENTER" };
+        const UI_STRINGS = {
+            en: { language: "LANGUAGE", sound: "SOUND", enter: "ENTER" },
+            fr: { language: "LANGUE", sound: "SON", enter: "ENTRER" },
+            tr: { language: "DİL", sound: "SES", enter: "BAŞLA" },
+            zh: { language: "语言", sound: "声音", enter: "进入" },
+            ja: { language: "言語", sound: "サウンド", enter: "入る" },
+        };
 
-            if (entryLabels[0]) {
-                entryLabels[0].textContent = window.i18n?.get?.("index.langLabel") || fallback.language;
-            }
-            if (entryLabels[1]) {
-                entryLabels[1].textContent = window.i18n?.get?.("index.soundLabel") || fallback.sound;
-            }
-            if (confirmBtn) {
-                confirmBtn.textContent = window.i18n?.get?.("index.enter") || fallback.enter;
-            }
+        function applyLang(lang) {
+            const s = UI_STRINGS[lang] || UI_STRINGS.en;
+            if (entryLabels[0]) entryLabels[0].textContent = s.language;
+            if (entryLabels[1]) entryLabels[1].textContent = s.sound;
+            if (confirmBtn) confirmBtn.textContent = s.enter;
         }
 
         function getStoredLang() {
@@ -2873,13 +2868,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 selectedLang = btn.dataset.lang;
                 updateSelectedLangUI(selectedLang);
                 await window.i18n?.load?.(selectedLang);
-                applyLang(selectedLang);
             });
-        });
-
-        window.addEventListener("i18n:updated", (event) => {
-            const lang = event?.detail?.lang || selectedLang;
-            if (lang === selectedLang) applyLang(lang);
         });
 
         // Sound toggle
@@ -2917,7 +2906,6 @@ document.addEventListener("DOMContentLoaded", () => {
             setTimeout(async () => {
                 if (entryScreen) entryScreen.style.display = "none";
                 await window.i18nReady;
-                applyLang(selectedLang);
                 startBootSequence();
             }, 520);
         }
