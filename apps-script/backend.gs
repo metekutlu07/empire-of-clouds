@@ -68,7 +68,7 @@ function _handleWaitlist(email, place, timezone, locale) {
     "then data,\n" +
     "and now artificial life.\n\n" +
     "From pigment to pixel,\n" +
-    "from sophia to data\n" +
+    "from *sophia* to data\n" +
     "from constellations to circuits,\n" +
     "the atmosphere has always been the raw material of our dreams.\n\n" +
     "You will receive future updates about the research, forthcoming publications, and related events.\n\n" +
@@ -129,37 +129,62 @@ function _emailShell(bodyRows) {
     '<body style="margin:0;padding:0;background-color:#000000;">' +
     '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" ' +
     'style="background-color:#000000;">' +
-    '<tr><td align="center" style="padding:56px 24px;">' +
+    '<tr><td align="center" style="padding:32px 18px;">' +
     '<table role="presentation" cellpadding="0" cellspacing="0" ' +
-    'style="max-width:560px;width:100%;">' +
+    'style="max-width:620px;width:100%;">' +
+
+    '<tr><td style="border:1px solid #202020;background-color:#040404;box-shadow:0 0 0 1px #090909 inset;">' +
+    '<table role="presentation" width="100%" cellpadding="0" cellspacing="0">' +
+
+    '<tr><td style="padding:14px 22px 12px 22px;border-bottom:1px solid #161616;">' +
+    '<table role="presentation" width="100%" cellpadding="0" cellspacing="0">' +
+    '<tr>' +
+    '<td style="font-family:\'Courier New\',Courier,monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#6effb0;">Transmission received</td>' +
+    '<td align="right" style="font-family:\'Courier New\',Courier,monospace;font-size:13px;letter-spacing:4px;color:#ff88cf;">⊹ ⟡ ≋ ⌁</td>' +
+    '</tr>' +
+    '</table>' +
+    '</td></tr>' +
 
     // ── Body rows passed in ──
     bodyRows +
 
     // ── Divider ──
-    '<tr><td style="border-top:1px solid #1e1e1e;padding-bottom:28px;"></td></tr>' +
+    '<tr><td style="padding:0 22px 24px 22px;">' +
+    '<table role="presentation" width="100%" cellpadding="0" cellspacing="0">' +
+    '<tr><td style="height:1px;background-color:#2a2a2a;"></td></tr>' +
+    '</table>' +
+    '</td></tr>' +
 
     // ── Signature ──
-    '<tr><td>' +
-    '<p style="margin:0;font-family:\'Courier New\',Courier,monospace;font-size:13px;color:#dddddd;">' +
+    '<tr><td style="padding:0 22px;">' +
+    '<p style="margin:0;font-family:\'Courier New\',Courier,monospace;font-size:18px;letter-spacing:1px;color:#f1f1f1;">' +
     'Mete Kutlu</p>' +
-    '<p style="margin:6px 0 0 0;font-family:\'Courier New\',Courier,monospace;font-size:9px;' +
-    'letter-spacing:1px;color:#555555;">Creative technologist &nbsp;·&nbsp; artist &nbsp;·&nbsp; architect</p>' +
-    '<p style="margin:4px 0 0 0;font-family:\'Courier New\',Courier,monospace;font-size:9px;' +
-    'letter-spacing:1px;color:#444444;">Associate researcher, IPRAUS</p>' +
-    '<p style="margin:4px 0 0 0;font-family:\'Courier New\',Courier,monospace;font-size:9px;' +
-    'letter-spacing:1px;color:#444444;">Lecturer, ENSA Paris-Belleville</p>' +
+    '<p style="margin:10px 0 0 0;font-family:\'Courier New\',Courier,monospace;font-size:12px;' +
+    'line-height:1.8;letter-spacing:1px;color:#8b8b8b;">Creative technologist &nbsp;<span style="color:#ff88cf;">·</span>&nbsp; artist &nbsp;<span style="color:#6effb0;">·</span>&nbsp; architect</p>' +
+    '<p style="margin:6px 0 0 0;font-family:\'Courier New\',Courier,monospace;font-size:12px;' +
+    'line-height:1.7;letter-spacing:1px;color:#767676;">Associate researcher, IPRAUS</p>' +
+    '<p style="margin:4px 0 0 0;font-family:\'Courier New\',Courier,monospace;font-size:12px;' +
+    'line-height:1.7;letter-spacing:1px;color:#767676;">Lecturer, ENSA Paris-Belleville</p>' +
     '</td></tr>' +
 
     // ── Brand footer ──
-    '<tr><td style="padding-top:28px;">' +
-    '<p style="margin:0;font-family:\'Courier New\',Courier,monospace;font-size:11px;' +
-    'letter-spacing:3px;color:#777777;text-transform:uppercase;">Empire of Clouds</p>' +
-    '<p style="margin:6px 0 0 0;font-family:\'Courier New\',Courier,monospace;font-size:9px;' +
-    'letter-spacing:2px;color:#444444;text-transform:uppercase;">Codes &nbsp;·&nbsp; Colors &nbsp;·&nbsp; Cosmos</p>' +
-    '<p style="margin:6px 0 0 0;font-family:\'Courier New\',Courier,monospace;font-size:9px;' +
-    'letter-spacing:1px;color:#333333;">www.empireofclouds.com</p>' +
+    '<tr><td style="padding:28px 22px 24px 22px;">' +
+    '<p style="margin:0;font-family:\'Courier New\',Courier,monospace;font-size:14px;' +
+    'letter-spacing:4px;color:#f3f3f3;text-transform:uppercase;">Empire of Clouds</p>' +
+    '<p style="margin:8px 0 0 0;font-family:\'Courier New\',Courier,monospace;font-size:11px;' +
+    'letter-spacing:2px;color:#ff88cf;text-transform:uppercase;">Codes &nbsp;<span style="color:#6effb0;">·</span>&nbsp; Colors &nbsp;<span style="color:#6effb0;">·</span>&nbsp; Cosmos</p>' +
+    '<p style="margin:10px 0 0 0;font-family:\'Courier New\',Courier,monospace;font-size:11px;' +
+    'letter-spacing:1px;"><a href="https://www.empireofclouds.com" style="color:#6effb0;text-decoration:underline;">www.empireofclouds.com</a></p>' +
     '</td></tr>' +
+
+    '<tr><td style="height:3px;background-color:#0b0b0b;border-top:1px solid #141414;">' +
+    '<table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>' +
+    '<td style="width:50%;height:3px;background-color:#ff88cf;"></td>' +
+    '<td style="width:50%;height:3px;background-color:#6effb0;"></td>' +
+    '</tr></table>' +
+    '</td></tr>' +
+
+    '</table></td></tr>' +
 
     '</table></td></tr></table></body></html>'
   );
@@ -167,14 +192,20 @@ function _emailShell(bodyRows) {
 
 function _waitlistEmailHtml() {
   var body =
-    '<tr><td style="padding:48px 0 44px 0;">' +
+    '<tr><td style="padding:28px 22px 20px 22px;">' +
+
+    '<p style="margin:0 0 8px 0;font-family:\'Courier New\',Courier,monospace;font-size:12px;' +
+    'letter-spacing:2px;text-transform:uppercase;color:#ff88cf;">Archive channel open</p>' +
 
     '<p style="margin:0 0 32px 0;font-family:Georgia,\'Times New Roman\',serif;' +
-    'font-size:20px;line-height:1.5;color:#f0f0f0;font-style:italic;font-weight:normal;">' +
+    'font-size:31px;line-height:1.32;color:#f4f4f4;font-style:italic;font-weight:normal;">' +
     'You have entered the spiral.</p>' +
 
+    '<p style="margin:0 0 24px 0;font-family:\'Courier New\',Courier,monospace;font-size:11px;' +
+    'letter-spacing:2px;text-transform:uppercase;color:#6effb0;">Continue transmission below</p>' +
+
     '<p style="margin:0 0 28px 0;font-family:Georgia,\'Times New Roman\',serif;' +
-    'font-size:15px;line-height:2.2;color:#bbbbbb;">' +
+    'font-size:18px;line-height:2.0;color:#cdcdcd;">' +
     'Clouds once carried gods,<br>' +
     'then painters,<br>' +
     'then signals,<br>' +
@@ -182,14 +213,14 @@ function _waitlistEmailHtml() {
     'and now artificial life.</p>' +
 
     '<p style="margin:0 0 28px 0;font-family:Georgia,\'Times New Roman\',serif;' +
-    'font-size:15px;line-height:2.2;color:#bbbbbb;">' +
+    'font-size:18px;line-height:2.0;color:#cdcdcd;">' +
     'From pigment to pixel,<br>' +
-    'from sophia to data<br>' +
+    'from <em style="color:#ffb2dc;">sophia</em> to data,<br>' +
     'from constellations to circuits,<br>' +
     'the atmosphere has always been the raw material of our dreams.</p>' +
 
     '<p style="margin:0;font-family:Georgia,\'Times New Roman\',serif;' +
-    'font-size:15px;line-height:1.9;color:#bbbbbb;">' +
+    'font-size:17px;line-height:1.9;color:#d6d6d6;">' +
     'You will receive future updates about the research, forthcoming publications, and related events.</p>' +
 
     '</td></tr>';

@@ -1022,7 +1022,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // ─────────────────────────────────────────────────────────────────────────────
 
 document.addEventListener("DOMContentLoaded", () => {
-    const ENDPOINT = "https://script.google.com/macros/s/AKfycbyDsD7VRchxtzGtm8YOaEcrg5o4QfH9RMC9u6TS2UtNeMknmB4a1sewVrMPYbMwM6np/exec";
+    const ENDPOINT = "https://script.google.com/macros/s/AKfycbzZENr79PQDoc9Gk89Hn3yQ_BPMlCvXafi_TGPbynWhEizxU1lx_bsD2nwdMVTNx-RA/exec";
 
     // ── IP geolocation (city-level, no permission needed) ──────────────────
     let detectedPlace = "";
