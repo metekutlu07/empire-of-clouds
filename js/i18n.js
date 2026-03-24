@@ -12,6 +12,10 @@
   let translations = null;
   let currentLang = DEFAULT;
 
+  function translationUrl(lang) {
+    return new URL(`i18n/${lang}.json`, window.location.href).toString();
+  }
+
   function storedLang() {
     const s = localStorage.getItem('lang');
     return SUPPORTED.includes(s) ? s : DEFAULT;
@@ -96,7 +100,7 @@
 
     if (currentLang !== DEFAULT) {
       try {
-        const res = await fetch(`/i18n/${currentLang}.json`, { cache: 'no-cache' });
+        const res = await fetch(translationUrl(currentLang), { cache: 'no-cache' });
         if (res.ok) {
           translations = await res.json();
         } else {
