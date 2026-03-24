@@ -470,6 +470,12 @@
     "messagePlaceholder": "メッセージ",
     "send": "送信",
     "contactBtn": "著者に連絡する",
-    "backBtn": "ウェイトリストへ戻る"
+    "backBtn": "ウェイトリストへ戻る",
+    "signupSuccessTitle": "リストに登録されました",
+    "signupSuccessSentPrefix": "確認メールを次の宛先に送信しました",
+    "signupSuccessOutro": "近日中にこちらからご連絡します。",
+    "contactSuccessTitle": "メッセージを送信しました",
+    "contactSuccessThanksPrefix": "ありがとうございます、",
+    "contactSuccessBodyPrefix": "メッセージを受信し、確認メールを次の宛先に送信しました"
   }
 }

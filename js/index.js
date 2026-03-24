@@ -1,4 +1,4 @@
-// No WebGL postprocessing — noise is a simple 2D canvas overlay.
+import PostProcessing from "./postprocessing-noise.js";
 
 // ============================================================
 // reveal-and-overlay  (intro wipe + reveal observer)
@@ -54,40 +54,27 @@ document.addEventListener("DOMContentLoaded", () => {
     const canvas = document.getElementById("c");
     const ctx = canvas.getContext("2d", { alpha: false });
 
-    // ---------- 2D output canvas + noise overlay ----------
+    // ---------- WebGL output + NoisePass (postprocessing) ----------
     const glCanvas = document.getElementById("gl");
-    const glCtx   = glCanvas.getContext("2d");
-    const host     = document.getElementById("glyphHero");
+    const host = document.getElementById("glyphHero");
     let hostW = 1, hostH = 1;
-
-    // Noise: pre-generate 10 frames of random pixel data (CSS-pixel resolution),
-    // store as offscreen canvases, cycle through at ~25 fps inside the 60fps loop.
-    let noiseFrames   = [];
-    let noiseFrameIdx = 0;
-    let noiseTickCount = 0;
-    const NOISE_FRAMES     = 10;
-    const NOISE_FPS_EVERY  = 2; // advance noise frame every N animation frames ≈ 25fps at 60fps
-
-    function buildNoiseFrames(w, h) {
-        noiseFrames = [];
-        for (let f = 0; f < NOISE_FRAMES; f++) {
-            const nc   = document.createElement("canvas");
-            nc.width   = w;
-            nc.height  = h;
-            const nCtx = nc.getContext("2d");
-            const idata = nCtx.createImageData(w, h);
-            const buf   = new Uint32Array(idata.data.buffer);
-            for (let i = 0; i < buf.length; i++) {
-                if      (Math.random() < 0.05) buf[i] = 0x080000ff; // red,   alpha 8
-                else if (Math.random() < 0.10) buf[i] = 0x0800ff00; // green, alpha 8
-                else if (Math.random() < 0.15) buf[i] = 0x08ff0000; // blue,  alpha 8
-                else if (Math.random() < 0.20) buf[i] = 0xccdddddd; // gray,  alpha 204
-            }
-            nCtx.putImageData(idata, 0, 0);
-            noiseFrames.push(nc);
-        }
-        noiseFrameIdx  = 0;
-        noiseTickCount = 0;
+    let post;
+    try {
+        post = new PostProcessing(glCanvas, { enabled: true, strength: 0.15 });
+    } catch (e) {
+        console.error(e);
+        const box = document.createElement("div");
+        box.style.position = "fixed";
+        box.style.inset = "16px";
+        box.style.zIndex = "9999";
+        box.style.padding = "12px 14px";
+        box.style.border = "1px solid rgba(255,255,255,0.25)";
+        box.style.borderRadius = "12px";
+        box.style.background = "rgba(0,0,0,0.75)";
+        box.style.color = "#fff";
+        box.style.font = "12px/1.35 ui-monospace, Menlo, Monaco, Consolas, monospace";
+        box.textContent = "PostProcessing init failed: " + (e && e.message ? e.message : String(e));
+        document.body.appendChild(box);
     }
 
 
@@ -678,8 +665,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const displayH = Math.max(1, glCanvas.clientHeight || hostH || window.innerHeight);
 
         const c = clamp(Math.floor((px / displayW) * cols), 0, Math.max(0, cols - 1));
-        // 2D canvas drawImage preserves natural Y (top=0), no flip needed.
-        const r = clamp(Math.floor((py / displayH) * rows), 0, Math.max(0, rows - 1));
+        // WebGL output uses a flipped UV space, so pointer Y must be mirrored
+        // to land on the visible glyph row under the cursor.
+        const r = clamp(Math.floor(((1 - py / displayH)) * rows), 0, Math.max(0, rows - 1));
 
         return { c, r };
     }
@@ -792,34 +780,6 @@ document.addEventListener("DOMContentLoaded", () => {
         _mainUITimers.forEach(clearTimeout);
         _mainUITimers = [];
     };
-
-    function createSceneVeil({ fadeDelay = 0, fadeDuration = 900 } = {}) {
-        const veil = document.createElement("div");
-        Object.assign(veil.style, {
-            position: "fixed",
-            inset: "0",
-            zIndex: "9999",
-            background: "#000",
-            opacity: "1",
-            pointerEvents: "none",
-            transition: `opacity ${fadeDuration}ms ease`
-        });
-        document.body.appendChild(veil);
-
-        const fade = () => {
-            requestAnimationFrame(() => {
-                requestAnimationFrame(() => {
-                    veil.style.opacity = "0";
-                });
-            });
-            setTimeout(() => veil.remove(), fadeDuration + 120);
-        };
-
-        if (fadeDelay > 0) setTimeout(fade, fadeDelay);
-        else fade();
-
-        return veil;
-    }
 
     function showMainUI() {
         // Cancel any pending show-timers from a previous call so we never have
@@ -1537,7 +1497,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const rect = glCanvas.getBoundingClientRect();
 
             const mx = clamp((e.clientX - rect.left) / rect.width, 0, 1);
-            const my = clamp((e.clientY - rect.top) / rect.height, 0, 1);
+            const my = 1 - clamp((e.clientY - rect.top) / rect.height, 0, 1);
 
             const cx = Math.floor(mx * cols);
             const cy = Math.floor(my * rows);
@@ -1742,7 +1702,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         const mx = clamp((clientX - rect.left) / rect.width, 0, 0.999999);
-        const my = clamp((clientY - rect.top) / rect.height, 0, 1);
+        const my = 1 - clamp((clientY - rect.top) / rect.height, 0, 1);
         const cellX = Math.floor(mx * cols);
         const cellY = Math.floor(my * rows);
 
@@ -1800,7 +1760,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         const mx = clamp((clientX - rect.left) / rect.width, 0, 1);
-        const my = clamp((clientY - rect.top) / rect.height, 0, 1);
+        const my = 1 - clamp((clientY - rect.top) / rect.height, 0, 1);
         const cx = Math.floor(mx * cols);
         const cy = Math.floor(my * rows);
 
@@ -2297,13 +2257,7 @@ document.addEventListener("DOMContentLoaded", () => {
         hostW = Math.max(1, (host && host.clientWidth) ? host.clientWidth : window.innerWidth);
         hostH = Math.max(1, window.innerHeight);
         dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
-        // Size the visible output canvas at device resolution, same as glyph source
-        glCanvas.width        = Math.floor(hostW * dpr);
-        glCanvas.height       = Math.floor(hostH * dpr);
-        glCanvas.style.width  = hostW + "px";
-        glCanvas.style.height = hostH + "px";
-        // Rebuild noise frames at CSS-pixel resolution (upscaled to glCanvas by drawImage)
-        buildNoiseFrames(Math.floor(hostW), Math.floor(hostH));
+        if (post) post.setSize(hostW, hostH, dpr);
         canvas.width = Math.floor(hostW * dpr);
         canvas.height = Math.floor(hostH * dpr);
 
@@ -2741,18 +2695,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         applyLiquidWarp(now);
 
-        // Composite: copy glyph canvas → visible canvas, then overlay noise frame
-        glCtx.drawImage(canvas, 0, 0, glCanvas.width, glCanvas.height);
-        noiseTickCount++;
-        if (noiseTickCount >= NOISE_FPS_EVERY) {
-            noiseTickCount = 0;
-            noiseFrameIdx  = (noiseFrameIdx + 1) % NOISE_FRAMES;
-        }
-        if (noiseFrames.length) {
-            glCtx.globalAlpha = 0.25; // overall noise intensity — tune this one value (0=none, 1=full)
-            glCtx.drawImage(noiseFrames[noiseFrameIdx], 0, 0, glCanvas.width, glCanvas.height);
-            glCtx.globalAlpha = 1.0;
-        }
+        if (post) post.render(canvas, now);
         rafId = requestAnimationFrame(frame);
     }
 
@@ -2988,8 +2931,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function skipToFinalScene() {
         if (skipBtn) skipBtn.classList.add("hidden");
-
-        createSceneVeil({ fadeDelay: 800, fadeDuration: 1100 });
 
         // Kill all pending timers from the prelude sequence
         clearPreludeTimers();

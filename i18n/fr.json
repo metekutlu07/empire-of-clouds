@@ -404,11 +404,24 @@
   },
   "waitlist": {
     "pageTitle": "Waitlist · Empire des nuages",
-    "title": "Entrer dans le vortex",
-    "subtitle": "Recevoir des nouvelles sur la recherche,\n          les publications et les événements",
-    "emailPlaceholder": "Votre email",
-    "button": "Je suis intéressé",
-    "success": "Vous êtes entré dans la spirale.\n          Vous recevrez des informations\n          sur la recherche, les publications\n          et les événements à venir.",
-    "footer": "Empire des nuages\nCodes · couleurs · cosmos"
+    "title": "Rejoindre la liste d’attente",
+    "desc": "Faites partie du voyage et recevez des nouvelles des publications.",
+    "emailPlaceholder": "Votre adresse e-mail",
+    "submit": "Envoyer",
+    "mobileContact": "Contacter l’auteur : <a href=\"mailto:metekutlu@gmail.com\">metekutlu@gmail.com</a>",
+    "contactTitle": "Contact",
+    "contactIntro": "Pour les collaborations institutionnelles, les expositions,<br>les conférences ou les demandes de presse, vous pouvez écrire ci-dessous.",
+    "namePlaceholder": "Nom",
+    "emailContactPlaceholder": "E-mail",
+    "messagePlaceholder": "Message",
+    "send": "Envoyer",
+    "contactBtn": "Contacter l’auteur",
+    "backBtn": "Retour à la liste d’attente",
+    "signupSuccessTitle": "Vous êtes sur la liste",
+    "signupSuccessSentPrefix": "Une confirmation a été envoyée à",
+    "signupSuccessOutro": "Vous aurez bientôt de nos nouvelles.",
+    "contactSuccessTitle": "Message envoyé",
+    "contactSuccessThanksPrefix": "Merci,",
+    "contactSuccessBodyPrefix": "Votre message a bien été reçu et une confirmation a été envoyée à"
   }
 }

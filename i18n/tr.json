@@ -470,6 +470,12 @@
     "messagePlaceholder": "Mesaj",
     "send": "Gönder",
     "contactBtn": "Yazarla İletişime Geç",
-    "backBtn": "Bekleme Listesine Dön"
+    "backBtn": "Bekleme Listesine Dön",
+    "signupSuccessTitle": "Listedesiniz",
+    "signupSuccessSentPrefix": "Bir onay e-postası şu adrese gönderildi:",
+    "signupSuccessOutro": "Yakında sizden haber vereceğiz.",
+    "contactSuccessTitle": "Mesaj Gönderildi",
+    "contactSuccessThanksPrefix": "Teşekkürler,",
+    "contactSuccessBodyPrefix": "Mesajınız alındı ve şu adrese bir onay gönderildi:"
   }
 }

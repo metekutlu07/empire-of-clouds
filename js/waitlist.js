@@ -1022,7 +1022,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // ─────────────────────────────────────────────────────────────────────────────
 
 document.addEventListener("DOMContentLoaded", () => {
-    const ENDPOINT = "https://script.google.com/macros/s/AKfycbzZENr79PQDoc9Gk89Hn3yQ_BPMlCvXafi_TGPbynWhEizxU1lx_bsD2nwdMVTNx-RA/exec";
+    const ENDPOINT = "https://script.google.com/macros/s/AKfycbxaml5dPNek_Ney4gDFKsA9U_6aBRWPnHfM0gw0EKgAZGpl6byiI2Iwo0XdA6EDTG7F/exec";
 
     // ── IP geolocation (city-level, no permission needed) ──────────────────
     let detectedPlace = "";
@@ -1041,6 +1041,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // ── Waitlist form ──────────────────────────────────────────────────────
     const waitlistForm  = document.getElementById("waitlistForm");
     const waitlistInput = document.getElementById("waitlistEmail");
+    const t = (key, fallback) => window.i18n?.get(key) || fallback;
 
     waitlistForm?.addEventListener("submit", async (e) => {
         e.preventDefault();
@@ -1056,6 +1057,7 @@ document.addEventListener("DOMContentLoaded", () => {
             email,
             place:    detectedPlace,
             timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+            lang:     window.i18n?.current?.() || localStorage.getItem("lang") || "en",
             locale:   navigator.language || "",
         });
 
@@ -1064,9 +1066,9 @@ document.addEventListener("DOMContentLoaded", () => {
         } catch (_) { /* response is opaque — data still reaches Apps Script */ }
 
         waitlistForm.closest(".waitlistBox").innerHTML = `
-            <h2>You're on the list</h2>
-            <p>A confirmation has been sent to <strong>${email}</strong>.<br>
-            You'll hear from us soon.</p>
+            <h2>${t("waitlist.signupSuccessTitle", "You're on the list")}</h2>
+            <p>${t("waitlist.signupSuccessSentPrefix", "A confirmation has been sent to")} <strong>${email}</strong>.<br>
+            ${t("waitlist.signupSuccessOutro", "You'll hear from us soon.")}</p>
         `;
     });
 
@@ -1099,9 +1101,9 @@ document.addEventListener("DOMContentLoaded", () => {
         } catch (_) { /* response is opaque — data still reaches Apps Script */ }
 
         contactForm.closest(".contactBox").innerHTML = `
-            <h2>Message Sent</h2>
-            <p>Thank you, ${name}.<br>Your message has been received and a confirmation
-            has been sent to <strong>${email}</strong>.</p>
+            <h2>${t("waitlist.contactSuccessTitle", "Message Sent")}</h2>
+            <p>${t("waitlist.contactSuccessThanksPrefix", "Thank you,")} ${name}.<br>
+            ${t("waitlist.contactSuccessBodyPrefix", "Your message has been received and a confirmation has been sent to")} <strong>${email}</strong>.</p>
         `;
     });
 });

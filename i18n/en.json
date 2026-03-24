@@ -470,6 +470,12 @@
     "messagePlaceholder": "Message",
     "send": "Send",
     "contactBtn": "Contact the Author",
-    "backBtn": "Back to Waitlist"
+    "backBtn": "Back to Waitlist",
+    "signupSuccessTitle": "You're on the list",
+    "signupSuccessSentPrefix": "A confirmation has been sent to",
+    "signupSuccessOutro": "You'll hear from us soon.",
+    "contactSuccessTitle": "Message Sent",
+    "contactSuccessThanksPrefix": "Thank you,",
+    "contactSuccessBodyPrefix": "Your message has been received and a confirmation has been sent to"
   }
 }

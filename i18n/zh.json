@@ -470,6 +470,12 @@
     "messagePlaceholder": "留言",
     "send": "发送",
     "contactBtn": "联系作者",
-    "backBtn": "返回候补名单"
+    "backBtn": "返回候补名单",
+    "signupSuccessTitle": "您已加入名单",
+    "signupSuccessSentPrefix": "确认邮件已发送至",
+    "signupSuccessOutro": "我们很快会与您联系。",
+    "contactSuccessTitle": "消息已发送",
+    "contactSuccessThanksPrefix": "感谢您，",
+    "contactSuccessBodyPrefix": "您的消息已收到，确认邮件已发送至"
   }
 }
