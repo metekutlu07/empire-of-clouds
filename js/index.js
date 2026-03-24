@@ -2728,6 +2728,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }, { threshold: 0.20 });
     heroObs.observe(host);
 
+    resize();
+    rafId = requestAnimationFrame(frame);
+
     // Explicitly load every font used by the canvas.
     // document.fonts.ready alone is insufficient on iOS Safari — it resolves
     // immediately if no DOM text has already triggered these @font-face downloads.
