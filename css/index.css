@@ -1192,7 +1192,12 @@ section[model3d-d] {
     font-size: 15px;
     letter-spacing: 0.18em;
     text-transform: uppercase;
-    transition: background 0.35s ease, border-color 0.35s ease;
+    transition:
+        opacity 1.25s ease,
+        transform 1.25s ease,
+        filter 1.25s ease,
+        background 0.35s ease,
+        border-color 0.35s ease;
     text-decoration: none;
     display: block;
 }
@@ -1271,16 +1276,16 @@ section[model3d-d] {
     z-index: 22;
     width: 300px;
     padding: 8px 12px 10px 12px;
-    border: 1px solid rgba(255, 63, 164, 0.68);
+    border: 1px solid hsla(318, 100%, 77%, 0.95);
     background:
         linear-gradient(135deg, rgba(10, 0, 8, 0.82), rgba(0, 18, 12, 0.72));
     backdrop-filter: blur(5px) saturate(180%);
     -webkit-backdrop-filter: blur(5px) saturate(180%);
     color: hsla(137, 100%, 73%, 0.95);
     box-shadow:
-        0 0 18px rgba(255, 63, 164, 0.18),
+        0 0 18px hsla(318, 100%, 77%, 0.24),
         0 0 26px rgba(57, 255, 20, 0.10),
-        inset 0 0 10px rgba(255, 63, 164, 0.08);
+        inset 0 0 10px hsla(318, 100%, 77%, 0.10);
     font-family: "Space Grotesk", sans-serif;
     font-size: 15px;
     letter-spacing: 0.04em;
@@ -1314,7 +1319,7 @@ section[model3d-d] {
 
 .glyphHero #matrixInstructions .instrDivider {
     height: 1px;
-    background: linear-gradient(90deg, rgba(255, 63, 164, 0.5), rgba(57, 255, 20, 0.34));
+    background: linear-gradient(90deg, hsla(318, 100%, 77%, 0.72), rgba(57, 255, 20, 0.34));
     margin: 6px -12px 10px -12px;
 }
 
@@ -1603,19 +1608,6 @@ body.archive-unsealed #preludeLayer::before {
     z-index: 50;
     pointer-events: none;
     opacity: 0;
-}
-
-@keyframes statusWhiteFlash {
-    0% { opacity: 0; background: transparent; }
-    14% { opacity: 0.22; background: rgba(255, 255, 255, 0.18); }
-    28% { opacity: 0; background: transparent; }
-    52% { opacity: 0.18; background: rgba(255, 255, 255, 0.14); }
-    66% { opacity: 0; background: transparent; }
-    100% { opacity: 0; background: transparent; }
-}
-
-.glyphHero.status-flash #glitchOverlay {
-    animation: statusWhiteFlash 520ms ease-out 2;
 }
 
 /* Phase 1: Red flash pulses (0–300ms) */

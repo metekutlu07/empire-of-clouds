@@ -793,6 +793,34 @@ document.addEventListener("DOMContentLoaded", () => {
         _mainUITimers = [];
     };
 
+    function createSceneVeil({ fadeDelay = 0, fadeDuration = 900 } = {}) {
+        const veil = document.createElement("div");
+        Object.assign(veil.style, {
+            position: "fixed",
+            inset: "0",
+            zIndex: "9999",
+            background: "#000",
+            opacity: "1",
+            pointerEvents: "none",
+            transition: `opacity ${fadeDuration}ms ease`
+        });
+        document.body.appendChild(veil);
+
+        const fade = () => {
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    veil.style.opacity = "0";
+                });
+            });
+            setTimeout(() => veil.remove(), fadeDuration + 120);
+        };
+
+        if (fadeDelay > 0) setTimeout(fade, fadeDelay);
+        else fade();
+
+        return veil;
+    }
+
     function showMainUI() {
         // Cancel any pending show-timers from a previous call so we never have
         // two concurrent sequences racing each other.
@@ -1385,17 +1413,6 @@ document.addEventListener("DOMContentLoaded", () => {
         { get text() { return window.i18n?.get('index.introText3') || "Initiating quantum decryption"; }, stay: 2000, idle: false, speed: 60 }
     ];
 
-    function flashGridWhiteTwice() {
-        const hero = document.getElementById("glyphHero");
-        if (!hero) return;
-        hero.classList.remove("status-flash");
-        // Restart animation cleanly on repeated calls.
-        void hero.offsetWidth;
-        hero.classList.add("status-flash");
-        const t = setTimeout(() => hero.classList.remove("status-flash"), 1200);
-        prelude.transmissionTimers.push(t);
-    }
-
     function runIntroSequence(steps, onComplete) {
         let cursor = 0;
 
@@ -1416,7 +1433,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     preludeStatusEl.innerHTML = '<span class="cursor">_</span>';
                 }
                 const t = setTimeout(() => {
-                    if (cursor === 1) flashGridWhiteTwice();
                     setPreludeStatus(step.text, {
                         speed: typingSpeed,
                         onDone: () => {
@@ -2972,6 +2988,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function skipToFinalScene() {
         if (skipBtn) skipBtn.classList.add("hidden");
+
+        createSceneVeil({ fadeDelay: 800, fadeDuration: 1100 });
 
         // Kill all pending timers from the prelude sequence
         clearPreludeTimers();

@@ -68,6 +68,7 @@ function _handleWaitlist(email, place, timezone, locale) {
     "then data,\n" +
     "and now artificial life.\n\n" +
     "From pigment to pixel,\n" +
+    "from sophia to data\n" +
     "from constellations to circuits,\n" +
     "the atmosphere has always been the raw material of our dreams.\n\n" +
     "You will receive future updates about the research, forthcoming publications, and related events.\n\n" +
@@ -183,6 +184,7 @@ function _waitlistEmailHtml() {
     '<p style="margin:0 0 28px 0;font-family:Georgia,\'Times New Roman\',serif;' +
     'font-size:15px;line-height:2.2;color:#bbbbbb;">' +
     'From pigment to pixel,<br>' +
+    'from sophia to data<br>' +
     'from constellations to circuits,<br>' +
     'the atmosphere has always been the raw material of our dreams.</p>' +
 

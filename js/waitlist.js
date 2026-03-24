@@ -961,6 +961,29 @@ document.addEventListener("DOMContentLoaded", () => {
 // ─────────────────────────────────────────────────────────────────────────────
 
 document.addEventListener("DOMContentLoaded", () => {
+    const veil = document.createElement("div");
+    Object.assign(veil.style, {
+        position: "fixed",
+        inset: "0",
+        zIndex: "9999",
+        background: "#000",
+        opacity: "1",
+        pointerEvents: "none",
+        transition: "opacity 900ms ease"
+    });
+    document.body.appendChild(veil);
+
+    const fadeVeil = () => {
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                veil.style.opacity = "0";
+            });
+        });
+        setTimeout(() => veil.remove(), 1000);
+    };
+
+    setTimeout(fadeVeil, 900);
+
     document.querySelectorAll(".navLinks a, .brand").forEach(link => {
         link.addEventListener("click", function (e) {
             if (this.target === "_blank") return;

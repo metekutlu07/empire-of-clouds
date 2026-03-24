@@ -27,6 +27,18 @@ const io = new IntersectionObserver((entries) => {
 document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
 
 // ── Nav intro: topnav visible at 3200ms (same as country menu) ────────────────
+(() => {
+    const veil = document.createElement("div");
+    veil.style.cssText = "position:fixed;inset:0;z-index:9999;background:#000;opacity:1;pointer-events:none;transition:opacity 900ms ease;";
+    document.body.appendChild(veil);
+    setTimeout(() => {
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+            veil.style.opacity = "0";
+        }));
+        setTimeout(() => veil.remove(), 1000);
+    }, 900);
+})();
+
 setTimeout(() => {
     document.body.classList.add("intro-ui-visible");
 }, 3200);
