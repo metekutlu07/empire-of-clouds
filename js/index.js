@@ -1,4 +1,4 @@
-import PostProcessing from "./postprocessing-noise.js";
+// No WebGL postprocessing — noise is a simple 2D canvas overlay.
 
 // ============================================================
 // reveal-and-overlay  (intro wipe + reveal observer)
@@ -54,27 +54,38 @@ document.addEventListener("DOMContentLoaded", () => {
     const canvas = document.getElementById("c");
     const ctx = canvas.getContext("2d", { alpha: false });
 
-    // ---------- WebGL output + NoisePass (postprocessing) ----------
+    // ---------- 2D output canvas + noise overlay ----------
     const glCanvas = document.getElementById("gl");
+    const glCtx = glCanvas.getContext("2d");
     const host = document.getElementById("glyphHero");
     let hostW = 1, hostH = 1;
-    let post;
-    try {
-        post = new PostProcessing(glCanvas, { enabled: true, strength: 0.15 });
-    } catch (e) {
-        console.error(e);
-        const box = document.createElement("div");
-        box.style.position = "fixed";
-        box.style.inset = "16px";
-        box.style.zIndex = "9999";
-        box.style.padding = "12px 14px";
-        box.style.border = "1px solid rgba(255,255,255,0.25)";
-        box.style.borderRadius = "12px";
-        box.style.background = "rgba(0,0,0,0.75)";
-        box.style.color = "#fff";
-        box.style.font = "12px/1.35 ui-monospace, Menlo, Monaco, Consolas, monospace";
-        box.textContent = "PostProcessing init failed: " + (e && e.message ? e.message : String(e));
-        document.body.appendChild(box);
+
+    let noiseFrames = [];
+    let noiseFrameIdx = 0;
+    let noiseTickCount = 0;
+    const NOISE_FRAMES = 10;
+    const NOISE_FPS_EVERY = 2;
+
+    function buildNoiseFrames(w, h) {
+        noiseFrames = [];
+        for (let f = 0; f < NOISE_FRAMES; f++) {
+            const nc = document.createElement("canvas");
+            nc.width = w;
+            nc.height = h;
+            const nCtx = nc.getContext("2d");
+            const idata = nCtx.createImageData(w, h);
+            const buf = new Uint32Array(idata.data.buffer);
+            for (let i = 0; i < buf.length; i++) {
+                if (Math.random() < 0.05) buf[i] = 0x080000ff;
+                else if (Math.random() < 0.10) buf[i] = 0x0800ff00;
+                else if (Math.random() < 0.15) buf[i] = 0x08ff0000;
+                else if (Math.random() < 0.20) buf[i] = 0xccdddddd;
+            }
+            nCtx.putImageData(idata, 0, 0);
+            noiseFrames.push(nc);
+        }
+        noiseFrameIdx = 0;
+        noiseTickCount = 0;
     }
 
 
@@ -665,9 +676,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const displayH = Math.max(1, glCanvas.clientHeight || hostH || window.innerHeight);
 
         const c = clamp(Math.floor((px / displayW) * cols), 0, Math.max(0, cols - 1));
-        // WebGL output uses a flipped UV space, so pointer Y must be mirrored
-        // to land on the visible glyph row under the cursor.
-        const r = clamp(Math.floor(((1 - py / displayH)) * rows), 0, Math.max(0, rows - 1));
+        const r = clamp(Math.floor((py / displayH) * rows), 0, Math.max(0, rows - 1));
 
         return { c, r };
     }
@@ -1497,7 +1506,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const rect = glCanvas.getBoundingClientRect();
 
             const mx = clamp((e.clientX - rect.left) / rect.width, 0, 1);
-            const my = 1 - clamp((e.clientY - rect.top) / rect.height, 0, 1);
+            const my = clamp((e.clientY - rect.top) / rect.height, 0, 1);
 
             const cx = Math.floor(mx * cols);
             const cy = Math.floor(my * rows);
@@ -1702,7 +1711,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         const mx = clamp((clientX - rect.left) / rect.width, 0, 0.999999);
-        const my = 1 - clamp((clientY - rect.top) / rect.height, 0, 1);
+        const my = clamp((clientY - rect.top) / rect.height, 0, 1);
         const cellX = Math.floor(mx * cols);
         const cellY = Math.floor(my * rows);
 
@@ -1760,7 +1769,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         const mx = clamp((clientX - rect.left) / rect.width, 0, 1);
-        const my = 1 - clamp((clientY - rect.top) / rect.height, 0, 1);
+        const my = clamp((clientY - rect.top) / rect.height, 0, 1);
         const cx = Math.floor(mx * cols);
         const cy = Math.floor(my * rows);
 
@@ -2257,7 +2266,11 @@ document.addEventListener("DOMContentLoaded", () => {
         hostW = Math.max(1, (host && host.clientWidth) ? host.clientWidth : window.innerWidth);
         hostH = Math.max(1, window.innerHeight);
         dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
-        if (post) post.setSize(hostW, hostH, dpr);
+        glCanvas.width = Math.floor(hostW * dpr);
+        glCanvas.height = Math.floor(hostH * dpr);
+        glCanvas.style.width = hostW + "px";
+        glCanvas.style.height = hostH + "px";
+        buildNoiseFrames(Math.floor(hostW), Math.floor(hostH));
         canvas.width = Math.floor(hostW * dpr);
         canvas.height = Math.floor(hostH * dpr);
 
@@ -2695,7 +2708,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
         applyLiquidWarp(now);
 
-        if (post) post.render(canvas, now);
+        glCtx.drawImage(canvas, 0, 0, glCanvas.width, glCanvas.height);
+        noiseTickCount++;
+        if (noiseTickCount >= NOISE_FPS_EVERY) {
+            noiseTickCount = 0;
+            noiseFrameIdx = (noiseFrameIdx + 1) % NOISE_FRAMES;
+        }
+        if (noiseFrames.length) {
+            glCtx.globalAlpha = 0.25;
+            glCtx.drawImage(noiseFrames[noiseFrameIdx], 0, 0, glCanvas.width, glCanvas.height);
+            glCtx.globalAlpha = 1.0;
+        }
         rafId = requestAnimationFrame(frame);
     }
 
