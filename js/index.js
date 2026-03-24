@@ -1385,6 +1385,17 @@ document.addEventListener("DOMContentLoaded", () => {
         { get text() { return window.i18n?.get('index.introText3') || "Initiating quantum decryption"; }, stay: 2000, idle: false, speed: 60 }
     ];
 
+    function flashGridWhiteTwice() {
+        const hero = document.getElementById("glyphHero");
+        if (!hero) return;
+        hero.classList.remove("status-flash");
+        // Restart animation cleanly on repeated calls.
+        void hero.offsetWidth;
+        hero.classList.add("status-flash");
+        const t = setTimeout(() => hero.classList.remove("status-flash"), 1200);
+        prelude.transmissionTimers.push(t);
+    }
+
     function runIntroSequence(steps, onComplete) {
         let cursor = 0;
 
@@ -1405,6 +1416,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     preludeStatusEl.innerHTML = '<span class="cursor">_</span>';
                 }
                 const t = setTimeout(() => {
+                    if (cursor === 1) flashGridWhiteTwice();
                     setPreludeStatus(step.text, {
                         speed: typingSpeed,
                         onDone: () => {
