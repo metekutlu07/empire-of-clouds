@@ -1792,7 +1792,10 @@ canvas[id^="model3dCanvas-"] {
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: rgba(255, 255, 255, 0.78);
+    background: rgba(0, 0, 0, 0.62);
     border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: 2px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.24);
     padding: 10px 14px;
     opacity: 0;
     transition: opacity 180ms ease;

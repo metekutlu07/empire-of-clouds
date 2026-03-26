@@ -1049,7 +1049,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!email) return;
 
         const btn = waitlistForm.querySelector("button");
-        btn.textContent = "Sending…";
+        btn.textContent = t("waitlist.sending", "Sending...");
         btn.disabled = true;
 
         const body = new URLSearchParams({
@@ -1083,7 +1083,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!name || !email || !message) return;
 
         const btn = contactForm.querySelector("button");
-        btn.textContent = "Sending…";
+        btn.textContent = t("waitlist.sending", "Sending...");
         btn.disabled = true;
 
         const body = new URLSearchParams({

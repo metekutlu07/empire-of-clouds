@@ -1149,6 +1149,11 @@ document.addEventListener("DOMContentLoaded", () => {
     // How long the text stays ON SCREEN after the second patch has grown in
     const PATCH2_TEXT_LINGER_MS = 1800;
 
+    function getFirewallDetectedStayMs() {
+        const lang = window.i18n?.current?.() || localStorage.getItem("lang") || "en";
+        return lang === "tr" ? 2900 : POST_CLICK1_LINE2_STAY_MS;
+    }
+
     function advanceAfterFirstPatch() {
         hidePreludeHover();
 
@@ -1180,7 +1185,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         scheduleHint("patch2");
                     }, 400); // tiny delay so text is visible first
                     prelude.transmissionTimers.push(tPatch);
-                }, 3200);
+                }, getFirewallDetectedStayMs() + 1200);
                 prelude.transmissionTimers.push(tIS);
             }, 3500); // "Archive perimeter breached" stays 3500ms
             prelude.transmissionTimers.push(tFD);

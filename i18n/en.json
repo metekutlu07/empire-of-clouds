@@ -267,7 +267,7 @@
     "audioFrom": "A short reading from",
     "audioChapter": "Chapter 1",
     "audioChapterTitle": "Spiral of Knowledge",
-    "poem": "Here is a vision of civilization<br>that begins not in Florence<br class=\"mobile-break\">but in Herat,<br>not with Leonardo but with Behzad.<br>Not with the fixed point,<br class=\"mobile-break\">but with the drifting cloud.<br>We are not in Italy but in Turkestan.<br><br>I propose<br class=\"mobile-break\">an alternative vision of civilization,<br>not sedentary but nomadic,<br>not European but Asian,<br>not standardized but cosmopolitan,<br>not exoteric but esoteric,<br>not rational but inspirational.<br><br>It is a history<br>written not as prose but as poem,<br>not of order but of turbulence,<br>not of solids but of fluids,<br>not of grids but of spirals.<br><br><span class=\"poem-credit\">Mete Kutlu, <em>Empire of Clouds</em>, Book I, page 33, Paris, 2025.</span>",
+    "poem": "This is a vision of civilization<br>that begins not in Florence<br class=\"mobile-break\">but in Herat,<br>not with Leonardo but with Behzad.<br>Not with the fixed point,<br class=\"mobile-break\">but with the drifting cloud.<br>We are not in Italy but in Turkestan.<br><br>I propose<br class=\"mobile-break\">an alternative vision of civilization,<br>not sedentary but nomadic,<br>not European but Asian,<br>not standardized but cosmopolitan,<br>not exoteric but esoteric,<br>not rational but inspirational.<br><br>It is a history<br>written not as prose but as poem,<br>not of order but of turbulence,<br>not of solids but of fluids,<br>not of grids but of spirals.<br><br><span class=\"poem-credit\">Mete Kutlu, <em>Empire of Clouds</em>, Book I, page 33, Paris, 2025.</span>",
     "lookInsideTitle": "A Look inside the Book",
     "lookInsideProse": "Selected spreads from the printed prototype.",
     "caption1": "The curly clouds, symbolic form of the Turkish Renaissance. Borrowed from Chinese arts, these\n          whirling clouds\n          encapsulate a worldview that these paintings influenced by Sufi ideals render in vivid colors, intricate\n          details and\n          enigmatic compositions. The image depicts curly clouds racing past the golden sun and trail off pink rocky\n          outcrops. The\n          intertwined convolutes of orange, red, white and purplish gray visualize in mineral pigments the ungraspable\n          cosmic\n          scarf of lovers. This energetic atmosphere is from a miniature of Salaman and Absal reposing on an island from\n          the\n          Safavid prince Sultan Ibrahim Mirza’s <em>Haft Awrang</em> (Seven Thrones) written by Jami, probably Mashad\n          (Iran), 1565. Freer\n          Gallery of Art, 46.12, folio 194b.",
@@ -362,6 +362,7 @@
     "subtitle": "From Glazed Codes <br class=\"mobile-break\">to Digital Mosaics",
     "meta": "Empire of Clouds · Codes, Colors and Cosmos",
     "hintScroll": "Scroll to open the book",
+    "model3dHint": "Scroll to reveal",
     "introProse": "<p>There was a time when the structure of the universe was imagined as a mosaic. In this alternative archaeology\n          of the\n          image, the history of the pixel does not begin with the computer screen, but on the floors of antiquity.\n        </p>",
     "archaeologyHeading": "An Alternative Archaeology of the Pixel",
     "archaeologyProse": "For the ancient atomist, vision was a physical immersion into a cloud of swirling particles. As New\n          Antiquarians show,\n          the turbulent worldview of Lucretius strikingly resembles our own condition in the age of AI, more than\n          Plato’s and\n          Aristotle's models. Ancient mosaicists translated this atomistic vision into stone carpets. In the Roman\n          villas of\n          Carthage, a small snail unveils the true function of these mosaics: they were not merely decoration, but a\n          sophisticated\n          medium of simulation. Built from discrete, assembled units, these mosaics act as proto-digital media,\n          producing earliest\n          historical forms of augmented reality.",
@@ -430,10 +431,10 @@
   },
   "author": {
     "pageTitle": "Author · Mete Kutlu",
-    "bio1": "Mete Kutlu is a creative technologist, new media artist, and researcher based in\n              Paris. Trained as an architect at ENSA Paris-Malaquais, he graduated in 2016 and subsequently worked\n              across Japan, China, and South Korea with architects including Kazuyo Sejima, Kengo Kuma, and Wang Shu.\n              Since 2019, he has been teaching Cities in Mirror, an experimental and artistic approach to mapping urban\n              space, at ENSA Paris-Belleville, where he is also an associate researcher at the IPRAUS laboratory.",
-    "bio2": "His work operates at the intersection of premodern metaphysics and contemporary\n              computation. Focusing on the medieval Silk Road, he identifies an algorithmic tradition of art and a\n              computational cosmology that resonates with today's cloud-based infrastructures. Through a series of\n              research residencies across this historical corridor, he develops a method grounded in the confrontation\n              between historical artistic traditions and contemporary digital media, including photogrammetry,\n              augmented reality, and machine learning.",
-    "bio3": "He was awarded the Daniel Arasse Prize by the Académie française and the École\n              française de Rome. He has conducted research at the Villa Medici in Rome, the Monastery of San Giorgio\n              Maggiore in Venice, and the French Palace in Istanbul. His investigations into patterned and\n              cosmological visual systems have led to archival work at the Vatican Apostolic Archive, the Topkapı\n              Palace, and the Biblioteca Nazionale Marciana. In parallel, he develops large-scale digital projects\n              that translate historical cosmologies into immersive computational environments. His work includes\n              augmented reality applications, volumetric reconstructions, and generative simulations presented in\n              Carthage, Paris, and Seoul. In 2022, he received the Innovative Digital Services grant for Spolia\n              Botanique, an immersive botanical project developed in partnership with the Château de\n              Chaumont-sur-Loire.",
-    "bio4": "His work unfolds between ancient myth and science-fictional narratives. It\n              advances a non-anthropocentric vision of culture, a cosmic perspective on technology, and a\n              non-Eurocentric history of civilization. The world is understood as a computational system of symbols,\n              a cosmopolitan and inclusive ecology of intelligence. His experimental methods of design and research\n              are grounded in transversal, non-linear, and divergent thinking. Drawing on hacker culture, he adopts\n              a mode of inquiry based on the subversion of established conventions and institutional frameworks.\n              Rather than following preplanned structures, he develops bottom-up processes in which randomness and\n              accident become central forces of creativity. Forms and ideas emerge through iterative and generative\n              processes. Against the sobriety of modernist abstraction, his work proposes a poetic vision of\n              civilization in which metaphor and analogy replace rational description. Vibrant colors and patterns\n              become the medium of these alternative narratives, revealing imaginary worlds embedded within both\n              historical and technological systems.",
+    "bio1": "Mete Kutlu is a creative technologist, new media artist and researcher based in Paris. After his training as an architect at ENSA Paris-Malaquais (2016), he worked in Japan, China, and South Korea with architects such as Kazuyo Sejima, Kengo Kuma, and Wang Shu. Since 2019, he has been teaching the master's seminar <em>Metropolises in Mirror</em> at ENSA Paris-Belleville, where the city is approached as a form of writing specific to a civilization, a place, and a given moment in time. In 2025, he completed his PhD at Université Gustave Eiffel in Paris, under the joint supervision of Tongji University in Shanghai. Since then, he has been an associate researcher at the IPRAUS laboratory.",
+    "bio2": "His work operates at the intersection of premodern craft traditions and contemporary technological innovation. Focusing on the medieval Silk Road, he identifies an algorithmic tradition of art and a computational cosmology that prefigures the logic of today’s global cloud infrastructures. Through research conducted along this historical corridor, he develops a method that brings ancient artistic practices into dialogue with contemporary digital tools, including simulation, photogrammetry, augmented reality, and machine learning.",
+    "bio3": "In 2020, he was awarded the Daniel Arasse Prize by the Académie française and the École française de Rome. He has conducted research at the Villa Medici in Rome, the Giorgio Cini Foundation in Venice, and the French Palace in Istanbul. His investigations into different regimes of vision led him to archival work at the Vatican Apostolic Archive, the Topkapı Palace, and the Biblioteca Marciana in Venice. In parallel, he develops projects that reconstruct ancient cosmologies, historical monuments, and architectural structures through simulation and immersive media. In collaboration with UNESCO foundations, start-ups, municipalities, and research laboratories, he has carried out projects in Carthage, Samarkand, Paris, and Seoul. In 2022, he was awarded the Innovative Digital Services grant from the French Ministry of Culture and led the project Spolia Botanique, developed in partnership with the Château de Chaumont-sur-Loire.",
+    "bio4": "His work unfolds between ancient legends and science-fiction worlds. It proposes a non-anthropocentric view of cultural development, a cosmic perspective on technology, and a non-Eurocentric understanding of the history of civilization. The world is conceived as a mathematical order composed of mysterious symbols, a cosmopolitan ecology of intelligence. His experimental methods of design and research are grounded in non-linear, multidirectional, and layered thinking. Inspired by hacker culture, he develops an approach that questions established rules and institutional models. Rather than following predefined structures, he constructs open-ended processes in which chance and error become central forces of creation. In these processes, ideas emerge through iterative and generative methods. Against the austere and restrained aesthetics of modernist abstraction, his work proposes a poetic vision of civilization in which metaphor and analogy replace strictly rational description. Vivid colors and dense patterns become the language of these alternative narratives, revealing imaginary worlds hidden within both historical and technological systems.",
     "location": "Paris, 2026."
   },
   "partners": {
@@ -454,7 +455,77 @@
     "countryTurkey": "Turkey",
     "countryUk": "United Kingdom",
     "countryUsa": "United States",
-    "countryUzbekistan": "Uzbekistan"
+    "countryUzbekistan": "Uzbekistan",
+    "countryPartners": {
+      "china": [
+        "Shanghai Tongji University",
+        "Dalian International Academy of Arts"
+      ],
+      "france": [
+        "French Ministry of Culture",
+        "Castle of Chaumont-sur-Loire",
+        "Philippe Auguste Foundation",
+        "French Center of Color",
+        "UNESCO Club Volubilis",
+        "Comet Lab",
+        "Quai d'Orsay - Jacques Chirac Museum",
+        "Provence-Alpes-Cote d'Azur Region",
+        "University of Paris-Est",
+        "Labex Futurs Urbains",
+        "Strasbourg University",
+        "AUSser Laboratory",
+        "IPRAUS Laboratory",
+        "ENSA Paris-Belleville",
+        "ENSA Strasbourg"
+      ],
+      "germany": [
+        "Karlsruhe Institute of Technology",
+        "University of Freiburg"
+      ],
+      "italy": [
+        "Villa Medici",
+        "Vatican Apostolic Library",
+        "French School of Rome",
+        "French Academy in Rome",
+        "German Historical Institute in Rome",
+        "La Sapienza University",
+        "Giorgio Cini Foundation",
+        "Marciana Library"
+      ],
+      "japan": [
+        "Tokyo University of Science"
+      ],
+      "kyrgyzstan": [
+        "French Institute of Studies on Central Asia"
+      ],
+      "lebanon": [
+        "ALBA - Academy of Fine Arts"
+      ],
+      "korea": [
+        "Hanyang University"
+      ],
+      "tunisia": [
+        "Tunisian Ministry of Culture",
+        "National Institute of Heritage",
+        "Municipality of Carthage",
+        "Bardo Museum"
+      ],
+      "turkey": [
+        "French Institute of Anatolian Studies",
+        "Pera Museum",
+        "Topkapi Palace",
+        "Istanbul University Library of Rare Manuscripts"
+      ],
+      "uk": [
+        "Colour Group"
+      ],
+      "usa": [
+        "International Color Association"
+      ],
+      "uzbekistan": [
+        "Biruni Institute of Oriental Studies"
+      ]
+    }
   },
   "waitlist": {
     "pageTitle": "Waitlist · Empire of Clouds",
@@ -462,6 +533,7 @@
     "desc": "Become part of the journey and get notified about the publications.",
     "emailPlaceholder": "Your email address",
     "submit": "Submit",
+    "sending": "Sending...",
     "mobileContact": "Contact the author: <a href=\"mailto:metekutlu@gmail.com\">metekutlu@gmail.com</a>",
     "contactTitle": "Contact",
     "contactIntro": "For institutional collaborations, exhibitions,<br>lectures or press inquiries, you may write below.",

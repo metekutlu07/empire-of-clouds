@@ -399,6 +399,33 @@ document.getElementById("year").textContent = new Date().getFullYear();
     const progress = document.getElementById("glyphProgress");
     const timeEl = document.getElementById("glyphTime");
 
+    function getAudiobookLang() {
+        const lang = (window.i18n?.current?.() || localStorage.getItem("lang") || document.documentElement.lang || "en").toLowerCase();
+        if (lang.startsWith("fr")) return "fr";
+        if (lang.startsWith("tr")) return "tr";
+        return "en";
+    }
+
+    function getLocalizedAudiobookSrc() {
+        const fallbackSrc = audio.getAttribute("src") || "";
+        const bookMatch = window.location.pathname.match(/book-(\d)-/);
+        const lang = getAudiobookLang();
+
+        if (!bookMatch || lang === "en") return fallbackSrc;
+
+        return `audio/audiobooks/book-${bookMatch[1]}-${lang}.mp3`;
+    }
+
+    function applyLocalizedAudiobookSrc() {
+        const nextSrc = getLocalizedAudiobookSrc();
+        const currentSrc = audio.getAttribute("src") || "";
+        if (!nextSrc || nextSrc === currentSrc) return;
+        audio.setAttribute("src", nextSrc);
+        audio.load();
+    }
+
+    applyLocalizedAudiobookSrc();
+
     // Shared reactive object — read by the glyph matrix animation loop
     const audioReactive = window.__audioReactive || (window.__audioReactive = { level: 0, fast: 0, bass: 0, mids: 0, highs: 0 });
 
@@ -1227,4 +1254,3 @@ window.addEventListener('pageshow', function (e) {
 
     document.querySelectorAll('.compareStage').forEach(initCompare);
 })();
-

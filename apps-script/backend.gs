@@ -281,7 +281,7 @@ function _waitlistEmailCopy(lang) {
       ],
       pigmentLines: [
         "从颜料到像素，",
-        "从 sophia 到数据，",
+        "从智慧到数据，",
         "从星座到电路，",
         "大气始终是",
         "我们梦想的原始材料。"

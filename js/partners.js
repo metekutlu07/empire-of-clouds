@@ -1634,6 +1634,21 @@ const countryLabelKeys = {
     usa: "partners.countryUsa",
     uzbekistan: "partners.countryUzbekistan"
 };
+const countryPartnerKeys = {
+    china: "partners.countryPartners.china",
+    france: "partners.countryPartners.france",
+    germany: "partners.countryPartners.germany",
+    italy: "partners.countryPartners.italy",
+    japan: "partners.countryPartners.japan",
+    kyrgyzstan: "partners.countryPartners.kyrgyzstan",
+    lebanon: "partners.countryPartners.lebanon",
+    korea: "partners.countryPartners.korea",
+    tunisia: "partners.countryPartners.tunisia",
+    turkey: "partners.countryPartners.turkey",
+    uk: "partners.countryPartners.uk",
+    usa: "partners.countryPartners.usa",
+    uzbekistan: "partners.countryPartners.uzbekistan"
+};
 
 const countries = {
     china: {
@@ -1685,14 +1700,34 @@ const countries = {
     uzbekistan: { shape: "rings", scale: 1, partners: ["Biruni Institute of Oriental Studies"] }
 };
 
+function getCountryLabel(countryKey) {
+    return window.i18n?.get(countryLabelKeys[countryKey]) || countries[countryKey]?.label || countryKey.toUpperCase();
+}
+
+function sortCountryButtons(container) {
+    if (!container) return;
+    const buttons = Array.from(container.querySelectorAll("button[data-country]"));
+    const lang = window.i18n?.current?.() || document.documentElement.lang || "en";
+    buttons
+        .sort((a, b) => getCountryLabel(a.dataset.country).localeCompare(getCountryLabel(b.dataset.country), lang))
+        .forEach((btn) => container.appendChild(btn));
+}
+
+function sortAllCountryMenus() {
+    sortCountryButtons(document.querySelector(".countryIndex"));
+    sortCountryButtons(document.getElementById("mobileCountryGrid"));
+}
+
 function updateContent(countryKey, animate = true) {
     const data = countries[countryKey];
     const content = document.getElementById("countryContent");
-    const label = window.i18n?.get(countryLabelKeys[countryKey]) || data.label || countryKey.toUpperCase();
+    const label = getCountryLabel(countryKey);
+    const localizedPartners = window.i18n?.get(countryPartnerKeys[countryKey]);
+    const partners = Array.isArray(localizedPartners) ? localizedPartners : data.partners;
     if (!animate) {
         countryTitle.textContent = label;
         partnerList.innerHTML = "";
-        data.partners.forEach(p => {
+        partners.forEach(p => {
             const li = document.createElement("li");
             li.textContent = p;
             partnerList.appendChild(li);
@@ -1702,7 +1737,7 @@ function updateContent(countryKey, animate = true) {
         setTimeout(() => {
             countryTitle.textContent = label;
             partnerList.innerHTML = "";
-            data.partners.forEach(p => {
+            partners.forEach(p => {
                 const li = document.createElement("li");
                 li.textContent = p;
                 partnerList.appendChild(li);
@@ -1742,18 +1777,20 @@ countryButtons.forEach(btn => {
     });
 });
 
-const firstButton = document.querySelector(".countryIndex button");
-if (firstButton) {
-    window.startPartners = function () {
-        firstButton.classList.add("is-active");
-        updateContent(firstButton.dataset.country, false);
-    };
-}
+window.startPartners = function () {
+    const firstButton = document.querySelector(".countryIndex button");
+    if (!firstButton) return;
+    firstButton.classList.add("is-active");
+    updateContent(firstButton.dataset.country, false);
+};
 
 window.addEventListener("i18n:updated", () => {
+    sortAllCountryMenus();
     const activeButton = document.querySelector(".countryIndex button.is-active, .mobileCountryGrid button.is-active");
     if (activeButton) updateContent(activeButton.dataset.country, false);
 });
+
+sortAllCountryMenus();
 
 setTimeout(() => { layout.classList.add("is-active"); }, 4500);
 
