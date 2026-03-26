@@ -185,6 +185,50 @@ import PostProcessing from "./postprocessing-noise.js";
     let pink, ring, ringGlyph;
     let waveFamilyMap, familyColorMap;
 
+    // ── Photo portrait ────────────────────────────────────────────────────
+    // Float32Array of per-cell luminance (0=black, 1=white), or null if unloaded
+    let photoLuma = null;
+
+    function loadPhotoLuma(src) {
+        if (!cols || !rows) return;
+        const img = new Image();
+        img.onload = () => {
+            const tc = document.createElement("canvas");
+            tc.width = cols;
+            tc.height = rows;
+            const tx = tc.getContext("2d", { willReadFrequently: true });
+            // Center-crop image to match grid aspect ratio
+            const imgAR = img.naturalWidth / img.naturalHeight;
+            const gridAR = cols / rows;
+            let sx = 0, sy = 0, sw = img.naturalWidth, sh = img.naturalHeight;
+            if (imgAR > gridAR) {
+                sw = img.naturalHeight * gridAR;
+                sx = (img.naturalWidth - sw) / 2;
+            } else {
+                sh = img.naturalWidth / gridAR;
+                sy = (img.naturalHeight - sh) / 2;
+            }
+            tx.drawImage(img, sx, sy, sw, sh, 0, 0, cols, rows);
+            const d = tx.getImageData(0, 0, cols, rows).data;
+            const N = cols * rows;
+            const luma = new Float32Array(N);
+            for (let i = 0; i < N; i++) {
+                luma[i] = (0.299 * d[i * 4] + 0.587 * d[i * 4 + 1] + 0.114 * d[i * 4 + 2]) / 255;
+            }
+            photoLuma = luma;
+            // Ensure all visible photo cells have a glyph ready
+            for (let i = 0; i < N; i++) {
+                if (photoLuma[i] > 0.06) {
+                    filled[i] = 1;
+                    if (!glyphIdx[i]) glyphIdx[i] = randInt(GLYPHS.length);
+                }
+            }
+            drawAll();
+        };
+        img.onerror = () => { photoLuma = null; };
+        img.src = src;
+    }
+
     // (mask/morph removed — using animated cloud holes)
 
     // ── Trail ─────────────────────────────────────────────────────────────
@@ -301,6 +345,23 @@ import PostProcessing from "./postprocessing-noise.js";
             ctx.globalAlpha = 1;
             ctx.fillStyle = FAMILY_COLOR_FNS[familyColorMap[i]](clamp((0.15 + 0.85 * rVal) * em, 0, 0.95));
             ctx.fillText(g, x + CELL / 2, y + CELL / 2 + 0.5);
+            ctx.globalAlpha = 1;
+            return;
+        }
+
+        // ── Photo portrait mode ───────────────────────────────────────────
+        if (photoLuma !== null) {
+            const luma = photoLuma[i];
+            if (luma < 0.06) return;  // pure shadow → let black background show
+            // Map brightness to glyph opacity: bright photo → visible glyph
+            const photoAlpha = Math.pow(luma, 0.75) * 0.96;
+            if (photoAlpha < 0.04) return;
+            const p = pink[i];
+            ctx.globalAlpha = em * photoAlpha;
+            ctx.fillStyle = p > 0.02
+                ? pinkColor(clamp(PINK_ALPHA_MIN + 0.78 * p, 0, 0.95))
+                : cellColor[i];
+            ctx.fillText(GLYPHS[glyphIdx[i] % GLYPHS.length], x + CELL / 2, y + CELL / 2 + 0.5);
             ctx.globalAlpha = 1;
             return;
         }
@@ -489,6 +550,8 @@ import PostProcessing from "./postprocessing-noise.js";
         seedGrid();
         seedHoles();
         resetIntro(N);
+        photoLuma = null;
+        loadPhotoLuma("/images/author/portrait.jpg");
         drawAll();
     }
 
@@ -614,7 +677,7 @@ import PostProcessing from "./postprocessing-noise.js";
             }
             if (ring[i] > 0.001) { ring[i] *= 0.93; drawCell(i); }
             if (pink[i] > 0.001) { pink[i] *= PINK_DECAY; drawCell(i); }
-            if (holeMask[i]) continue;
+            if (photoLuma === null && holeMask[i]) continue;
             if (!filled[i]) {
                 if (Math.random() < 0.0005) {
                     filled[i] = 1;
