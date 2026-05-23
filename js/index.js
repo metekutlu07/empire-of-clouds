@@ -2343,7 +2343,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // ---------- Resize ----------
     function resize() {
-        const _prevCols = cols, _prevRows = rows;
         hostW = Math.max(1, (host && host.clientWidth) ? host.clientWidth : window.innerWidth);
         hostH = Math.max(1, window.innerHeight);
         dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
@@ -2385,10 +2384,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         waves.length = 0;
 
-        // Only reseed when the grid dimensions actually change (e.g. window resize).
-        // The fonts-loaded resize keeps the same cols/rows — skipping seedGrid()
-        // there prevents the "all glyphs suddenly shift" stutter on skip-nav.
-        if (cols !== _prevCols || rows !== _prevRows) seedGrid();
+        seedGrid();
         seedHoles();
 
         // Preserve grid crystallization state across resize
