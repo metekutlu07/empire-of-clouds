@@ -1100,6 +1100,7 @@ section[model3d-d] {
     font-family: "Unbounded";
     letter-spacing: 0.02em;
     text-align: left;
+    --homeHeroTitleSize: clamp(70px, 8.8vw, 160px);
 }
 
 #titleGlow {
@@ -1130,20 +1131,21 @@ section[model3d-d] {
 
 .glyphHero .titleMain {
     font-weight: 700;
-    font-size: clamp(90px, 16vw, 160px);
+    font-size: var(--homeHeroTitleSize);
     line-height: 1.2;
     margin-bottom: 1.6rem;
 }
 
 .glyphHero .titleSub {
     font-weight: 600;
-    font-size: clamp(42px, 7vw, 90px);
+    font-size: calc(var(--homeHeroTitleSize) * 0.5625);
+    white-space: nowrap;
     margin-bottom: 6rem;
 }
 
 .glyphHero .titleAuthor {
     font-weight: 500;
-    font-size: clamp(28px, 4vw, 48px);
+    font-size: clamp(28px, calc(var(--homeHeroTitleSize) * 0.3), 48px);
 }
 
 .glyphHero .titleButtons {
@@ -1395,9 +1397,10 @@ section[model3d-d] {
     left: 50%;
     transform: translate(-50%, -50%);
     font-size: clamp(72px, 12vw, 140px);
-    /* Explicit Noto Sans chain so special-script glyphs (Khojki 𑈀, Symbols 2 ⸜)
+    /* Explicit Noto Sans chain so special-script glyphs (Khojki 𑈀, Symbols 2 ✳)
        are rendered correctly on Windows/Linux where system fonts lack coverage. */
-    font-family: "Noto Sans Symbols 2", "Noto Sans Symbols", "Noto Sans Khojki",
+    font-family: "Noto Sans Supplemental Punctuation", "Noto Sans Math Glyphs", "Noto Sans Coptic Glyphs",
+                 "Noto Sans Symbols 2", "Noto Sans Symbols", "Noto Sans Khojki",
                  ui-sans-serif, sans-serif;
     line-height: 1;
     opacity: 1;
@@ -1592,6 +1595,18 @@ body.archive-unsealed #preludeLayer {
     /* Belt-and-suspenders: CSS-level guarantee that the overlay is inert
        once the archive is unsealed, regardless of any JS timing race. */
     pointer-events: none !important;
+}
+
+/* Instant hide when ?skip=1 nav triggers the inline script before JS loads */
+html[data-skip-prelude="1"] #preludeLayer {
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transition: none !important;
+}
+html[data-skip-prelude="1"] #entryScreen,
+html[data-skip-prelude="1"] #mysticLoader,
+html[data-skip-prelude="1"] #skipIntro {
+    display: none !important;
 }
 
 body.archive-unsealed #preludeLayer::before {
@@ -1983,6 +1998,76 @@ body.archive-unsealed #preludeLayer::before {
     left: 52px;
     right: 52px;
     min-height: 1.4em;
+}
+
+/* Temporary Firebase launch page mode. Keeps the original glyph loader/canvas,
+   then opens the same transmission UI with launch copy only. */
+body[data-launch="coming-soon"] #entryScreen,
+body[data-launch="coming-soon"] #titleBlock,
+body[data-launch="coming-soon"] #skipIntro,
+body[data-launch="coming-soon"] #matrixInstructions,
+body[data-launch="coming-soon"] #mobileInstructions,
+body[data-launch="coming-soon"] #transmissionWarning,
+body[data-launch="coming-soon"] #transmissionFooter,
+body[data-launch="coming-soon"] #transmissionFooterMobile {
+    display: none !important;
+}
+
+body[data-launch="coming-soon"] #transmissionWindow {
+    width: fit-content;
+    min-width: min(78vw, 430px);
+    max-width: calc(100vw - 48px);
+    height: auto;
+    min-height: 0;
+    padding: clamp(17px, 2.5vw, 29px);
+}
+
+body[data-launch="coming-soon"] #transmissionText {
+    position: static;
+    inset: auto;
+    width: max-content;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: clamp(18px, 3.3vh, 28px);
+    font-size: clamp(13px, 1.65vw, 20px);
+    line-height: 1.5;
+    text-align: left;
+}
+
+body[data-launch="coming-soon"] #transmissionText p {
+    margin: 0 !important;
+    min-height: 1.5em;
+    text-align: left;
+}
+
+body[data-launch="coming-soon"] #transmissionText p.launch-green {
+    color: hsla(137, 100%, 73%, 0.92);
+}
+
+body[data-launch="coming-soon"] #transmissionText p.launch-pink {
+    color: hsla(318, 100%, 77%, 0.92);
+}
+
+@media (max-width: 640px) {
+    body[data-launch="coming-soon"] #mysticLoader {
+        font-size: clamp(108px, 18vw, 210px);
+    }
+
+    body[data-launch="coming-soon"] #transmissionWindow {
+        width: fit-content;
+        min-width: min(calc(100vw - 34px), 310px);
+        max-width: calc(100vw - 34px);
+        height: auto;
+        min-height: 0;
+        padding: 28px 24px;
+    }
+
+    body[data-launch="coming-soon"] #transmissionText {
+        gap: 24px;
+        font-size: clamp(15px, 4.45vw, 18px);
+    }
 }
 
 /* ── Star border frame around screen during Protocol Apocalypse ─────────────── */
@@ -2456,5 +2541,31 @@ body.archive-unsealed #preludeLayer::before {
     .hero.heroGlyph {
         height: 100dvh !important;
         overflow: hidden !important;
+    }
+}
+
+@media (max-width: 640px) {
+    body[data-launch="coming-soon"] #transmissionWindow {
+        box-sizing: border-box !important;
+        width: calc(100vw - 28px) !important;
+        min-width: 0 !important;
+        max-width: calc(100vw - 28px) !important;
+        height: auto !important;
+        min-height: 0 !important;
+        padding: 28px 24px !important;
+    }
+
+    body[data-launch="coming-soon"] #transmissionText {
+        width: 100% !important;
+        max-width: 100% !important;
+        gap: 24px !important;
+        font-size: clamp(15px, 4.5vw, 20px) !important;
+        line-height: 1.5 !important;
+    }
+
+    body[data-launch="coming-soon"] #transmissionText p {
+        box-sizing: border-box;
+        white-space: nowrap;
+        padding-right: 1ch;
     }
 }

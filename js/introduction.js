@@ -1037,7 +1037,10 @@ window.hintIsOpen = function () {
 
 // ── Rewrite index.html nav links to skip prelude ─────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.topnav a[href="index.html"], .brand[href="index.html"]').forEach(a => {
+    document.querySelectorAll('.topnav a[href^="index.html"], a.brand[href^="index.html"]').forEach(a => {
         a.setAttribute('href', 'index.html?skip=1');
+    });
+    document.querySelectorAll('a.brand').forEach(a => {
+        a.addEventListener('click', () => sessionStorage.setItem('skipHomePrelude', '1'), { capture: true });
     });
 });

@@ -38,7 +38,30 @@
       "Bash(grep -l i18n /Users/pesto/Desktop/website-empire/js/*.js)",
       "Bash(grep -h \"data-i18n\" /Users/pesto/Desktop/website-empire/.claude/worktrees/stoic-jemison/*.html)",
       "Bash(git add:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "mcp__Claude_in_Chrome__tabs_context_mcp",
+      "Bash(node --check /Users/pesto/Desktop/website-empire/js/index.js)",
+      "Bash(git -C /Users/pesto/Desktop/website-empire diff HEAD -- js/index.js)",
+      "Bash(git -C /Users/pesto/Desktop/website-empire show HEAD:index.html)",
+      "Bash(git -C /Users/pesto/Desktop/website-empire diff HEAD -- index.html)",
+      "Bash(git -C /Users/pesto/Desktop/website-empire show HEAD:js/about.js)",
+      "Bash(git -C /Users/pesto/Desktop/website-empire show HEAD:js/index.js)",
+      "Bash(git -C /Users/pesto/Desktop/website-empire diff HEAD -- js/about.js)",
+      "Bash(git -C /Users/pesto/Desktop/website-empire diff HEAD -- js/books.js)",
+      "Bash(git -C /Users/pesto/Desktop/website-empire diff HEAD -- js/waitlist.js)",
+      "Bash(git -C /Users/pesto/Desktop/website-empire diff HEAD -- js/partners.js)",
+      "Bash(git -C /Users/pesto/Desktop/website-empire diff HEAD -- js/author.js)",
+      "Bash(node --check /Users/pesto/Desktop/website-empire/js/about.js)",
+      "Bash(node --check /Users/pesto/Desktop/website-empire/js/books.js)",
+      "Bash(node --check /Users/pesto/Desktop/website-empire/js/waitlist.js)",
+      "Bash(node --check /Users/pesto/Desktop/website-empire/js/partners.js)",
+      "Bash(node --check /Users/pesto/Desktop/website-empire/js/author.js)",
+      "Bash(git -C /Users/pesto/Desktop/website-empire show HEAD:about.html)",
+      "Bash(git -C /Users/pesto/Desktop/website-empire show HEAD:books.html)",
+      "Bash(git -C /Users/pesto/Desktop/website-empire diff HEAD -- js/introduction.js)",
+      "Bash(sed -n '183,187p' /Users/pesto/Desktop/website-empire/js/index.js)",
+      "Bash(sed -n '3126,3132p' /Users/pesto/Desktop/website-empire/js/index.js)",
+      "Bash(node --check /Users/pesto/Desktop/website-empire/js/introduction.js)"
     ]
   }
 }

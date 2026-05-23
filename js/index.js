@@ -180,6 +180,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const INTRO_RISE_MS = 250;      // fade-in time per cell
     const INTRO_BLACK_MS = 0;        // no black pause — cells appear immediately
     const INTRO_DONE_MS = INTRO_STAGGER_MS + INTRO_RISE_MS + 250;
+    const SKIP_PRELUDE =
+        new URLSearchParams(window.location.search).get("skip") === "1" ||
+        sessionStorage.getItem("skipHomePrelude") === "1" ||
+        document.documentElement.dataset.skipPrelude === "1";
+    if (SKIP_PRELUDE) sessionStorage.removeItem("skipHomePrelude");
 
     let introStart = performance.now();
     let introDone = false;
@@ -790,7 +795,7 @@ document.addEventListener("DOMContentLoaded", () => {
         _mainUITimers = [];
     };
 
-    function showMainUI() {
+    function showMainUI({ immediate = false } = {}) {
         // Cancel any pending show-timers from a previous call so we never have
         // two concurrent sequences racing each other.
         _mainUITimers.forEach(clearTimeout);
@@ -816,19 +821,31 @@ document.addEventListener("DOMContentLoaded", () => {
         const instr = document.getElementById("matrixInstructions");
         const mobileInstr = document.getElementById("mobileInstructions");
 
+        const toShow = [titleBlock, nebula, books, instr, mobileInstr].filter(Boolean);
+        const glow = document.getElementById("titleGlow");
+
+        if (immediate) {
+            // Show everything at once with no animation — suppress all transitions,
+            // add .show synchronously, then re-enable transitions after a frame.
+            toShow.forEach(el => { el.style.transition = "none"; el.classList.remove("show"); });
+            if (toShow[0]) void toShow[0].getBoundingClientRect();
+            toShow.forEach(el => { el.classList.add("show"); });
+            if (glow) glow.style.opacity = "1";
+            requestAnimationFrame(() => toShow.forEach(el => { el.style.transition = ""; }));
+            return;
+        }
+
         // Snap elements to hidden instantly — suppressing CSS transitions prevents
         // a visible fade-out flash if showMainUI() is ever called while elements
         // already carry the "show" class (e.g. after a skip-button double-trigger
         // or a bfcache restore that re-runs init).
-        const toHide = [titleBlock, nebula, books, instr, mobileInstr].filter(Boolean);
-        toHide.forEach(el => { el.style.transition = "none"; el.classList.remove("show"); });
+        toShow.forEach(el => { el.style.transition = "none"; el.classList.remove("show"); });
         // Force a reflow so the transition:none is committed before we re-enable it.
-        if (toHide[0]) void toHide[0].getBoundingClientRect();
-        toHide.forEach(el => { el.style.transition = ""; });
+        if (toShow[0]) void toShow[0].getBoundingClientRect();
+        toShow.forEach(el => { el.style.transition = ""; });
         const GLYPH_WAIT = INTRO_DONE_MS + 300;
         _mainUITimers.push(setTimeout(() => {
             if (titleBlock) titleBlock.classList.add("show");
-            const glow = document.getElementById("titleGlow");
             if (glow) glow.style.opacity = "1";
         }, GLYPH_WAIT));
         _mainUITimers.push(setTimeout(() => { if (nebula) nebula.classList.add("show"); }, GLYPH_WAIT + 900));
@@ -981,7 +998,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // ── Transmission window ───────────────────────────────────────────────────
     // Typing speed for the transmission lines (ms per character)
-    const TRANSMISSION_SPEED_MS = 49;
+    const TRANSMISSION_SPEED_MS = 34;
 
     // Helper: get transmission lines (desktop or mobile) with i18n translations
     function getTransmissionLines(isMobile) {
@@ -1094,6 +1111,64 @@ document.addEventListener("DOMContentLoaded", () => {
                     speed: TRANSMISSION_SPEED_MS,
                     holdCursor: false,
                     onDone: () => {
+                        const tNext = setTimeout(typeNextLine, 600);
+                        prelude.transmissionTimers.push(tNext);
+                    }
+                });
+            }
+
+            typeNextLine();
+        }, 700);
+        prelude.transmissionTimers.push(tStart);
+    }
+
+    function openLaunchTransmissionWindow() {
+        const win = document.getElementById("transmissionWindow");
+        const text = document.getElementById("transmissionText");
+        if (!win || !text) return;
+
+        const launchLines = [
+            { text: "Signal detected" },
+            { text: "Decoding world model" },
+            { text: "Empire of Clouds", className: "launch-green" },
+            { text: "Codes, Colors and Cosmos", className: "launch-pink" },
+            { text: "Mete Kutlu" },
+            { text: "Paris, 2026" },
+            { text: "Launching soon", holdCursor: true }
+        ];
+
+        text.innerHTML = "";
+        const lineEls = launchLines.map(line => {
+            const p = document.createElement("p");
+            if (line.className) p.classList.add(line.className);
+            p.style.opacity = "0";
+            p.style.transition = "opacity 300ms ease";
+            text.appendChild(p);
+            return p;
+        });
+
+        // Let the browser measure the final multi-line box before the grow animation.
+        requestAnimationFrame(() => win.classList.add("open"));
+
+        const tStart = setTimeout(() => {
+            let lineIdx = 0;
+            function typeNextLine() {
+                if (lineIdx >= launchLines.length) return;
+
+                const line = launchLines[lineIdx];
+                const p = lineEls[lineIdx];
+
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => { p.style.opacity = "1"; });
+                });
+
+                typeIntoElement(p, line.text, {
+                    speed: TRANSMISSION_SPEED_MS,
+                    className: line.className || "",
+                    holdCursor: line.holdCursor === true,
+                    onDone: () => {
+                        lineIdx++;
+                        if (line.holdCursor) return;
                         const tNext = setTimeout(typeNextLine, 600);
                         prelude.transmissionTimers.push(tNext);
                     }
@@ -2268,6 +2343,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // ---------- Resize ----------
     function resize() {
+        const _prevCols = cols, _prevRows = rows;
         hostW = Math.max(1, (host && host.clientWidth) ? host.clientWidth : window.innerWidth);
         hostH = Math.max(1, window.innerHeight);
         dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
@@ -2309,7 +2385,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
         waves.length = 0;
 
-        seedGrid();
+        // Only reseed when the grid dimensions actually change (e.g. window resize).
+        // The fonts-loaded resize keeps the same cols/rows — skipping seedGrid()
+        // there prevents the "all glyphs suddenly shift" stutter on skip-nav.
+        if (cols !== _prevCols || rows !== _prevRows) seedGrid();
         seedHoles();
 
         // Preserve grid crystallization state across resize
@@ -2328,7 +2407,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Set once — drawCell and drawTrailOverlay rely on these being stable
         const fontPx = Math.floor(CELL * FONT_SCALE);
-        ctx.font = `${fontPx}px "IBM Plex Mono", "Noto Sans Symbols 2", "Noto Sans Symbols", "Noto Sans Linear A", "Noto Sans Sora Sompeng", "Noto Sans Chakma", "Noto Sans Khojki", "Noto Sans Kaithi", "Noto Sans Sharada", "Noto Sans Khudawadi", "Noto Sans Grantha", "Noto Sans Mahajani", "Noto Sans Zanabazar Square", "Noto Sans Siddham", ui-monospace, monospace`;
+        ctx.font = `${fontPx}px "IBM Plex Mono", "Noto Sans Supplemental Punctuation", "Noto Sans Math Glyphs", "Noto Sans Coptic Glyphs", "Noto Sans Symbols 2", "Noto Sans Symbols", "Noto Sans Linear A", "Noto Sans Sora Sompeng", "Noto Sans Chakma", "Noto Sans Khojki", "Noto Sans Kaithi", "Noto Sans Sharada", "Noto Sans Khudawadi", "Noto Sans Grantha", "Noto Sans Mahajani", "Noto Sans Zanabazar Square", "Noto Sans Siddham", ui-monospace, monospace`;
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
 
@@ -2741,7 +2820,10 @@ document.addEventListener("DOMContentLoaded", () => {
     // immediately if no DOM text has already triggered these @font-face downloads.
     const _fPx = Math.round(CELL * FONT_SCALE);
     Promise.all([
-        document.fonts.load(`${_fPx}px "Noto Sans Symbols 2"`,            "∴⍜※⸜"),
+        document.fonts.load(`${_fPx}px "Noto Sans Supplemental Punctuation"`, "⸜⸝⸠⸡"),
+        document.fonts.load(`${_fPx}px "Noto Sans Math Glyphs"`,          "∴⍜⟐⧖"),
+        document.fonts.load(`${_fPx}px "Noto Sans Coptic Glyphs"`,        "Ⳁⳁ"),
+        document.fonts.load(`${_fPx}px "Noto Sans Symbols 2"`,            "✳❇"),
         document.fonts.load(`${_fPx}px "Noto Sans Symbols"`,              String.fromCodePoint(0x10E77) + "⟐⧖※"),
         document.fonts.load(`${_fPx}px "Noto Sans Linear A"`,             String.fromCodePoint(0x1060A)),
         document.fonts.load(`${_fPx}px "Noto Sans Sora Sompeng"`,         String.fromCodePoint(0x110D8)),
@@ -2795,6 +2877,13 @@ document.addEventListener("DOMContentLoaded", () => {
         ...SACRED.slice(0, 10),    // sacred script
     ];
 
+    const LAUNCH_LOADER_GLYPHS = [
+        ...GLYPHS,
+        ...STAR,
+        ...SACRED,
+        ...CLOUD,
+    ];
+
     const LOADER_COLORS = [
         "rgba(255,255,255,0.92)",          // white
         "rgba(255,255,255,0.92)",          // white (weighted more)
@@ -2803,7 +2892,7 @@ document.addEventListener("DOMContentLoaded", () => {
         "hsla(137,100%,73%,0.92)",         // green
     ];
 
-    const LOADER_DURATION_MS = 4000;
+    const LOADER_DURATION_MS = document.body?.dataset.launch === "coming-soon" ? 5000 : 4000;
     const LOADER_CYCLE_MS = 120;   // how fast glyphs shift
 
     function runMysticLoader(onDone) {
@@ -2814,8 +2903,11 @@ document.addEventListener("DOMContentLoaded", () => {
             // Shared tick so both the immediate seed and the interval use identical
             // random logic — prevents the fixed index-0 glyph from appearing "stuck"
             // before cycling begins.
+            const loaderGlyphs = document.body?.dataset.launch === "coming-soon"
+                ? LAUNCH_LOADER_GLYPHS
+                : ALL_LOADER_GLYPHS;
             function loaderTick() {
-                el.textContent = ALL_LOADER_GLYPHS[Math.floor(Math.random() * ALL_LOADER_GLYPHS.length)];
+                el.textContent = loaderGlyphs[Math.floor(Math.random() * loaderGlyphs.length)];
                 el.style.color   = LOADER_COLORS[Math.floor(Math.random() * LOADER_COLORS.length)];
             }
             loaderTick(); // seed a random glyph immediately
@@ -2829,12 +2921,15 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         // Pre-load the fonts used by loader glyphs before cycling begins.
-        // Without this, special-script characters (Khojki 𑈀, Symbols 2 ⸜)
+        // Without this, special-script characters (Khojki 𑈀, supplemental punctuation ⸜)
         // render as rectangles on slow connections because the font file hasn't
         // arrived yet. The matrix does the same Promise.all trick for its canvas.
         // We use a fixed 100px hint — font files are not size-specific once cached.
         Promise.all([
-            document.fonts.load('100px "Noto Sans Symbols 2"', "⸜✳"),
+            document.fonts.load('100px "Noto Sans Supplemental Punctuation"', "⸜⸝⸠⸡"),
+            document.fonts.load('100px "Noto Sans Math Glyphs"', "∴⍜⟐⧖"),
+            document.fonts.load('100px "Noto Sans Coptic Glyphs"', "Ⳁⳁ"),
+            document.fonts.load('100px "Noto Sans Symbols 2"', "✳❇"),
             document.fonts.load('100px "Noto Sans Khojki"',    "𑈀𑈁"),
         ]).then(startLoaderCycle, startLoaderCycle); // start regardless of load outcome
     }
@@ -2893,6 +2988,16 @@ document.addEventListener("DOMContentLoaded", () => {
         selectedLang = window.i18n?.current?.() || getStoredLang();
         updateSelectedLangUI(selectedLang);
 
+        if (document.body?.dataset.launch === "coming-soon") {
+            if (entryScreen) entryScreen.style.display = "none";
+            if (preludeLayer) preludeLayer.style.pointerEvents = "none";
+            runMysticLoader(() => {
+                if (preludeLayer) preludeLayer.style.pointerEvents = "none";
+                openLaunchTransmissionWindow();
+            });
+            return;
+        }
+
         // Language selection
         langBtns.forEach(btn => {
             btn.addEventListener("click", async () => {
@@ -2945,7 +3050,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Show entry screen once loader fades out
         // — but skip entirely if ?skip=1 is in the URL
-        if (new URLSearchParams(window.location.search).get("skip") === "1") {
+        if (SKIP_PRELUDE) {
             // hide loader element immediately so there's no flash
             const loaderEl = document.getElementById("mysticLoader");
             if (loaderEl) { loaderEl.style.display = "none"; }
@@ -2960,7 +3065,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // ── Skip intro button ─────────────────────────────────────────────────────
     const skipBtn = document.getElementById("skipIntro");
 
-    function skipToFinalScene() {
+    function skipToFinalScene({ immediate = false } = {}) {
         if (skipBtn) skipBtn.classList.add("hidden");
 
         // Kill all pending timers from the prelude sequence
@@ -3011,15 +3116,24 @@ document.addEventListener("DOMContentLoaded", () => {
         // Force holes to be computed from current time so cloud pattern appears
         seedHoles();
 
-        // Run the proper emergence animation (cells fade in gradually over ~2s)
-        // Initialise cellReveal to -1 so the first revealMult(0) call always
-        // differs from it and triggers a drawCell redraw on the very first frame.
-        resetIntro(cols * rows);
-        if (cellReveal) cellReveal.fill(-1);
-        introStart = performance.now();
-        introDone = false;
+        if (immediate) {
+            introDone = true;
+            if (!cellReveal || cellReveal.length !== cols * rows) {
+                cellReveal = new Float32Array(cols * rows);
+            }
+            cellReveal.fill(1);
+            drawAll();
+        } else {
+            // Run the proper emergence animation (cells fade in gradually over ~2s)
+            // Initialise cellReveal to -1 so the first revealMult(0) call always
+            // differs from it and triggers a drawCell redraw on the very first frame.
+            resetIntro(cols * rows);
+            if (cellReveal) cellReveal.fill(-1);
+            introStart = performance.now();
+            introDone = false;
+        }
 
-        showMainUI();
+        showMainUI({ immediate });
     }
 
     if (skipBtn) {
@@ -3028,7 +3142,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // If ?skip=1 is in the URL (e.g. coming from nav bar on other pages),
     // bypass the prelude entirely and go straight to the final scene.
-    if (new URLSearchParams(window.location.search).get("skip") === "1") {
+    if (SKIP_PRELUDE) {
         skipToFinalScene();
     }
 

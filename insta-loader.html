@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Empire of Clouds · Loader Screenshot</title>
+  <link rel="stylesheet" href="/css/fonts.css" />
+  <style>
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      background: #000;
+    }
+
+    body {
+      display: grid;
+      place-items: center;
+    }
+
+    #instaNoise {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+      z-index: 0;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.18;
+      z-index: 1;
+      background-image:
+        repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.06) 0px, rgba(255, 255, 255, 0.06) 1px, transparent 1px, transparent 3px),
+        radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.05), transparent 60%);
+      mix-blend-mode: screen;
+      animation: instaNoiseFlicker 180ms steps(2) infinite;
+    }
+
+    @keyframes instaNoiseFlicker {
+      0% {
+        opacity: 0.12;
+      }
+
+      100% {
+        opacity: 0.2;
+      }
+    }
+
+    #instaGlyphCanvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    #instaLoaderGlyph {
+      font-family: "Noto Sans Supplemental Punctuation", "Noto Sans Math Glyphs", "Noto Sans Coptic Glyphs",
+                   "Noto Sans Symbols 2", "Noto Sans Symbols", "Noto Sans Khojki",
+                   ui-sans-serif, sans-serif;
+      font-size: clamp(180px, 34vw, 520px);
+      line-height: 1;
+      color: rgba(255, 255, 255, 0.92);
+      text-shadow: 0 0 40px currentColor;
+      transform: translateY(0.12em);
+      position: relative;
+      z-index: 2;
+      user-select: none;
+      pointer-events: none;
+      opacity: 0;
+    }
+
+    @media (max-width: 640px) {
+      #instaLoaderGlyph {
+        font-size: clamp(150px, 42vw, 260px);
+      }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="instaNoise" aria-hidden="true"></canvas>
+  <canvas id="instaGlyphCanvas" aria-hidden="true"></canvas>
+  <div id="instaLoaderGlyph" aria-hidden="true">⟐</div>
+
+  <script>
+    const noiseCanvas = document.getElementById("instaNoise");
+    const noiseCtx = noiseCanvas.getContext("2d");
+    let noiseFrames = [];
+    let noiseFrameIdx = 0;
+    let noiseTickCount = 0;
+    const NOISE_FRAMES = 10;
+    const NOISE_FPS_EVERY = 2;
+
+    function buildNoiseFrames(w, h) {
+      noiseFrames = [];
+      for (let f = 0; f < NOISE_FRAMES; f++) {
+        const nc = document.createElement("canvas");
+        nc.width = w;
+        nc.height = h;
+        const nCtx = nc.getContext("2d");
+        const idata = nCtx.createImageData(w, h);
+        const buf = new Uint32Array(idata.data.buffer);
+        for (let i = 0; i < buf.length; i++) {
+          if (Math.random() < 0.05) buf[i] = 0x080000ff;
+          else if (Math.random() < 0.10) buf[i] = 0x0800ff00;
+          else if (Math.random() < 0.15) buf[i] = 0x08ff0000;
+          else if (Math.random() < 0.20) buf[i] = 0xccdddddd;
+        }
+        nCtx.putImageData(idata, 0, 0);
+        noiseFrames.push(nc);
+      }
+      noiseFrameIdx = 0;
+      noiseTickCount = 0;
+    }
+
+    function resizeNoise() {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const w = Math.floor(window.innerWidth * dpr);
+      const h = Math.floor(window.innerHeight * dpr);
+      noiseCanvas.width = w;
+      noiseCanvas.height = h;
+      buildNoiseFrames(w, h);
+    }
+
+    function drawNoise() {
+      noiseCtx.fillStyle = "#000";
+      noiseCtx.fillRect(0, 0, noiseCanvas.width, noiseCanvas.height);
+      noiseTickCount++;
+      if (noiseTickCount >= NOISE_FPS_EVERY) {
+        noiseTickCount = 0;
+        noiseFrameIdx = (noiseFrameIdx + 1) % NOISE_FRAMES;
+      }
+      if (noiseFrames.length) {
+        noiseCtx.globalAlpha = 0.25;
+        noiseCtx.drawImage(noiseFrames[noiseFrameIdx], 0, 0, noiseCanvas.width, noiseCanvas.height);
+        noiseCtx.globalAlpha = 1;
+      }
+      requestAnimationFrame(drawNoise);
+    }
+
+    window.addEventListener("resize", resizeNoise);
+    resizeNoise();
+    drawNoise();
+
+    const glyphCanvas = document.getElementById("instaGlyphCanvas");
+    const glyphCtx = glyphCanvas.getContext("2d");
+
+    function getGlyphFontSize() {
+      const vw = window.innerWidth;
+      if (vw <= 640) return Math.min(Math.max(150, vw * 0.42), 260);
+      return Math.min(Math.max(180, vw * 0.34), 520);
+    }
+
+    function resizeGlyphCanvas() {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      glyphCanvas.width = Math.floor(window.innerWidth * dpr);
+      glyphCanvas.height = Math.floor(window.innerHeight * dpr);
+      glyphCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
+    window.addEventListener("resize", resizeGlyphCanvas);
+    resizeGlyphCanvas();
+
+    const GLYPHS = [
+      "⸜", "⸝", "⸠", "⸡", "⸢", "⸣", "⸤", "⸥", "⸦", "⸧",
+      "⸨", "⸩", "⸪", "⸫", "⸬", "⸭", "⸮", "ⸯ", "⸰", "⸱",
+      "⸲", "⸳", "⸴", "⸵", "⸶", "⸷", "⸸", "⸹", "⸺", "⸻",
+      "※", "⁂", "⁑", "⁕", "⁜", "⁘", "⁙", "⁚", "⁛", "⁝",
+      "⟆", "⟇", "⟈", "⟉", "⟊", "⟋", "⟌", "⟍", "⟎", "⟏",
+      "⧖", "⧗", "⧘", "⧙", "⧚", "⧛", "⧜", "⧝", "⧞", "⧟",
+      "⧠", "⧡", "⧢", "⧣", "⧤", "⧥", "⧦", "⧧", "⧨", "⧩",
+      "Ⳁ", "ⳁ", "Ⳃ", "ⳃ", "Ⳅ", "ⳅ", "Ⳇ", "ⳇ", "Ⳉ", "ⳉ",
+      "Ⳋ", "ⳋ", "Ⳍ", "ⳍ", "Ⳏ", "ⳏ", "Ⳑ", "ⳑ", "Ⳓ", "ⳓ",
+      "Ⳕ", "ⳕ", "Ⳗ", "ⳗ", "Ⳙ", "ⳙ", "Ⳛ", "ⳛ", "Ⳝ", "ⳝ",
+      "꙳", "꙰", "꙱", "꙲", "ꙴ", "ꙵ", "ꙶ", "ꙷ", "ꙸ", "ꙹ",
+      "ꙺ", "ꙻ", "꙼", "꙽", "꙾", "ꙿ",
+      "⟐", "⟑", "⟒", "⟓", "⟔", "⟕", "⟖", "⟗", "⟘", "⟙",
+      "∴", "∵", "∷", "∺", "∻", "∽", "≋", "≈",
+      "⟜", "⟝", "⟞", "⟟", "⟠", "⟡", "⟢", "⟣",
+      "⍜", "⍝", "⍞", "⍟", "⍠", "⍡", "⍢", "⍣", "⍤", "⍥",
+      "⍦", "⍧", "⍨", "⍩", "⍪", "⍫", "⍬", "⍭", "⍮", "⍯"
+    ];
+    const STAR = ["✳", "✶", "✷", "✸", "✹", "✺", "✻", "✼", "✽", "✾", "✴", "❇", "❈", "❉", "❊", "❋", "✦", "✧", "✩", "✪"];
+    const SACRED = [
+      "𑈀", "𑈁", "𑈂", "𑈃", "𑈄", "𑈅", "𑈆", "𑈇", "𑈈", "𑈉",
+      "𑈊", "𑈋", "𑈌", "𑈍", "𑈎", "𑈏", "𑈐", "𑈑", "𑈒", "𑈓"
+    ];
+    const CLOUD = ["𐹷", "𐹰", "𑂔", "𑃘", "𑅀", "𑇛", "𑈁", "𑈼", "𑈿", "𐘊", "𐘋", "𑍈", "𑖰", "𑜸"];
+    const LOADER_GLYPHS = [...GLYPHS, ...STAR, ...SACRED, ...CLOUD];
+    const LOADER_COLORS = [
+      "rgba(255,255,255,0.92)",
+      "rgba(255,255,255,0.92)",
+      "hsla(137,100%,73%,0.92)",
+      "hsla(318,100%,77%,0.92)",
+      "hsla(137,100%,73%,0.92)"
+    ];
+    const el = document.getElementById("instaLoaderGlyph");
+    const glyphFontStack = '"Noto Sans Supplemental Punctuation", "Noto Sans Math Glyphs", "Noto Sans Coptic Glyphs", "Noto Sans Symbols 2", "Noto Sans Symbols", "Noto Sans Khojki", ui-sans-serif, sans-serif';
+
+    function tick() {
+      const glyph = LOADER_GLYPHS[Math.floor(Math.random() * LOADER_GLYPHS.length)];
+      const color = LOADER_COLORS[Math.floor(Math.random() * LOADER_COLORS.length)];
+      const fontSize = getGlyphFontSize();
+      const font = `${fontSize}px ${glyphFontStack}`;
+      el.textContent = glyph;
+      el.style.color = color;
+
+      glyphCtx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+      glyphCtx.font = font;
+      glyphCtx.textAlign = "left";
+      glyphCtx.textBaseline = "alphabetic";
+      glyphCtx.fillStyle = color;
+      glyphCtx.shadowColor = color;
+      glyphCtx.shadowBlur = 40;
+
+      const metrics = glyphCtx.measureText(glyph);
+      const left = metrics.actualBoundingBoxLeft ?? 0;
+      const right = metrics.actualBoundingBoxRight ?? metrics.width;
+      const ascent = metrics.actualBoundingBoxAscent || fontSize;
+      const descent = metrics.actualBoundingBoxDescent || 0;
+      const x = window.innerWidth / 2 - (right - left) / 2;
+      const y = (window.innerHeight + ascent - descent) / 2 - fontSize * 0.04 - 20;
+      glyphCtx.fillText(glyph, x, y);
+    }
+
+    tick();
+
+    Promise.all([
+      document.fonts.load('100px "Noto Sans Supplemental Punctuation"', "⸜⸝⸠⸡"),
+      document.fonts.load('100px "Noto Sans Math Glyphs"', "∴⍜⟐⧖"),
+      document.fonts.load('100px "Noto Sans Coptic Glyphs"', "Ⳁⳁ"),
+      document.fonts.load('100px "Noto Sans Symbols 2"', "✳❇"),
+      document.fonts.load('100px "Noto Sans Khojki"', "𑈀𑈁")
+    ]).finally(() => {
+      tick();
+      setInterval(tick, 120);
+    });
+  </script>
+</body>
+</html>

@@ -1433,8 +1433,8 @@
   src: url(/fonts/noto-sans-symbols-2/I_uyMoGduATTei9eI8daxVHDyfisHr71-pTgfFz26AM.woff2) format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
-/* noto-sans-symbols-2 — full font covering ranges absent from the Google Fonts subsets above:
-   Supplemental Punctuation (⸜⸝⸠⸡…), Coptic Extended (Ⳁⳁ…), Cyrillic Extended-A (꙳꙰…) */
+/* noto-sans-symbols-2 — full font covering ranges absent from the Google Fonts subsets above.
+   Note: the bundled font file does not actually include Supplemental Punctuation. */
 @font-face {
   font-family: 'Noto Sans Symbols 2';
   font-style: normal;
@@ -1442,6 +1442,38 @@
   font-display: swap;
   src: url(/fonts/noto-sans-symbols-2/NotoSansSymbols2-Regular.woff2) format('woff2');
   unicode-range: U+2C80-2CFF, U+2E00-2E7F, U+A640-A69F;
+}
+
+/* noto-sans-supplemental-punctuation
+   Noto Sans Symbols 2 does not include the bundled loader punctuation glyphs.
+   This small Noto Sans subset covers those symbols plus related marks used by the matrix. */
+@font-face {
+  font-family: 'Noto Sans Supplemental Punctuation';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(/fonts/noto-sans-supplemental-punctuation/NotoSans-SupplementalPunctuation.woff2) format('woff2');
+  unicode-range: U+2000-207F, U+2E00-2E7F, U+A640-A69F;
+}
+
+/* noto-sans-math-glyphs — math/APL/geometric symbols used by the canvas matrix */
+@font-face {
+  font-family: 'Noto Sans Math Glyphs';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(/fonts/noto-sans-math-glyphs/NotoSansMath-Glyphs.woff2) format('woff2');
+  unicode-range: U+2200-22FF, U+2300-237F, U+27C0-27FF, U+2980-29FF;
+}
+
+/* noto-sans-coptic-glyphs — Coptic Extended symbols used by the canvas matrix */
+@font-face {
+  font-family: 'Noto Sans Coptic Glyphs';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(/fonts/noto-sans-coptic-glyphs/NotoSansCoptic-Glyphs.woff2) format('woff2');
+  unicode-range: U+2C80-2CFF;
 }
 
 /* noto-sans-symbols */
