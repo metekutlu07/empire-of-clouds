@@ -1139,7 +1139,6 @@ section[model3d-d] {
 .glyphHero .titleSub {
     font-weight: 600;
     font-size: calc(var(--homeHeroTitleSize) * 0.5625);
-    white-space: nowrap;
     margin-bottom: 6rem;
 }
 
